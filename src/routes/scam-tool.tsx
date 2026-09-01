@@ -14,6 +14,8 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { scamToolCheck, type ScamToolResult } from "@/lib/scam-check/scam-tool.functions";
 
 export const Route = createFileRoute("/scam-tool")({
   head: () => ({
@@ -121,116 +123,32 @@ const RED_FLAGS = [
   "Bonus funds you cannot withdraw",
 ];
 
-function scoreInput(kind: Kind, value: string) {
-  const v = value.toLowerCase();
-  let score = 0;
-  const reasons: string[] = [];
-
-  if (v.length < 3) return { score: 0, reasons: [] };
-
-  const generic = [
-    "guaranteed",
-    "no risk",
-    "100% profit",
-    "get rich quick",
-    "limited spots",
-    "act now",
-    "deposit urgently",
-    "send funds",
-    "account manager",
-    "manage your account",
-  ];
-  generic.forEach((w) => {
-    if (v.includes(w)) {
-      score += 12;
-      reasons.push(`Contains high-pressure phrase: "${w}"`);
-    }
-  });
-
-  if (kind === "link") {
-    if (v.includes("http") && /\d{1,3}\.\d{1,3}/.test(v)) {
-      score += 10;
-      reasons.push("Link uses a raw IP address instead of a domain");
-    }
-    if (/(\.tk|\.ml|\.ga|\.cf|\.top|\.xyz|\.live|\.click)/.test(v)) {
-      score += 8;
-      reasons.push("Uses a cheap/high-risk TLD often abused by scams");
-    }
-    if (v.includes("login") && v.includes("verify")) {
-      score += 8;
-      reasons.push("URL mimics a verification/login page");
-    }
-    if (/(paypa|amazo|apple|binanc|coinbas|metaquot|mt[45])/i.test(v) && !v.includes("official")) {
-      score += 10;
-      reasons.push("May impersonate a known brand or platform");
-    }
-  }
-
-  if (kind === "seller") {
-    if (/@gmail\.com|@yahoo\.com|@hotmail\.com|@protonmail\.com/.test(v)) {
-      score += 6;
-      reasons.push("Uses a free personal email for business");
-    }
-    if (/\+|\?/.test(v)) {
-      score += 5;
-      reasons.push("Uses a shortened/obfuscated contact");
-    }
-    if (v.startsWith("@")) {
-      score += 3;
-      reasons.push("Social-media handle only — no verified identity");
-    }
-  }
-
-  if (kind === "payment") {
-    if (/T[A-Za-z0-9]{32,}/.test(v)) {
-      score += 4;
-      reasons.push("Crypto address is irreversible once sent");
-    }
-    if (/gift card|itunes|google play|steam/i.test(v)) {
-      score += 15;
-      reasons.push("Payment requested via gift card — strong scam indicator");
-    }
-  }
-
-  if (kind === "broker") {
-    if (v.includes("unregulated") || v.includes("offshore")) {
-      score += 10;
-      reasons.push("Self-described as unregulated or offshore");
-    }
-    if (/fincen|sec|fca|asic|cysec|mifid/i.test(v)) {
-      score -= 6;
-      reasons.push("Mentions a recognised regulator (verify independently)");
-    }
-  }
-
-  return { score: Math.min(100, Math.max(0, score)), reasons };
-}
-
-function verdictFromScore(score: number) {
-  if (score >= 60) return "scam" as const;
-  if (score >= 30) return "suspicious" as const;
-  return "safe" as const;
-}
-
 function ScamToolPage() {
   const [kind, setKind] = useState<Kind>("broker");
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<{
-    score: number;
-    verdict: "safe" | "suspicious" | "scam";
-    reasons: string[];
-  } | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [result, setResult] = useState<ScamToolResult | null>(null);
+  const runCheck = useServerFn(scamToolCheck);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!value.trim()) return;
+    if (!value.trim() || loading) return;
     setLoading(true);
+    setError(null);
     setResult(null);
-    await new Promise((r) => setTimeout(r, 700));
-    const { score, reasons } = scoreInput(kind, value);
-    setResult({ score, verdict: verdictFromScore(score), reasons });
-    setLoading(false);
+    try {
+      const res = await runCheck({ data: { kind, value: value.trim() } });
+      setResult(res);
+    } catch (err) {
+      setError(
+        err instanceof Error && err.message
+          ? err.message
+          : "Could not run the check. Please try again.",
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   const activeTab = TABS.find((t) => t.kind === kind)!;
@@ -309,20 +227,22 @@ function ScamToolPage() {
           </button>
         </form>
 
+        {error && (
+          <p className="mt-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {error}
+          </p>
+        )}
+
         {/* Result */}
         {result && ui && (
-          <div
-            className={`mt-8 rounded-xl border ${ui.border} ${ui.bg} p-5 sm:p-6`}
-          >
+          <div className={`mt-8 rounded-xl border ${ui.border} ${ui.bg} p-5 sm:p-6`}>
             <div className="flex items-start gap-4">
               <div className={`rounded-full p-2.5 bg-white/80 ${ui.text}`}>
                 <ui.icon className="w-6 h-6" />
               </div>
-              <div className="flex-1">
+              <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between gap-3 flex-wrap">
-                  <h2 className={`text-lg font-medium ${ui.text}`}>
-                    {ui.title}
-                  </h2>
+                  <h2 className={`text-lg font-medium ${ui.text}`}>{ui.title}</h2>
                   <span className={`text-2xl font-semibold ${ui.text}`}>
                     {result.score}/100
                   </span>
@@ -333,22 +253,57 @@ function ScamToolPage() {
                     style={{ width: `${result.score}%` }}
                   />
                 </div>
-                {result.reasons.length > 0 && (
-                  <ul className="mt-4 space-y-1.5 text-sm text-zinc-700">
-                    {result.reasons.map((r, i) => (
+
+                <p className="mt-3 text-sm text-zinc-800">{result.summary}</p>
+
+                {result.flags.length > 0 && (
+                  <ul className="mt-4 space-y-2 text-sm text-zinc-700">
+                    {result.flags.map((f, i) => (
                       <li key={i} className="flex items-start gap-2">
-                        <span className="mt-1.5 w-1 h-1 rounded-full bg-current" />
-                        {r}
+                        <span
+                          className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 ${
+                            f.severity === "high"
+                              ? "bg-red-500"
+                              : f.severity === "medium"
+                                ? "bg-amber-500"
+                                : "bg-zinc-400"
+                          }`}
+                        />
+                        <span>
+                          <span className="font-medium text-black">{f.label}</span>
+                          {f.detail ? ` — ${f.detail}` : ""}
+                        </span>
                       </li>
                     ))}
                   </ul>
                 )}
-                {result.reasons.length === 0 && (
-                  <p className="mt-3 text-sm text-zinc-700">
-                    No obvious red flags detected. Always verify independently
-                    before sending money.
-                  </p>
+
+                {result.checklist.length > 0 && (
+                  <div className="mt-5 rounded-lg bg-white/70 p-4">
+                    <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
+                      Verify before you pay
+                    </p>
+                    <ul className="mt-2 space-y-1.5 text-sm text-zinc-700">
+                      {result.checklist.map((c, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <span className="mt-1.5 w-1 h-1 rounded-full bg-zinc-400 shrink-0" />
+                          {c}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 )}
+
+                <p className="mt-4 text-sm font-medium text-black">
+                  {result.recommendation}
+                </p>
+
+                <p className="mt-3 text-xs text-zinc-500">
+                  {result.aiUsed
+                    ? "Reviewed by our AI fraud analyst plus rule-based screening."
+                    : "Rule-based screening only."}
+                  {result.note ? ` ${result.note}` : ""}
+                </p>
               </div>
             </div>
           </div>
