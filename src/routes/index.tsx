@@ -434,7 +434,7 @@ function HomePage() {
                 <span className={`${MONO} text-xs opacity-80`}>→</span>
               </Link>
               <Link
-                to={isAuthed ? "/signal" : "/auth"}
+                to={isAuthed ? "/signals-live" : "/auth"}
                 className="hover-glow inline-flex items-center justify-center gap-2 rounded-lg border border-zinc-200 bg-white px-5 py-3 text-sm font-medium text-zinc-900 hover:bg-white"
               >
                 See Signal Engine

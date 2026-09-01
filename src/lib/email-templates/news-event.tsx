@@ -64,7 +64,7 @@ const NewsEventEmail = ({
           </Section>
 
           <Link href={signalUrl} style={s.button}>
-            Open Signal Desk →
+            Open Live Signals →
           </Link>
 
           <Text style={{ ...s.footer, marginTop: '24px' }}>

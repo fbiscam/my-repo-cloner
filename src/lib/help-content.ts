@@ -112,7 +112,7 @@ export const collections: Collection[] = [
 
           { type: "h2", content: "Step by step" },
           { type: "ol", items: [
-            "Open the Signal Desk from the top navigation.",
+            "Open the Live Signals from the top navigation.",
             "Confirm the instrument — XAU/USD (the only pair Jenvu trades).",
             "Hit 'Analyze'. The 1H and 15M charts load and the agent starts narrating.",
             "Wait while the 7-stage pipeline runs — usually 10–25 seconds.",
@@ -293,7 +293,7 @@ export const collections: Collection[] = [
           { type: "h2", content: "Why we stand aside often" },
           { type: "p", content: "Most setups don't pass every gate. That's by design — Jenvu's job is to protect your equity curve, not to keep you constantly in the market. If you see fewer A+ signals on quiet days, that's the engine working correctly." },
 
-          { type: "note", tone: "tip", content: "Lower-grade reads (B and C) are still visible on the Signal Desk. They're useful for context, education and journal review — just don't trade them blind." },
+          { type: "note", tone: "tip", content: "Lower-grade reads (B and C) are still visible on the Live Signals. They're useful for context, education and journal review — just don't trade them blind." },
         ],
       },
       {
