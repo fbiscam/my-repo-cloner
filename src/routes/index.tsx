@@ -270,8 +270,30 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 }
 
 /* ---------- page ---------- */
+function useXauProjection(): XauProjection | null {
+  const [data, setData] = React.useState<XauProjection | null>(null);
+  const fetchProjection = useServerFn(getXauProjection);
+
+  React.useEffect(() => {
+    let alive = true;
+    const run = async () => {
+      try {
+        const res = await fetchProjection();
+        if (alive && res) setData(res as XauProjection);
+      } catch { /* keep static defaults */ }
+    };
+    run();
+    const id = setInterval(run, 5 * 60_000);
+    return () => { alive = false; clearInterval(id); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return data;
+}
+
 function HomePage() {
   const ticker = useLiveTicker();
+  const projection = useXauProjection();
   const currentPlan = useCurrentPlan();
   const upgradeLock = useUpgradeLock();
   const trial = useTrial();
