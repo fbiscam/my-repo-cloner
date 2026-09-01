@@ -322,14 +322,17 @@ function useCorrelatedMarkets(): CorrelatedBoard | null {
 
   React.useEffect(() => {
     let alive = true;
+    let inFlight = false;
     const run = async () => {
+      if (inFlight) return; // never stack requests on the 5s tick
+      inFlight = true;
       try {
         const res = await fetchBoard();
         if (alive && res) setData(res as CorrelatedBoard);
-      } catch { /* keep last known values */ }
+      } catch { /* keep last known values */ } finally { inFlight = false; }
     };
     run();
-    const id = setInterval(run, 60_000);
+    const id = setInterval(run, 5_000);
     return () => { alive = false; clearInterval(id); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
