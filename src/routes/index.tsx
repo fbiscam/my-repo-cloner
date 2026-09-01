@@ -696,7 +696,7 @@ function HomePage() {
             <div className="text-left lg:col-span-4 lg:text-left">
               
               <h2 className="mt-4 text-xl font-semibold tracking-tight sm:text-3xl">
-                One terminal.&nbsp;<br className="hidden sm:inline" />One gold pair.
+                One terminal.&nbsp;<br className="hidden sm:inline" />
               </h2>
               <p className="mt-4 text-zinc-900 leading-relaxed">
                 Jenvu routes liquidity, structure and news context for XAU/USD&nbsp;
