@@ -16,7 +16,59 @@ import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { useUpgradeLock } from "@/hooks/useUpgradeLock";
 import { getMarketSnapshotsBatch } from "@/lib/gold-analysis.functions";
 
-import { Check, Sparkles, Zap, Crown, Minus, Menu, X } from "lucide-react";
+/* ---------- hero background banners (desktop / tablet only) ---------- */
+function HeroBanners() {
+  return (
+    <div className="pointer-events-none absolute inset-0 hidden md:block overflow-hidden">
+      {/* Right side candlestick chart panel */}
+      <div className="absolute right-0 top-0 h-full w-[32%] max-w-[420px] border-l border-zinc-100/80 bg-gradient-to-l from-zinc-50/90 via-zinc-50/50 to-transparent">
+        <svg className="absolute inset-0 h-full w-full opacity-30" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-zinc-300" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)" />
+          {/* Candlesticks */}
+          <g>
+            {/* Bullish */}
+            <g className="text-emerald-600">
+              <rect x="12%" y="62%" width="3%" height="12%" fill="currentColor" />
+              <line x1="13.5%" y1="58%" x2="13.5%" y2="78%" stroke="currentColor" strokeWidth="1" />
+            </g>
+            {/* Bearish */}
+            <g className="text-red-600">
+              <rect x="26%" y="55%" width="3%" height="9%" fill="currentColor" />
+              <line x1="27.5%" y1="50%" x2="27.5%" y2="70%" stroke="currentColor" strokeWidth="1" />
+            </g>
+            {/* Bullish */}
+            <g className="text-emerald-600">
+              <rect x="40%" y="48%" width="3%" height="14%" fill="currentColor" />
+              <line x1="41.5%" y1="44%" x2="41.5%" y2="68%" stroke="currentColor" strokeWidth="1" />
+            </g>
+            {/* Bearish */}
+            <g className="text-red-600">
+              <rect x="54%" y="38%" width="3%" height="10%" fill="currentColor" />
+              <line x1="55.5%" y1="35%" x2="55.5%" y2="52%" stroke="currentColor" strokeWidth="1" />
+            </g>
+            {/* Bullish */}
+            <g className="text-emerald-600">
+              <rect x="68%" y="30%" width="3%" height="11%" fill="currentColor" />
+              <line x1="69.5%" y1="25%" x2="69.5%" y2="46%" stroke="currentColor" strokeWidth="1" />
+            </g>
+            {/* Bearish */}
+            <g className="text-red-600">
+              <rect x="82%" y="22%" width="3%" height="9%" fill="currentColor" />
+              <line x1="83.5%" y1="18%" x2="83.5%" y2="35%" stroke="currentColor" strokeWidth="1" />
+            </g>
+          </g>
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+
 import xaiLogo from "@/assets/xai-logo.png";
 
 
