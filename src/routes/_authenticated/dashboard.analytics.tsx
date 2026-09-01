@@ -41,6 +41,7 @@ function Analytics() {
       const { data } = await supabase
         .from("trade_journal")
         .select("id,pair,direction,outcome,pnl,entry,stop_loss,take_profit,opened_at,closed_at")
+        .eq("user_id", authUser.id)
         .order("opened_at", { ascending: false })
         .limit(1000);
       if (stopped) return;
