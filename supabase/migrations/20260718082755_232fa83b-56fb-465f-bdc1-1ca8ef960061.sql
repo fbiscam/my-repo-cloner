@@ -1,0 +1,2 @@
+REVOKE SELECT (bot_token) ON public.telegram_alert_links FROM authenticated;
+GRANT SELECT (user_id, chat_id, telegram_enabled, verified_at, last_error, created_at, updated_at) ON public.telegram_alert_links TO authenticated;

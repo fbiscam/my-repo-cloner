@@ -1,0 +1,1 @@
+ALTER TABLE public.founding_applications ADD COLUMN IF NOT EXISTS requested_plan text NOT NULL DEFAULT 'elite' CHECK (requested_plan IN ('free','pro','elite','ultra'));

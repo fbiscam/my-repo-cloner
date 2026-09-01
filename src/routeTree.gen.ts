@@ -9,38 +9,1571 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UnsubscribeRouteImport } from './routes/unsubscribe'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SignalsLiveRouteImport } from './routes/signals-live'
+import { Route as SignalRouteImport } from './routes/signal'
+import { Route as ScamToolRouteImport } from './routes/scam-tool'
+import { Route as ScamCheckRouteImport } from './routes/scam-check'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as RefundRouteImport } from './routes/refund'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as OpsX9k27m4nRouteImport } from './routes/ops-x9k2-7m4n'
+import { Route as LlmRouteImport } from './routes/llm'
+import { Route as LeadsSignupRouteImport } from './routes/leads-signup'
+import { Route as LeadsSigninRouteImport } from './routes/leads-signin'
+import { Route as LeadsRouteImport } from './routes/leads'
+import { Route as KillzonesRouteImport } from './routes/killzones'
+import { Route as JenvuOpsX9k2RouteImport } from './routes/jenvu-ops-x9k2'
+import { Route as InsightsRouteImport } from './routes/insights'
+import { Route as FoundingRouteImport } from './routes/founding'
+import { Route as FounderRouteImport } from './routes/founder'
+import { Route as DownloadRouteImport } from './routes/download'
+import { Route as DisclaimerRouteImport } from './routes/disclaimer'
+import { Route as DevelopmentRouteImport } from './routes/development'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as ConfirmEmailChangeRouteImport } from './routes/confirm-email-change'
+import { Route as CancellationRouteImport } from './routes/cancellation'
+import { Route as BroadcastsRouteImport } from './routes/broadcasts'
+import { Route as BriefsRouteImport } from './routes/briefs'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AppRouteImport } from './routes/app'
+import { Route as AiEngineRouteImport } from './routes/ai-engine'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as OpsX9k27m4nIndexRouteImport } from './routes/ops-x9k2-7m4n.index'
+import { Route as LeadsIndexRouteImport } from './routes/leads.index'
+import { Route as JenvuOpsX9k2IndexRouteImport } from './routes/jenvu-ops-x9k2.index'
+import { Route as InsightsIndexRouteImport } from './routes/insights.index'
+import { Route as HelpIndexRouteImport } from './routes/help.index'
+import { Route as OpsX9k27m4nPaymentsRouteImport } from './routes/ops-x9k2-7m4n.payments'
+import { Route as OpsX9k27m4nLeadsCreditsRouteImport } from './routes/ops-x9k2-7m4n.leads-credits'
+import { Route as OpsX9k27m4nHubRouteImport } from './routes/ops-x9k2-7m4n.hub'
+import { Route as LeadsPeopleRouteImport } from './routes/leads.people'
+import { Route as LeadsMapsRouteImport } from './routes/leads.maps'
+import { Route as LeadsListsRouteImport } from './routes/leads.lists'
+import { Route as LeadsImportRouteImport } from './routes/leads.import'
+import { Route as LeadsEnrichRouteImport } from './routes/leads.enrich'
+import { Route as LeadsActivityRouteImport } from './routes/leads.activity'
+import { Route as LeadsAccountRouteImport } from './routes/leads.account'
+import { Route as JenvuOpsX9k2InboxRouteImport } from './routes/jenvu-ops-x9k2.inbox'
+import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
+import { Route as EmailUnsubscribeRouteImport } from './routes/email/unsubscribe'
+import { Route as BriefIdRouteImport } from './routes/brief.$id'
+import { Route as AuthenticatedInboxRouteImport } from './routes/_authenticated/inbox'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as HelpCollectionIndexRouteImport } from './routes/help.$collection.index'
+import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard.index'
+import { Route as LovableEmailSuppressionRouteImport } from './routes/lovable/email/suppression'
+import { Route as LeadsAdminUsersRouteImport } from './routes/leads.admin.users'
+import { Route as HelpCollectionSlugRouteImport } from './routes/help.$collection.$slug'
+import { Route as ApiPublicSignalsFeedRouteImport } from './routes/api/public/signals-feed'
+import { Route as ApiPublicPodcastDotxmlRouteImport } from './routes/api/public/podcast[.]xml'
+import { Route as AuthenticatedDashboardWorkspaceRouteImport } from './routes/_authenticated/dashboard.workspace'
+import { Route as AuthenticatedDashboardUsageRouteImport } from './routes/_authenticated/dashboard.usage'
+import { Route as AuthenticatedDashboardSecurityRouteImport } from './routes/_authenticated/dashboard.security'
+import { Route as AuthenticatedDashboardRiskRouteImport } from './routes/_authenticated/dashboard.risk'
+import { Route as AuthenticatedDashboardReferralsRouteImport } from './routes/_authenticated/dashboard.referrals'
+import { Route as AuthenticatedDashboardProfileRouteImport } from './routes/_authenticated/dashboard.profile'
+import { Route as AuthenticatedDashboardPayRouteImport } from './routes/_authenticated/dashboard.pay'
+import { Route as AuthenticatedDashboardNotificationsRouteImport } from './routes/_authenticated/dashboard.notifications'
+import { Route as AuthenticatedDashboardJournalRouteImport } from './routes/_authenticated/dashboard.journal'
+import { Route as AuthenticatedDashboardDocumentsRouteImport } from './routes/_authenticated/dashboard.documents'
+import { Route as AuthenticatedDashboardBillingRouteImport } from './routes/_authenticated/dashboard.billing'
+import { Route as AuthenticatedDashboardAnalyticsRouteImport } from './routes/_authenticated/dashboard.analytics'
+import { Route as AuthenticatedDashboardAlertsRouteImport } from './routes/_authenticated/dashboard.alerts'
+import { Route as LovableEmailTransactionalSendRouteImport } from './routes/lovable/email/transactional/send'
+import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
+import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
+import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
+import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
+import { Route as ApiPublicHooksSignalReversalMonitorRouteImport } from './routes/api/public/hooks/signal-reversal-monitor'
+import { Route as ApiPublicHooksScanSignalsRouteImport } from './routes/api/public/hooks/scan-signals'
+import { Route as ApiPublicHooksReindexInsightsRouteImport } from './routes/api/public/hooks/reindex-insights'
+import { Route as ApiPublicHooksPaperTradeResolverRouteImport } from './routes/api/public/hooks/paper-trade-resolver'
+import { Route as ApiPublicHooksNotifySubscribersRouteImport } from './routes/api/public/hooks/notify-subscribers'
+import { Route as ApiPublicHooksNewsAlertsRouteImport } from './routes/api/public/hooks/news-alerts'
+import { Route as ApiPublicHooksMonthlyRetuneRouteImport } from './routes/api/public/hooks/monthly-retune'
+import { Route as ApiPublicHooksGenerateInsightRouteImport } from './routes/api/public/hooks/generate-insight'
+import { Route as ApiPublicHooksGenerateBriefRouteImport } from './routes/api/public/hooks/generate-brief'
+import { Route as ApiPublicHooksAutoScanRouteImport } from './routes/api/public/hooks/auto-scan'
+import { Route as ApiPublicBriefAudioIdRouteImport } from './routes/api/public/brief-audio.$id'
+import { Route as AuthenticatedDashboardAdminTvMismatchRouteImport } from './routes/_authenticated/dashboard.admin.tv-mismatch'
+import { Route as AuthenticatedDashboardAdminTuningRouteImport } from './routes/_authenticated/dashboard.admin.tuning'
+import { Route as AuthenticatedDashboardAdminSubscribersRouteImport } from './routes/_authenticated/dashboard.admin.subscribers'
+import { Route as AuthenticatedDashboardAdminScanAuditRouteImport } from './routes/_authenticated/dashboard.admin.scan-audit'
+import { Route as AuthenticatedDashboardAdminMessagesRouteImport } from './routes/_authenticated/dashboard.admin.messages'
+import { Route as AuthenticatedDashboardAdminFoundingRouteImport } from './routes/_authenticated/dashboard.admin.founding'
+import { Route as AuthenticatedDashboardAdminDocumentsRouteImport } from './routes/_authenticated/dashboard.admin.documents'
+import { Route as AuthenticatedDashboardAdminBugsRouteImport } from './routes/_authenticated/dashboard.admin.bugs'
+import { Route as AuthenticatedDashboardAdminAutoScanRouteImport } from './routes/_authenticated/dashboard.admin.auto-scan'
+import { Route as AuthenticatedDashboardAdminAccuracyRouteImport } from './routes/_authenticated/dashboard.admin.accuracy'
 
+const UnsubscribeRoute = UnsubscribeRouteImport.update({
+  id: '/unsubscribe',
+  path: '/unsubscribe',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignalsLiveRoute = SignalsLiveRouteImport.update({
+  id: '/signals-live',
+  path: '/signals-live',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignalRoute = SignalRouteImport.update({
+  id: '/signal',
+  path: '/signal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ScamToolRoute = ScamToolRouteImport.update({
+  id: '/scam-tool',
+  path: '/scam-tool',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ScamCheckRoute = ScamCheckRouteImport.update({
+  id: '/scam-check',
+  path: '/scam-check',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefundRoute = RefundRouteImport.update({
+  id: '/refund',
+  path: '/refund',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OpsX9k27m4nRoute = OpsX9k27m4nRouteImport.update({
+  id: '/ops-x9k2-7m4n',
+  path: '/ops-x9k2-7m4n',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LlmRoute = LlmRouteImport.update({
+  id: '/llm',
+  path: '/llm',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LeadsSignupRoute = LeadsSignupRouteImport.update({
+  id: '/leads-signup',
+  path: '/leads-signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LeadsSigninRoute = LeadsSigninRouteImport.update({
+  id: '/leads-signin',
+  path: '/leads-signin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LeadsRoute = LeadsRouteImport.update({
+  id: '/leads',
+  path: '/leads',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KillzonesRoute = KillzonesRouteImport.update({
+  id: '/killzones',
+  path: '/killzones',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JenvuOpsX9k2Route = JenvuOpsX9k2RouteImport.update({
+  id: '/jenvu-ops-x9k2',
+  path: '/jenvu-ops-x9k2',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InsightsRoute = InsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FoundingRoute = FoundingRouteImport.update({
+  id: '/founding',
+  path: '/founding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FounderRoute = FounderRouteImport.update({
+  id: '/founder',
+  path: '/founder',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DownloadRoute = DownloadRouteImport.update({
+  id: '/download',
+  path: '/download',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DisclaimerRoute = DisclaimerRouteImport.update({
+  id: '/disclaimer',
+  path: '/disclaimer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DevelopmentRoute = DevelopmentRouteImport.update({
+  id: '/development',
+  path: '/development',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConfirmEmailChangeRoute = ConfirmEmailChangeRouteImport.update({
+  id: '/confirm-email-change',
+  path: '/confirm-email-change',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CancellationRoute = CancellationRouteImport.update({
+  id: '/cancellation',
+  path: '/cancellation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BroadcastsRoute = BroadcastsRouteImport.update({
+  id: '/broadcasts',
+  path: '/broadcasts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BriefsRoute = BriefsRouteImport.update({
+  id: '/briefs',
+  path: '/briefs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiEngineRoute = AiEngineRouteImport.update({
+  id: '/ai-engine',
+  path: '/ai-engine',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OpsX9k27m4nIndexRoute = OpsX9k27m4nIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => OpsX9k27m4nRoute,
+} as any)
+const LeadsIndexRoute = LeadsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LeadsRoute,
+} as any)
+const JenvuOpsX9k2IndexRoute = JenvuOpsX9k2IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => JenvuOpsX9k2Route,
+} as any)
+const InsightsIndexRoute = InsightsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => InsightsRoute,
+} as any)
+const HelpIndexRoute = HelpIndexRouteImport.update({
+  id: '/help/',
+  path: '/help/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OpsX9k27m4nPaymentsRoute = OpsX9k27m4nPaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => OpsX9k27m4nRoute,
+} as any)
+const OpsX9k27m4nLeadsCreditsRoute = OpsX9k27m4nLeadsCreditsRouteImport.update({
+  id: '/leads-credits',
+  path: '/leads-credits',
+  getParentRoute: () => OpsX9k27m4nRoute,
+} as any)
+const OpsX9k27m4nHubRoute = OpsX9k27m4nHubRouteImport.update({
+  id: '/hub',
+  path: '/hub',
+  getParentRoute: () => OpsX9k27m4nRoute,
+} as any)
+const LeadsPeopleRoute = LeadsPeopleRouteImport.update({
+  id: '/people',
+  path: '/people',
+  getParentRoute: () => LeadsRoute,
+} as any)
+const LeadsMapsRoute = LeadsMapsRouteImport.update({
+  id: '/maps',
+  path: '/maps',
+  getParentRoute: () => LeadsRoute,
+} as any)
+const LeadsListsRoute = LeadsListsRouteImport.update({
+  id: '/lists',
+  path: '/lists',
+  getParentRoute: () => LeadsRoute,
+} as any)
+const LeadsImportRoute = LeadsImportRouteImport.update({
+  id: '/import',
+  path: '/import',
+  getParentRoute: () => LeadsRoute,
+} as any)
+const LeadsEnrichRoute = LeadsEnrichRouteImport.update({
+  id: '/enrich',
+  path: '/enrich',
+  getParentRoute: () => LeadsRoute,
+} as any)
+const LeadsActivityRoute = LeadsActivityRouteImport.update({
+  id: '/activity',
+  path: '/activity',
+  getParentRoute: () => LeadsRoute,
+} as any)
+const LeadsAccountRoute = LeadsAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => LeadsRoute,
+} as any)
+const JenvuOpsX9k2InboxRoute = JenvuOpsX9k2InboxRouteImport.update({
+  id: '/inbox',
+  path: '/inbox',
+  getParentRoute: () => JenvuOpsX9k2Route,
+} as any)
+const InsightsSlugRoute = InsightsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => InsightsRoute,
+} as any)
+const EmailUnsubscribeRoute = EmailUnsubscribeRouteImport.update({
+  id: '/email/unsubscribe',
+  path: '/email/unsubscribe',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BriefIdRoute = BriefIdRouteImport.update({
+  id: '/brief/$id',
+  path: '/brief/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedInboxRoute = AuthenticatedInboxRouteImport.update({
+  id: '/inbox',
+  path: '/inbox',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const HelpCollectionIndexRoute = HelpCollectionIndexRouteImport.update({
+  id: '/help/$collection/',
+  path: '/help/$collection/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedDashboardIndexRoute =
+  AuthenticatedDashboardIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const LovableEmailSuppressionRoute = LovableEmailSuppressionRouteImport.update({
+  id: '/lovable/email/suppression',
+  path: '/lovable/email/suppression',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LeadsAdminUsersRoute = LeadsAdminUsersRouteImport.update({
+  id: '/admin/users',
+  path: '/admin/users',
+  getParentRoute: () => LeadsRoute,
+} as any)
+const HelpCollectionSlugRoute = HelpCollectionSlugRouteImport.update({
+  id: '/help/$collection/$slug',
+  path: '/help/$collection/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicSignalsFeedRoute = ApiPublicSignalsFeedRouteImport.update({
+  id: '/api/public/signals-feed',
+  path: '/api/public/signals-feed',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPodcastDotxmlRoute = ApiPublicPodcastDotxmlRouteImport.update({
+  id: '/api/public/podcast.xml',
+  path: '/api/public/podcast.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedDashboardWorkspaceRoute =
+  AuthenticatedDashboardWorkspaceRouteImport.update({
+    id: '/workspace',
+    path: '/workspace',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardUsageRoute =
+  AuthenticatedDashboardUsageRouteImport.update({
+    id: '/usage',
+    path: '/usage',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardSecurityRoute =
+  AuthenticatedDashboardSecurityRouteImport.update({
+    id: '/security',
+    path: '/security',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardRiskRoute =
+  AuthenticatedDashboardRiskRouteImport.update({
+    id: '/risk',
+    path: '/risk',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardReferralsRoute =
+  AuthenticatedDashboardReferralsRouteImport.update({
+    id: '/referrals',
+    path: '/referrals',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardProfileRoute =
+  AuthenticatedDashboardProfileRouteImport.update({
+    id: '/profile',
+    path: '/profile',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardPayRoute =
+  AuthenticatedDashboardPayRouteImport.update({
+    id: '/pay',
+    path: '/pay',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardNotificationsRoute =
+  AuthenticatedDashboardNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardJournalRoute =
+  AuthenticatedDashboardJournalRouteImport.update({
+    id: '/journal',
+    path: '/journal',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardDocumentsRoute =
+  AuthenticatedDashboardDocumentsRouteImport.update({
+    id: '/documents',
+    path: '/documents',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardBillingRoute =
+  AuthenticatedDashboardBillingRouteImport.update({
+    id: '/billing',
+    path: '/billing',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardAnalyticsRoute =
+  AuthenticatedDashboardAnalyticsRouteImport.update({
+    id: '/analytics',
+    path: '/analytics',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardAlertsRoute =
+  AuthenticatedDashboardAlertsRouteImport.update({
+    id: '/alerts',
+    path: '/alerts',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const LovableEmailTransactionalSendRoute =
+  LovableEmailTransactionalSendRouteImport.update({
+    id: '/lovable/email/transactional/send',
+    path: '/lovable/email/transactional/send',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const LovableEmailTransactionalPreviewRoute =
+  LovableEmailTransactionalPreviewRouteImport.update({
+    id: '/lovable/email/transactional/preview',
+    path: '/lovable/email/transactional/preview',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const LovableEmailQueueProcessRoute =
+  LovableEmailQueueProcessRouteImport.update({
+    id: '/lovable/email/queue/process',
+    path: '/lovable/email/queue/process',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const LovableEmailAuthWebhookRoute = LovableEmailAuthWebhookRouteImport.update({
+  id: '/lovable/email/auth/webhook',
+  path: '/lovable/email/auth/webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LovableEmailAuthPreviewRoute = LovableEmailAuthPreviewRouteImport.update({
+  id: '/lovable/email/auth/preview',
+  path: '/lovable/email/auth/preview',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicHooksSignalReversalMonitorRoute =
+  ApiPublicHooksSignalReversalMonitorRouteImport.update({
+    id: '/api/public/hooks/signal-reversal-monitor',
+    path: '/api/public/hooks/signal-reversal-monitor',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksScanSignalsRoute =
+  ApiPublicHooksScanSignalsRouteImport.update({
+    id: '/api/public/hooks/scan-signals',
+    path: '/api/public/hooks/scan-signals',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksReindexInsightsRoute =
+  ApiPublicHooksReindexInsightsRouteImport.update({
+    id: '/api/public/hooks/reindex-insights',
+    path: '/api/public/hooks/reindex-insights',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksPaperTradeResolverRoute =
+  ApiPublicHooksPaperTradeResolverRouteImport.update({
+    id: '/api/public/hooks/paper-trade-resolver',
+    path: '/api/public/hooks/paper-trade-resolver',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksNotifySubscribersRoute =
+  ApiPublicHooksNotifySubscribersRouteImport.update({
+    id: '/api/public/hooks/notify-subscribers',
+    path: '/api/public/hooks/notify-subscribers',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksNewsAlertsRoute =
+  ApiPublicHooksNewsAlertsRouteImport.update({
+    id: '/api/public/hooks/news-alerts',
+    path: '/api/public/hooks/news-alerts',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksMonthlyRetuneRoute =
+  ApiPublicHooksMonthlyRetuneRouteImport.update({
+    id: '/api/public/hooks/monthly-retune',
+    path: '/api/public/hooks/monthly-retune',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksGenerateInsightRoute =
+  ApiPublicHooksGenerateInsightRouteImport.update({
+    id: '/api/public/hooks/generate-insight',
+    path: '/api/public/hooks/generate-insight',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksGenerateBriefRoute =
+  ApiPublicHooksGenerateBriefRouteImport.update({
+    id: '/api/public/hooks/generate-brief',
+    path: '/api/public/hooks/generate-brief',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksAutoScanRoute = ApiPublicHooksAutoScanRouteImport.update({
+  id: '/api/public/hooks/auto-scan',
+  path: '/api/public/hooks/auto-scan',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicBriefAudioIdRoute = ApiPublicBriefAudioIdRouteImport.update({
+  id: '/api/public/brief-audio/$id',
+  path: '/api/public/brief-audio/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedDashboardAdminTvMismatchRoute =
+  AuthenticatedDashboardAdminTvMismatchRouteImport.update({
+    id: '/admin/tv-mismatch',
+    path: '/admin/tv-mismatch',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardAdminTuningRoute =
+  AuthenticatedDashboardAdminTuningRouteImport.update({
+    id: '/admin/tuning',
+    path: '/admin/tuning',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardAdminSubscribersRoute =
+  AuthenticatedDashboardAdminSubscribersRouteImport.update({
+    id: '/admin/subscribers',
+    path: '/admin/subscribers',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardAdminScanAuditRoute =
+  AuthenticatedDashboardAdminScanAuditRouteImport.update({
+    id: '/admin/scan-audit',
+    path: '/admin/scan-audit',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardAdminMessagesRoute =
+  AuthenticatedDashboardAdminMessagesRouteImport.update({
+    id: '/admin/messages',
+    path: '/admin/messages',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardAdminFoundingRoute =
+  AuthenticatedDashboardAdminFoundingRouteImport.update({
+    id: '/admin/founding',
+    path: '/admin/founding',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardAdminDocumentsRoute =
+  AuthenticatedDashboardAdminDocumentsRouteImport.update({
+    id: '/admin/documents',
+    path: '/admin/documents',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardAdminBugsRoute =
+  AuthenticatedDashboardAdminBugsRouteImport.update({
+    id: '/admin/bugs',
+    path: '/admin/bugs',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardAdminAutoScanRoute =
+  AuthenticatedDashboardAdminAutoScanRouteImport.update({
+    id: '/admin/auto-scan',
+    path: '/admin/auto-scan',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardAdminAccuracyRoute =
+  AuthenticatedDashboardAdminAccuracyRouteImport.update({
+    id: '/admin/accuracy',
+    path: '/admin/accuracy',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/ai-engine': typeof AiEngineRoute
+  '/app': typeof AppRoute
+  '/auth': typeof AuthRoute
+  '/briefs': typeof BriefsRoute
+  '/broadcasts': typeof BroadcastsRoute
+  '/cancellation': typeof CancellationRoute
+  '/confirm-email-change': typeof ConfirmEmailChangeRoute
+  '/contact': typeof ContactRoute
+  '/development': typeof DevelopmentRoute
+  '/disclaimer': typeof DisclaimerRoute
+  '/download': typeof DownloadRoute
+  '/founder': typeof FounderRoute
+  '/founding': typeof FoundingRoute
+  '/insights': typeof InsightsRouteWithChildren
+  '/jenvu-ops-x9k2': typeof JenvuOpsX9k2RouteWithChildren
+  '/killzones': typeof KillzonesRoute
+  '/leads': typeof LeadsRouteWithChildren
+  '/leads-signin': typeof LeadsSigninRoute
+  '/leads-signup': typeof LeadsSignupRoute
+  '/llm': typeof LlmRoute
+  '/ops-x9k2-7m4n': typeof OpsX9k27m4nRouteWithChildren
+  '/pricing': typeof PricingRoute
+  '/privacy': typeof PrivacyRoute
+  '/refund': typeof RefundRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/scam-check': typeof ScamCheckRoute
+  '/scam-tool': typeof ScamToolRoute
+  '/signal': typeof SignalRoute
+  '/signals-live': typeof SignalsLiveRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
+  '/unsubscribe': typeof UnsubscribeRoute
+  '/dashboard': typeof AuthenticatedDashboardRouteWithChildren
+  '/inbox': typeof AuthenticatedInboxRoute
+  '/brief/$id': typeof BriefIdRoute
+  '/email/unsubscribe': typeof EmailUnsubscribeRoute
+  '/insights/$slug': typeof InsightsSlugRoute
+  '/jenvu-ops-x9k2/inbox': typeof JenvuOpsX9k2InboxRoute
+  '/leads/account': typeof LeadsAccountRoute
+  '/leads/activity': typeof LeadsActivityRoute
+  '/leads/enrich': typeof LeadsEnrichRoute
+  '/leads/import': typeof LeadsImportRoute
+  '/leads/lists': typeof LeadsListsRoute
+  '/leads/maps': typeof LeadsMapsRoute
+  '/leads/people': typeof LeadsPeopleRoute
+  '/ops-x9k2-7m4n/hub': typeof OpsX9k27m4nHubRoute
+  '/ops-x9k2-7m4n/leads-credits': typeof OpsX9k27m4nLeadsCreditsRoute
+  '/ops-x9k2-7m4n/payments': typeof OpsX9k27m4nPaymentsRoute
+  '/help/': typeof HelpIndexRoute
+  '/insights/': typeof InsightsIndexRoute
+  '/jenvu-ops-x9k2/': typeof JenvuOpsX9k2IndexRoute
+  '/leads/': typeof LeadsIndexRoute
+  '/ops-x9k2-7m4n/': typeof OpsX9k27m4nIndexRoute
+  '/dashboard/alerts': typeof AuthenticatedDashboardAlertsRoute
+  '/dashboard/analytics': typeof AuthenticatedDashboardAnalyticsRoute
+  '/dashboard/billing': typeof AuthenticatedDashboardBillingRoute
+  '/dashboard/documents': typeof AuthenticatedDashboardDocumentsRoute
+  '/dashboard/journal': typeof AuthenticatedDashboardJournalRoute
+  '/dashboard/notifications': typeof AuthenticatedDashboardNotificationsRoute
+  '/dashboard/pay': typeof AuthenticatedDashboardPayRoute
+  '/dashboard/profile': typeof AuthenticatedDashboardProfileRoute
+  '/dashboard/referrals': typeof AuthenticatedDashboardReferralsRoute
+  '/dashboard/risk': typeof AuthenticatedDashboardRiskRoute
+  '/dashboard/security': typeof AuthenticatedDashboardSecurityRoute
+  '/dashboard/usage': typeof AuthenticatedDashboardUsageRoute
+  '/dashboard/workspace': typeof AuthenticatedDashboardWorkspaceRoute
+  '/api/public/podcast.xml': typeof ApiPublicPodcastDotxmlRoute
+  '/api/public/signals-feed': typeof ApiPublicSignalsFeedRoute
+  '/help/$collection/$slug': typeof HelpCollectionSlugRoute
+  '/leads/admin/users': typeof LeadsAdminUsersRoute
+  '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
+  '/dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/help/$collection/': typeof HelpCollectionIndexRoute
+  '/dashboard/admin/accuracy': typeof AuthenticatedDashboardAdminAccuracyRoute
+  '/dashboard/admin/auto-scan': typeof AuthenticatedDashboardAdminAutoScanRoute
+  '/dashboard/admin/bugs': typeof AuthenticatedDashboardAdminBugsRoute
+  '/dashboard/admin/documents': typeof AuthenticatedDashboardAdminDocumentsRoute
+  '/dashboard/admin/founding': typeof AuthenticatedDashboardAdminFoundingRoute
+  '/dashboard/admin/messages': typeof AuthenticatedDashboardAdminMessagesRoute
+  '/dashboard/admin/scan-audit': typeof AuthenticatedDashboardAdminScanAuditRoute
+  '/dashboard/admin/subscribers': typeof AuthenticatedDashboardAdminSubscribersRoute
+  '/dashboard/admin/tuning': typeof AuthenticatedDashboardAdminTuningRoute
+  '/dashboard/admin/tv-mismatch': typeof AuthenticatedDashboardAdminTvMismatchRoute
+  '/api/public/brief-audio/$id': typeof ApiPublicBriefAudioIdRoute
+  '/api/public/hooks/auto-scan': typeof ApiPublicHooksAutoScanRoute
+  '/api/public/hooks/generate-brief': typeof ApiPublicHooksGenerateBriefRoute
+  '/api/public/hooks/generate-insight': typeof ApiPublicHooksGenerateInsightRoute
+  '/api/public/hooks/monthly-retune': typeof ApiPublicHooksMonthlyRetuneRoute
+  '/api/public/hooks/news-alerts': typeof ApiPublicHooksNewsAlertsRoute
+  '/api/public/hooks/notify-subscribers': typeof ApiPublicHooksNotifySubscribersRoute
+  '/api/public/hooks/paper-trade-resolver': typeof ApiPublicHooksPaperTradeResolverRoute
+  '/api/public/hooks/reindex-insights': typeof ApiPublicHooksReindexInsightsRoute
+  '/api/public/hooks/scan-signals': typeof ApiPublicHooksScanSignalsRoute
+  '/api/public/hooks/signal-reversal-monitor': typeof ApiPublicHooksSignalReversalMonitorRoute
+  '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
+  '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
+  '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
+  '/lovable/email/transactional/send': typeof LovableEmailTransactionalSendRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/ai-engine': typeof AiEngineRoute
+  '/app': typeof AppRoute
+  '/auth': typeof AuthRoute
+  '/briefs': typeof BriefsRoute
+  '/broadcasts': typeof BroadcastsRoute
+  '/cancellation': typeof CancellationRoute
+  '/confirm-email-change': typeof ConfirmEmailChangeRoute
+  '/contact': typeof ContactRoute
+  '/development': typeof DevelopmentRoute
+  '/disclaimer': typeof DisclaimerRoute
+  '/download': typeof DownloadRoute
+  '/founder': typeof FounderRoute
+  '/founding': typeof FoundingRoute
+  '/killzones': typeof KillzonesRoute
+  '/leads-signin': typeof LeadsSigninRoute
+  '/leads-signup': typeof LeadsSignupRoute
+  '/llm': typeof LlmRoute
+  '/pricing': typeof PricingRoute
+  '/privacy': typeof PrivacyRoute
+  '/refund': typeof RefundRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/scam-check': typeof ScamCheckRoute
+  '/scam-tool': typeof ScamToolRoute
+  '/signal': typeof SignalRoute
+  '/signals-live': typeof SignalsLiveRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
+  '/unsubscribe': typeof UnsubscribeRoute
+  '/inbox': typeof AuthenticatedInboxRoute
+  '/brief/$id': typeof BriefIdRoute
+  '/email/unsubscribe': typeof EmailUnsubscribeRoute
+  '/insights/$slug': typeof InsightsSlugRoute
+  '/jenvu-ops-x9k2/inbox': typeof JenvuOpsX9k2InboxRoute
+  '/leads/account': typeof LeadsAccountRoute
+  '/leads/activity': typeof LeadsActivityRoute
+  '/leads/enrich': typeof LeadsEnrichRoute
+  '/leads/import': typeof LeadsImportRoute
+  '/leads/lists': typeof LeadsListsRoute
+  '/leads/maps': typeof LeadsMapsRoute
+  '/leads/people': typeof LeadsPeopleRoute
+  '/ops-x9k2-7m4n/hub': typeof OpsX9k27m4nHubRoute
+  '/ops-x9k2-7m4n/leads-credits': typeof OpsX9k27m4nLeadsCreditsRoute
+  '/ops-x9k2-7m4n/payments': typeof OpsX9k27m4nPaymentsRoute
+  '/help': typeof HelpIndexRoute
+  '/insights': typeof InsightsIndexRoute
+  '/jenvu-ops-x9k2': typeof JenvuOpsX9k2IndexRoute
+  '/leads': typeof LeadsIndexRoute
+  '/ops-x9k2-7m4n': typeof OpsX9k27m4nIndexRoute
+  '/dashboard/alerts': typeof AuthenticatedDashboardAlertsRoute
+  '/dashboard/analytics': typeof AuthenticatedDashboardAnalyticsRoute
+  '/dashboard/billing': typeof AuthenticatedDashboardBillingRoute
+  '/dashboard/documents': typeof AuthenticatedDashboardDocumentsRoute
+  '/dashboard/journal': typeof AuthenticatedDashboardJournalRoute
+  '/dashboard/notifications': typeof AuthenticatedDashboardNotificationsRoute
+  '/dashboard/pay': typeof AuthenticatedDashboardPayRoute
+  '/dashboard/profile': typeof AuthenticatedDashboardProfileRoute
+  '/dashboard/referrals': typeof AuthenticatedDashboardReferralsRoute
+  '/dashboard/risk': typeof AuthenticatedDashboardRiskRoute
+  '/dashboard/security': typeof AuthenticatedDashboardSecurityRoute
+  '/dashboard/usage': typeof AuthenticatedDashboardUsageRoute
+  '/dashboard/workspace': typeof AuthenticatedDashboardWorkspaceRoute
+  '/api/public/podcast.xml': typeof ApiPublicPodcastDotxmlRoute
+  '/api/public/signals-feed': typeof ApiPublicSignalsFeedRoute
+  '/help/$collection/$slug': typeof HelpCollectionSlugRoute
+  '/leads/admin/users': typeof LeadsAdminUsersRoute
+  '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
+  '/dashboard': typeof AuthenticatedDashboardIndexRoute
+  '/help/$collection': typeof HelpCollectionIndexRoute
+  '/dashboard/admin/accuracy': typeof AuthenticatedDashboardAdminAccuracyRoute
+  '/dashboard/admin/auto-scan': typeof AuthenticatedDashboardAdminAutoScanRoute
+  '/dashboard/admin/bugs': typeof AuthenticatedDashboardAdminBugsRoute
+  '/dashboard/admin/documents': typeof AuthenticatedDashboardAdminDocumentsRoute
+  '/dashboard/admin/founding': typeof AuthenticatedDashboardAdminFoundingRoute
+  '/dashboard/admin/messages': typeof AuthenticatedDashboardAdminMessagesRoute
+  '/dashboard/admin/scan-audit': typeof AuthenticatedDashboardAdminScanAuditRoute
+  '/dashboard/admin/subscribers': typeof AuthenticatedDashboardAdminSubscribersRoute
+  '/dashboard/admin/tuning': typeof AuthenticatedDashboardAdminTuningRoute
+  '/dashboard/admin/tv-mismatch': typeof AuthenticatedDashboardAdminTvMismatchRoute
+  '/api/public/brief-audio/$id': typeof ApiPublicBriefAudioIdRoute
+  '/api/public/hooks/auto-scan': typeof ApiPublicHooksAutoScanRoute
+  '/api/public/hooks/generate-brief': typeof ApiPublicHooksGenerateBriefRoute
+  '/api/public/hooks/generate-insight': typeof ApiPublicHooksGenerateInsightRoute
+  '/api/public/hooks/monthly-retune': typeof ApiPublicHooksMonthlyRetuneRoute
+  '/api/public/hooks/news-alerts': typeof ApiPublicHooksNewsAlertsRoute
+  '/api/public/hooks/notify-subscribers': typeof ApiPublicHooksNotifySubscribersRoute
+  '/api/public/hooks/paper-trade-resolver': typeof ApiPublicHooksPaperTradeResolverRoute
+  '/api/public/hooks/reindex-insights': typeof ApiPublicHooksReindexInsightsRoute
+  '/api/public/hooks/scan-signals': typeof ApiPublicHooksScanSignalsRoute
+  '/api/public/hooks/signal-reversal-monitor': typeof ApiPublicHooksSignalReversalMonitorRoute
+  '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
+  '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
+  '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
+  '/lovable/email/transactional/send': typeof LovableEmailTransactionalSendRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/about': typeof AboutRoute
+  '/ai-engine': typeof AiEngineRoute
+  '/app': typeof AppRoute
+  '/auth': typeof AuthRoute
+  '/briefs': typeof BriefsRoute
+  '/broadcasts': typeof BroadcastsRoute
+  '/cancellation': typeof CancellationRoute
+  '/confirm-email-change': typeof ConfirmEmailChangeRoute
+  '/contact': typeof ContactRoute
+  '/development': typeof DevelopmentRoute
+  '/disclaimer': typeof DisclaimerRoute
+  '/download': typeof DownloadRoute
+  '/founder': typeof FounderRoute
+  '/founding': typeof FoundingRoute
+  '/insights': typeof InsightsRouteWithChildren
+  '/jenvu-ops-x9k2': typeof JenvuOpsX9k2RouteWithChildren
+  '/killzones': typeof KillzonesRoute
+  '/leads': typeof LeadsRouteWithChildren
+  '/leads-signin': typeof LeadsSigninRoute
+  '/leads-signup': typeof LeadsSignupRoute
+  '/llm': typeof LlmRoute
+  '/ops-x9k2-7m4n': typeof OpsX9k27m4nRouteWithChildren
+  '/pricing': typeof PricingRoute
+  '/privacy': typeof PrivacyRoute
+  '/refund': typeof RefundRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/scam-check': typeof ScamCheckRoute
+  '/scam-tool': typeof ScamToolRoute
+  '/signal': typeof SignalRoute
+  '/signals-live': typeof SignalsLiveRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
+  '/unsubscribe': typeof UnsubscribeRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRouteWithChildren
+  '/_authenticated/inbox': typeof AuthenticatedInboxRoute
+  '/brief/$id': typeof BriefIdRoute
+  '/email/unsubscribe': typeof EmailUnsubscribeRoute
+  '/insights/$slug': typeof InsightsSlugRoute
+  '/jenvu-ops-x9k2/inbox': typeof JenvuOpsX9k2InboxRoute
+  '/leads/account': typeof LeadsAccountRoute
+  '/leads/activity': typeof LeadsActivityRoute
+  '/leads/enrich': typeof LeadsEnrichRoute
+  '/leads/import': typeof LeadsImportRoute
+  '/leads/lists': typeof LeadsListsRoute
+  '/leads/maps': typeof LeadsMapsRoute
+  '/leads/people': typeof LeadsPeopleRoute
+  '/ops-x9k2-7m4n/hub': typeof OpsX9k27m4nHubRoute
+  '/ops-x9k2-7m4n/leads-credits': typeof OpsX9k27m4nLeadsCreditsRoute
+  '/ops-x9k2-7m4n/payments': typeof OpsX9k27m4nPaymentsRoute
+  '/help/': typeof HelpIndexRoute
+  '/insights/': typeof InsightsIndexRoute
+  '/jenvu-ops-x9k2/': typeof JenvuOpsX9k2IndexRoute
+  '/leads/': typeof LeadsIndexRoute
+  '/ops-x9k2-7m4n/': typeof OpsX9k27m4nIndexRoute
+  '/_authenticated/dashboard/alerts': typeof AuthenticatedDashboardAlertsRoute
+  '/_authenticated/dashboard/analytics': typeof AuthenticatedDashboardAnalyticsRoute
+  '/_authenticated/dashboard/billing': typeof AuthenticatedDashboardBillingRoute
+  '/_authenticated/dashboard/documents': typeof AuthenticatedDashboardDocumentsRoute
+  '/_authenticated/dashboard/journal': typeof AuthenticatedDashboardJournalRoute
+  '/_authenticated/dashboard/notifications': typeof AuthenticatedDashboardNotificationsRoute
+  '/_authenticated/dashboard/pay': typeof AuthenticatedDashboardPayRoute
+  '/_authenticated/dashboard/profile': typeof AuthenticatedDashboardProfileRoute
+  '/_authenticated/dashboard/referrals': typeof AuthenticatedDashboardReferralsRoute
+  '/_authenticated/dashboard/risk': typeof AuthenticatedDashboardRiskRoute
+  '/_authenticated/dashboard/security': typeof AuthenticatedDashboardSecurityRoute
+  '/_authenticated/dashboard/usage': typeof AuthenticatedDashboardUsageRoute
+  '/_authenticated/dashboard/workspace': typeof AuthenticatedDashboardWorkspaceRoute
+  '/api/public/podcast.xml': typeof ApiPublicPodcastDotxmlRoute
+  '/api/public/signals-feed': typeof ApiPublicSignalsFeedRoute
+  '/help/$collection/$slug': typeof HelpCollectionSlugRoute
+  '/leads/admin/users': typeof LeadsAdminUsersRoute
+  '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
+  '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/help/$collection/': typeof HelpCollectionIndexRoute
+  '/_authenticated/dashboard/admin/accuracy': typeof AuthenticatedDashboardAdminAccuracyRoute
+  '/_authenticated/dashboard/admin/auto-scan': typeof AuthenticatedDashboardAdminAutoScanRoute
+  '/_authenticated/dashboard/admin/bugs': typeof AuthenticatedDashboardAdminBugsRoute
+  '/_authenticated/dashboard/admin/documents': typeof AuthenticatedDashboardAdminDocumentsRoute
+  '/_authenticated/dashboard/admin/founding': typeof AuthenticatedDashboardAdminFoundingRoute
+  '/_authenticated/dashboard/admin/messages': typeof AuthenticatedDashboardAdminMessagesRoute
+  '/_authenticated/dashboard/admin/scan-audit': typeof AuthenticatedDashboardAdminScanAuditRoute
+  '/_authenticated/dashboard/admin/subscribers': typeof AuthenticatedDashboardAdminSubscribersRoute
+  '/_authenticated/dashboard/admin/tuning': typeof AuthenticatedDashboardAdminTuningRoute
+  '/_authenticated/dashboard/admin/tv-mismatch': typeof AuthenticatedDashboardAdminTvMismatchRoute
+  '/api/public/brief-audio/$id': typeof ApiPublicBriefAudioIdRoute
+  '/api/public/hooks/auto-scan': typeof ApiPublicHooksAutoScanRoute
+  '/api/public/hooks/generate-brief': typeof ApiPublicHooksGenerateBriefRoute
+  '/api/public/hooks/generate-insight': typeof ApiPublicHooksGenerateInsightRoute
+  '/api/public/hooks/monthly-retune': typeof ApiPublicHooksMonthlyRetuneRoute
+  '/api/public/hooks/news-alerts': typeof ApiPublicHooksNewsAlertsRoute
+  '/api/public/hooks/notify-subscribers': typeof ApiPublicHooksNotifySubscribersRoute
+  '/api/public/hooks/paper-trade-resolver': typeof ApiPublicHooksPaperTradeResolverRoute
+  '/api/public/hooks/reindex-insights': typeof ApiPublicHooksReindexInsightsRoute
+  '/api/public/hooks/scan-signals': typeof ApiPublicHooksScanSignalsRoute
+  '/api/public/hooks/signal-reversal-monitor': typeof ApiPublicHooksSignalReversalMonitorRoute
+  '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
+  '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
+  '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
+  '/lovable/email/transactional/send': typeof LovableEmailTransactionalSendRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/ai-engine'
+    | '/app'
+    | '/auth'
+    | '/briefs'
+    | '/broadcasts'
+    | '/cancellation'
+    | '/confirm-email-change'
+    | '/contact'
+    | '/development'
+    | '/disclaimer'
+    | '/download'
+    | '/founder'
+    | '/founding'
+    | '/insights'
+    | '/jenvu-ops-x9k2'
+    | '/killzones'
+    | '/leads'
+    | '/leads-signin'
+    | '/leads-signup'
+    | '/llm'
+    | '/ops-x9k2-7m4n'
+    | '/pricing'
+    | '/privacy'
+    | '/refund'
+    | '/reset-password'
+    | '/scam-check'
+    | '/scam-tool'
+    | '/signal'
+    | '/signals-live'
+    | '/sitemap.xml'
+    | '/terms'
+    | '/unsubscribe'
+    | '/dashboard'
+    | '/inbox'
+    | '/brief/$id'
+    | '/email/unsubscribe'
+    | '/insights/$slug'
+    | '/jenvu-ops-x9k2/inbox'
+    | '/leads/account'
+    | '/leads/activity'
+    | '/leads/enrich'
+    | '/leads/import'
+    | '/leads/lists'
+    | '/leads/maps'
+    | '/leads/people'
+    | '/ops-x9k2-7m4n/hub'
+    | '/ops-x9k2-7m4n/leads-credits'
+    | '/ops-x9k2-7m4n/payments'
+    | '/help/'
+    | '/insights/'
+    | '/jenvu-ops-x9k2/'
+    | '/leads/'
+    | '/ops-x9k2-7m4n/'
+    | '/dashboard/alerts'
+    | '/dashboard/analytics'
+    | '/dashboard/billing'
+    | '/dashboard/documents'
+    | '/dashboard/journal'
+    | '/dashboard/notifications'
+    | '/dashboard/pay'
+    | '/dashboard/profile'
+    | '/dashboard/referrals'
+    | '/dashboard/risk'
+    | '/dashboard/security'
+    | '/dashboard/usage'
+    | '/dashboard/workspace'
+    | '/api/public/podcast.xml'
+    | '/api/public/signals-feed'
+    | '/help/$collection/$slug'
+    | '/leads/admin/users'
+    | '/lovable/email/suppression'
+    | '/dashboard/'
+    | '/help/$collection/'
+    | '/dashboard/admin/accuracy'
+    | '/dashboard/admin/auto-scan'
+    | '/dashboard/admin/bugs'
+    | '/dashboard/admin/documents'
+    | '/dashboard/admin/founding'
+    | '/dashboard/admin/messages'
+    | '/dashboard/admin/scan-audit'
+    | '/dashboard/admin/subscribers'
+    | '/dashboard/admin/tuning'
+    | '/dashboard/admin/tv-mismatch'
+    | '/api/public/brief-audio/$id'
+    | '/api/public/hooks/auto-scan'
+    | '/api/public/hooks/generate-brief'
+    | '/api/public/hooks/generate-insight'
+    | '/api/public/hooks/monthly-retune'
+    | '/api/public/hooks/news-alerts'
+    | '/api/public/hooks/notify-subscribers'
+    | '/api/public/hooks/paper-trade-resolver'
+    | '/api/public/hooks/reindex-insights'
+    | '/api/public/hooks/scan-signals'
+    | '/api/public/hooks/signal-reversal-monitor'
+    | '/lovable/email/auth/preview'
+    | '/lovable/email/auth/webhook'
+    | '/lovable/email/queue/process'
+    | '/lovable/email/transactional/preview'
+    | '/lovable/email/transactional/send'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/ai-engine'
+    | '/app'
+    | '/auth'
+    | '/briefs'
+    | '/broadcasts'
+    | '/cancellation'
+    | '/confirm-email-change'
+    | '/contact'
+    | '/development'
+    | '/disclaimer'
+    | '/download'
+    | '/founder'
+    | '/founding'
+    | '/killzones'
+    | '/leads-signin'
+    | '/leads-signup'
+    | '/llm'
+    | '/pricing'
+    | '/privacy'
+    | '/refund'
+    | '/reset-password'
+    | '/scam-check'
+    | '/scam-tool'
+    | '/signal'
+    | '/signals-live'
+    | '/sitemap.xml'
+    | '/terms'
+    | '/unsubscribe'
+    | '/inbox'
+    | '/brief/$id'
+    | '/email/unsubscribe'
+    | '/insights/$slug'
+    | '/jenvu-ops-x9k2/inbox'
+    | '/leads/account'
+    | '/leads/activity'
+    | '/leads/enrich'
+    | '/leads/import'
+    | '/leads/lists'
+    | '/leads/maps'
+    | '/leads/people'
+    | '/ops-x9k2-7m4n/hub'
+    | '/ops-x9k2-7m4n/leads-credits'
+    | '/ops-x9k2-7m4n/payments'
+    | '/help'
+    | '/insights'
+    | '/jenvu-ops-x9k2'
+    | '/leads'
+    | '/ops-x9k2-7m4n'
+    | '/dashboard/alerts'
+    | '/dashboard/analytics'
+    | '/dashboard/billing'
+    | '/dashboard/documents'
+    | '/dashboard/journal'
+    | '/dashboard/notifications'
+    | '/dashboard/pay'
+    | '/dashboard/profile'
+    | '/dashboard/referrals'
+    | '/dashboard/risk'
+    | '/dashboard/security'
+    | '/dashboard/usage'
+    | '/dashboard/workspace'
+    | '/api/public/podcast.xml'
+    | '/api/public/signals-feed'
+    | '/help/$collection/$slug'
+    | '/leads/admin/users'
+    | '/lovable/email/suppression'
+    | '/dashboard'
+    | '/help/$collection'
+    | '/dashboard/admin/accuracy'
+    | '/dashboard/admin/auto-scan'
+    | '/dashboard/admin/bugs'
+    | '/dashboard/admin/documents'
+    | '/dashboard/admin/founding'
+    | '/dashboard/admin/messages'
+    | '/dashboard/admin/scan-audit'
+    | '/dashboard/admin/subscribers'
+    | '/dashboard/admin/tuning'
+    | '/dashboard/admin/tv-mismatch'
+    | '/api/public/brief-audio/$id'
+    | '/api/public/hooks/auto-scan'
+    | '/api/public/hooks/generate-brief'
+    | '/api/public/hooks/generate-insight'
+    | '/api/public/hooks/monthly-retune'
+    | '/api/public/hooks/news-alerts'
+    | '/api/public/hooks/notify-subscribers'
+    | '/api/public/hooks/paper-trade-resolver'
+    | '/api/public/hooks/reindex-insights'
+    | '/api/public/hooks/scan-signals'
+    | '/api/public/hooks/signal-reversal-monitor'
+    | '/lovable/email/auth/preview'
+    | '/lovable/email/auth/webhook'
+    | '/lovable/email/queue/process'
+    | '/lovable/email/transactional/preview'
+    | '/lovable/email/transactional/send'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/about'
+    | '/ai-engine'
+    | '/app'
+    | '/auth'
+    | '/briefs'
+    | '/broadcasts'
+    | '/cancellation'
+    | '/confirm-email-change'
+    | '/contact'
+    | '/development'
+    | '/disclaimer'
+    | '/download'
+    | '/founder'
+    | '/founding'
+    | '/insights'
+    | '/jenvu-ops-x9k2'
+    | '/killzones'
+    | '/leads'
+    | '/leads-signin'
+    | '/leads-signup'
+    | '/llm'
+    | '/ops-x9k2-7m4n'
+    | '/pricing'
+    | '/privacy'
+    | '/refund'
+    | '/reset-password'
+    | '/scam-check'
+    | '/scam-tool'
+    | '/signal'
+    | '/signals-live'
+    | '/sitemap.xml'
+    | '/terms'
+    | '/unsubscribe'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/inbox'
+    | '/brief/$id'
+    | '/email/unsubscribe'
+    | '/insights/$slug'
+    | '/jenvu-ops-x9k2/inbox'
+    | '/leads/account'
+    | '/leads/activity'
+    | '/leads/enrich'
+    | '/leads/import'
+    | '/leads/lists'
+    | '/leads/maps'
+    | '/leads/people'
+    | '/ops-x9k2-7m4n/hub'
+    | '/ops-x9k2-7m4n/leads-credits'
+    | '/ops-x9k2-7m4n/payments'
+    | '/help/'
+    | '/insights/'
+    | '/jenvu-ops-x9k2/'
+    | '/leads/'
+    | '/ops-x9k2-7m4n/'
+    | '/_authenticated/dashboard/alerts'
+    | '/_authenticated/dashboard/analytics'
+    | '/_authenticated/dashboard/billing'
+    | '/_authenticated/dashboard/documents'
+    | '/_authenticated/dashboard/journal'
+    | '/_authenticated/dashboard/notifications'
+    | '/_authenticated/dashboard/pay'
+    | '/_authenticated/dashboard/profile'
+    | '/_authenticated/dashboard/referrals'
+    | '/_authenticated/dashboard/risk'
+    | '/_authenticated/dashboard/security'
+    | '/_authenticated/dashboard/usage'
+    | '/_authenticated/dashboard/workspace'
+    | '/api/public/podcast.xml'
+    | '/api/public/signals-feed'
+    | '/help/$collection/$slug'
+    | '/leads/admin/users'
+    | '/lovable/email/suppression'
+    | '/_authenticated/dashboard/'
+    | '/help/$collection/'
+    | '/_authenticated/dashboard/admin/accuracy'
+    | '/_authenticated/dashboard/admin/auto-scan'
+    | '/_authenticated/dashboard/admin/bugs'
+    | '/_authenticated/dashboard/admin/documents'
+    | '/_authenticated/dashboard/admin/founding'
+    | '/_authenticated/dashboard/admin/messages'
+    | '/_authenticated/dashboard/admin/scan-audit'
+    | '/_authenticated/dashboard/admin/subscribers'
+    | '/_authenticated/dashboard/admin/tuning'
+    | '/_authenticated/dashboard/admin/tv-mismatch'
+    | '/api/public/brief-audio/$id'
+    | '/api/public/hooks/auto-scan'
+    | '/api/public/hooks/generate-brief'
+    | '/api/public/hooks/generate-insight'
+    | '/api/public/hooks/monthly-retune'
+    | '/api/public/hooks/news-alerts'
+    | '/api/public/hooks/notify-subscribers'
+    | '/api/public/hooks/paper-trade-resolver'
+    | '/api/public/hooks/reindex-insights'
+    | '/api/public/hooks/scan-signals'
+    | '/api/public/hooks/signal-reversal-monitor'
+    | '/lovable/email/auth/preview'
+    | '/lovable/email/auth/webhook'
+    | '/lovable/email/queue/process'
+    | '/lovable/email/transactional/preview'
+    | '/lovable/email/transactional/send'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AboutRoute: typeof AboutRoute
+  AiEngineRoute: typeof AiEngineRoute
+  AppRoute: typeof AppRoute
+  AuthRoute: typeof AuthRoute
+  BriefsRoute: typeof BriefsRoute
+  BroadcastsRoute: typeof BroadcastsRoute
+  CancellationRoute: typeof CancellationRoute
+  ConfirmEmailChangeRoute: typeof ConfirmEmailChangeRoute
+  ContactRoute: typeof ContactRoute
+  DevelopmentRoute: typeof DevelopmentRoute
+  DisclaimerRoute: typeof DisclaimerRoute
+  DownloadRoute: typeof DownloadRoute
+  FounderRoute: typeof FounderRoute
+  FoundingRoute: typeof FoundingRoute
+  InsightsRoute: typeof InsightsRouteWithChildren
+  JenvuOpsX9k2Route: typeof JenvuOpsX9k2RouteWithChildren
+  KillzonesRoute: typeof KillzonesRoute
+  LeadsRoute: typeof LeadsRouteWithChildren
+  LeadsSigninRoute: typeof LeadsSigninRoute
+  LeadsSignupRoute: typeof LeadsSignupRoute
+  LlmRoute: typeof LlmRoute
+  OpsX9k27m4nRoute: typeof OpsX9k27m4nRouteWithChildren
+  PricingRoute: typeof PricingRoute
+  PrivacyRoute: typeof PrivacyRoute
+  RefundRoute: typeof RefundRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  ScamCheckRoute: typeof ScamCheckRoute
+  ScamToolRoute: typeof ScamToolRoute
+  SignalRoute: typeof SignalRoute
+  SignalsLiveRoute: typeof SignalsLiveRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TermsRoute: typeof TermsRoute
+  UnsubscribeRoute: typeof UnsubscribeRoute
+  BriefIdRoute: typeof BriefIdRoute
+  EmailUnsubscribeRoute: typeof EmailUnsubscribeRoute
+  HelpIndexRoute: typeof HelpIndexRoute
+  ApiPublicPodcastDotxmlRoute: typeof ApiPublicPodcastDotxmlRoute
+  ApiPublicSignalsFeedRoute: typeof ApiPublicSignalsFeedRoute
+  HelpCollectionSlugRoute: typeof HelpCollectionSlugRoute
+  LovableEmailSuppressionRoute: typeof LovableEmailSuppressionRoute
+  HelpCollectionIndexRoute: typeof HelpCollectionIndexRoute
+  ApiPublicBriefAudioIdRoute: typeof ApiPublicBriefAudioIdRoute
+  ApiPublicHooksAutoScanRoute: typeof ApiPublicHooksAutoScanRoute
+  ApiPublicHooksGenerateBriefRoute: typeof ApiPublicHooksGenerateBriefRoute
+  ApiPublicHooksGenerateInsightRoute: typeof ApiPublicHooksGenerateInsightRoute
+  ApiPublicHooksMonthlyRetuneRoute: typeof ApiPublicHooksMonthlyRetuneRoute
+  ApiPublicHooksNewsAlertsRoute: typeof ApiPublicHooksNewsAlertsRoute
+  ApiPublicHooksNotifySubscribersRoute: typeof ApiPublicHooksNotifySubscribersRoute
+  ApiPublicHooksPaperTradeResolverRoute: typeof ApiPublicHooksPaperTradeResolverRoute
+  ApiPublicHooksReindexInsightsRoute: typeof ApiPublicHooksReindexInsightsRoute
+  ApiPublicHooksScanSignalsRoute: typeof ApiPublicHooksScanSignalsRoute
+  ApiPublicHooksSignalReversalMonitorRoute: typeof ApiPublicHooksSignalReversalMonitorRoute
+  LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
+  LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
+  LovableEmailQueueProcessRoute: typeof LovableEmailQueueProcessRoute
+  LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
+  LovableEmailTransactionalSendRoute: typeof LovableEmailTransactionalSendRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/unsubscribe': {
+      id: '/unsubscribe'
+      path: '/unsubscribe'
+      fullPath: '/unsubscribe'
+      preLoaderRoute: typeof UnsubscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signals-live': {
+      id: '/signals-live'
+      path: '/signals-live'
+      fullPath: '/signals-live'
+      preLoaderRoute: typeof SignalsLiveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signal': {
+      id: '/signal'
+      path: '/signal'
+      fullPath: '/signal'
+      preLoaderRoute: typeof SignalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/scam-tool': {
+      id: '/scam-tool'
+      path: '/scam-tool'
+      fullPath: '/scam-tool'
+      preLoaderRoute: typeof ScamToolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/scam-check': {
+      id: '/scam-check'
+      path: '/scam-check'
+      fullPath: '/scam-check'
+      preLoaderRoute: typeof ScamCheckRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/refund': {
+      id: '/refund'
+      path: '/refund'
+      fullPath: '/refund'
+      preLoaderRoute: typeof RefundRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ops-x9k2-7m4n': {
+      id: '/ops-x9k2-7m4n'
+      path: '/ops-x9k2-7m4n'
+      fullPath: '/ops-x9k2-7m4n'
+      preLoaderRoute: typeof OpsX9k27m4nRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/llm': {
+      id: '/llm'
+      path: '/llm'
+      fullPath: '/llm'
+      preLoaderRoute: typeof LlmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/leads-signup': {
+      id: '/leads-signup'
+      path: '/leads-signup'
+      fullPath: '/leads-signup'
+      preLoaderRoute: typeof LeadsSignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/leads-signin': {
+      id: '/leads-signin'
+      path: '/leads-signin'
+      fullPath: '/leads-signin'
+      preLoaderRoute: typeof LeadsSigninRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/leads': {
+      id: '/leads'
+      path: '/leads'
+      fullPath: '/leads'
+      preLoaderRoute: typeof LeadsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/killzones': {
+      id: '/killzones'
+      path: '/killzones'
+      fullPath: '/killzones'
+      preLoaderRoute: typeof KillzonesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/jenvu-ops-x9k2': {
+      id: '/jenvu-ops-x9k2'
+      path: '/jenvu-ops-x9k2'
+      fullPath: '/jenvu-ops-x9k2'
+      preLoaderRoute: typeof JenvuOpsX9k2RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/insights': {
+      id: '/insights'
+      path: '/insights'
+      fullPath: '/insights'
+      preLoaderRoute: typeof InsightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/founding': {
+      id: '/founding'
+      path: '/founding'
+      fullPath: '/founding'
+      preLoaderRoute: typeof FoundingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/founder': {
+      id: '/founder'
+      path: '/founder'
+      fullPath: '/founder'
+      preLoaderRoute: typeof FounderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/download': {
+      id: '/download'
+      path: '/download'
+      fullPath: '/download'
+      preLoaderRoute: typeof DownloadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/disclaimer': {
+      id: '/disclaimer'
+      path: '/disclaimer'
+      fullPath: '/disclaimer'
+      preLoaderRoute: typeof DisclaimerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/development': {
+      id: '/development'
+      path: '/development'
+      fullPath: '/development'
+      preLoaderRoute: typeof DevelopmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/confirm-email-change': {
+      id: '/confirm-email-change'
+      path: '/confirm-email-change'
+      fullPath: '/confirm-email-change'
+      preLoaderRoute: typeof ConfirmEmailChangeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cancellation': {
+      id: '/cancellation'
+      path: '/cancellation'
+      fullPath: '/cancellation'
+      preLoaderRoute: typeof CancellationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/broadcasts': {
+      id: '/broadcasts'
+      path: '/broadcasts'
+      fullPath: '/broadcasts'
+      preLoaderRoute: typeof BroadcastsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/briefs': {
+      id: '/briefs'
+      path: '/briefs'
+      fullPath: '/briefs'
+      preLoaderRoute: typeof BriefsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-engine': {
+      id: '/ai-engine'
+      path: '/ai-engine'
+      fullPath: '/ai-engine'
+      preLoaderRoute: typeof AiEngineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +1581,694 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ops-x9k2-7m4n/': {
+      id: '/ops-x9k2-7m4n/'
+      path: '/'
+      fullPath: '/ops-x9k2-7m4n/'
+      preLoaderRoute: typeof OpsX9k27m4nIndexRouteImport
+      parentRoute: typeof OpsX9k27m4nRoute
+    }
+    '/leads/': {
+      id: '/leads/'
+      path: '/'
+      fullPath: '/leads/'
+      preLoaderRoute: typeof LeadsIndexRouteImport
+      parentRoute: typeof LeadsRoute
+    }
+    '/jenvu-ops-x9k2/': {
+      id: '/jenvu-ops-x9k2/'
+      path: '/'
+      fullPath: '/jenvu-ops-x9k2/'
+      preLoaderRoute: typeof JenvuOpsX9k2IndexRouteImport
+      parentRoute: typeof JenvuOpsX9k2Route
+    }
+    '/insights/': {
+      id: '/insights/'
+      path: '/'
+      fullPath: '/insights/'
+      preLoaderRoute: typeof InsightsIndexRouteImport
+      parentRoute: typeof InsightsRoute
+    }
+    '/help/': {
+      id: '/help/'
+      path: '/help'
+      fullPath: '/help/'
+      preLoaderRoute: typeof HelpIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ops-x9k2-7m4n/payments': {
+      id: '/ops-x9k2-7m4n/payments'
+      path: '/payments'
+      fullPath: '/ops-x9k2-7m4n/payments'
+      preLoaderRoute: typeof OpsX9k27m4nPaymentsRouteImport
+      parentRoute: typeof OpsX9k27m4nRoute
+    }
+    '/ops-x9k2-7m4n/leads-credits': {
+      id: '/ops-x9k2-7m4n/leads-credits'
+      path: '/leads-credits'
+      fullPath: '/ops-x9k2-7m4n/leads-credits'
+      preLoaderRoute: typeof OpsX9k27m4nLeadsCreditsRouteImport
+      parentRoute: typeof OpsX9k27m4nRoute
+    }
+    '/ops-x9k2-7m4n/hub': {
+      id: '/ops-x9k2-7m4n/hub'
+      path: '/hub'
+      fullPath: '/ops-x9k2-7m4n/hub'
+      preLoaderRoute: typeof OpsX9k27m4nHubRouteImport
+      parentRoute: typeof OpsX9k27m4nRoute
+    }
+    '/leads/people': {
+      id: '/leads/people'
+      path: '/people'
+      fullPath: '/leads/people'
+      preLoaderRoute: typeof LeadsPeopleRouteImport
+      parentRoute: typeof LeadsRoute
+    }
+    '/leads/maps': {
+      id: '/leads/maps'
+      path: '/maps'
+      fullPath: '/leads/maps'
+      preLoaderRoute: typeof LeadsMapsRouteImport
+      parentRoute: typeof LeadsRoute
+    }
+    '/leads/lists': {
+      id: '/leads/lists'
+      path: '/lists'
+      fullPath: '/leads/lists'
+      preLoaderRoute: typeof LeadsListsRouteImport
+      parentRoute: typeof LeadsRoute
+    }
+    '/leads/import': {
+      id: '/leads/import'
+      path: '/import'
+      fullPath: '/leads/import'
+      preLoaderRoute: typeof LeadsImportRouteImport
+      parentRoute: typeof LeadsRoute
+    }
+    '/leads/enrich': {
+      id: '/leads/enrich'
+      path: '/enrich'
+      fullPath: '/leads/enrich'
+      preLoaderRoute: typeof LeadsEnrichRouteImport
+      parentRoute: typeof LeadsRoute
+    }
+    '/leads/activity': {
+      id: '/leads/activity'
+      path: '/activity'
+      fullPath: '/leads/activity'
+      preLoaderRoute: typeof LeadsActivityRouteImport
+      parentRoute: typeof LeadsRoute
+    }
+    '/leads/account': {
+      id: '/leads/account'
+      path: '/account'
+      fullPath: '/leads/account'
+      preLoaderRoute: typeof LeadsAccountRouteImport
+      parentRoute: typeof LeadsRoute
+    }
+    '/jenvu-ops-x9k2/inbox': {
+      id: '/jenvu-ops-x9k2/inbox'
+      path: '/inbox'
+      fullPath: '/jenvu-ops-x9k2/inbox'
+      preLoaderRoute: typeof JenvuOpsX9k2InboxRouteImport
+      parentRoute: typeof JenvuOpsX9k2Route
+    }
+    '/insights/$slug': {
+      id: '/insights/$slug'
+      path: '/$slug'
+      fullPath: '/insights/$slug'
+      preLoaderRoute: typeof InsightsSlugRouteImport
+      parentRoute: typeof InsightsRoute
+    }
+    '/email/unsubscribe': {
+      id: '/email/unsubscribe'
+      path: '/email/unsubscribe'
+      fullPath: '/email/unsubscribe'
+      preLoaderRoute: typeof EmailUnsubscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/brief/$id': {
+      id: '/brief/$id'
+      path: '/brief/$id'
+      fullPath: '/brief/$id'
+      preLoaderRoute: typeof BriefIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/inbox': {
+      id: '/_authenticated/inbox'
+      path: '/inbox'
+      fullPath: '/inbox'
+      preLoaderRoute: typeof AuthenticatedInboxRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/help/$collection/': {
+      id: '/help/$collection/'
+      path: '/help/$collection'
+      fullPath: '/help/$collection/'
+      preLoaderRoute: typeof HelpCollectionIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/dashboard/': {
+      id: '/_authenticated/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof AuthenticatedDashboardIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/lovable/email/suppression': {
+      id: '/lovable/email/suppression'
+      path: '/lovable/email/suppression'
+      fullPath: '/lovable/email/suppression'
+      preLoaderRoute: typeof LovableEmailSuppressionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/leads/admin/users': {
+      id: '/leads/admin/users'
+      path: '/admin/users'
+      fullPath: '/leads/admin/users'
+      preLoaderRoute: typeof LeadsAdminUsersRouteImport
+      parentRoute: typeof LeadsRoute
+    }
+    '/help/$collection/$slug': {
+      id: '/help/$collection/$slug'
+      path: '/help/$collection/$slug'
+      fullPath: '/help/$collection/$slug'
+      preLoaderRoute: typeof HelpCollectionSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/signals-feed': {
+      id: '/api/public/signals-feed'
+      path: '/api/public/signals-feed'
+      fullPath: '/api/public/signals-feed'
+      preLoaderRoute: typeof ApiPublicSignalsFeedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/podcast.xml': {
+      id: '/api/public/podcast.xml'
+      path: '/api/public/podcast.xml'
+      fullPath: '/api/public/podcast.xml'
+      preLoaderRoute: typeof ApiPublicPodcastDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/dashboard/workspace': {
+      id: '/_authenticated/dashboard/workspace'
+      path: '/workspace'
+      fullPath: '/dashboard/workspace'
+      preLoaderRoute: typeof AuthenticatedDashboardWorkspaceRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/usage': {
+      id: '/_authenticated/dashboard/usage'
+      path: '/usage'
+      fullPath: '/dashboard/usage'
+      preLoaderRoute: typeof AuthenticatedDashboardUsageRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/security': {
+      id: '/_authenticated/dashboard/security'
+      path: '/security'
+      fullPath: '/dashboard/security'
+      preLoaderRoute: typeof AuthenticatedDashboardSecurityRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/risk': {
+      id: '/_authenticated/dashboard/risk'
+      path: '/risk'
+      fullPath: '/dashboard/risk'
+      preLoaderRoute: typeof AuthenticatedDashboardRiskRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/referrals': {
+      id: '/_authenticated/dashboard/referrals'
+      path: '/referrals'
+      fullPath: '/dashboard/referrals'
+      preLoaderRoute: typeof AuthenticatedDashboardReferralsRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/profile': {
+      id: '/_authenticated/dashboard/profile'
+      path: '/profile'
+      fullPath: '/dashboard/profile'
+      preLoaderRoute: typeof AuthenticatedDashboardProfileRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/pay': {
+      id: '/_authenticated/dashboard/pay'
+      path: '/pay'
+      fullPath: '/dashboard/pay'
+      preLoaderRoute: typeof AuthenticatedDashboardPayRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/notifications': {
+      id: '/_authenticated/dashboard/notifications'
+      path: '/notifications'
+      fullPath: '/dashboard/notifications'
+      preLoaderRoute: typeof AuthenticatedDashboardNotificationsRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/journal': {
+      id: '/_authenticated/dashboard/journal'
+      path: '/journal'
+      fullPath: '/dashboard/journal'
+      preLoaderRoute: typeof AuthenticatedDashboardJournalRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/documents': {
+      id: '/_authenticated/dashboard/documents'
+      path: '/documents'
+      fullPath: '/dashboard/documents'
+      preLoaderRoute: typeof AuthenticatedDashboardDocumentsRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/billing': {
+      id: '/_authenticated/dashboard/billing'
+      path: '/billing'
+      fullPath: '/dashboard/billing'
+      preLoaderRoute: typeof AuthenticatedDashboardBillingRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/analytics': {
+      id: '/_authenticated/dashboard/analytics'
+      path: '/analytics'
+      fullPath: '/dashboard/analytics'
+      preLoaderRoute: typeof AuthenticatedDashboardAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/alerts': {
+      id: '/_authenticated/dashboard/alerts'
+      path: '/alerts'
+      fullPath: '/dashboard/alerts'
+      preLoaderRoute: typeof AuthenticatedDashboardAlertsRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/lovable/email/transactional/send': {
+      id: '/lovable/email/transactional/send'
+      path: '/lovable/email/transactional/send'
+      fullPath: '/lovable/email/transactional/send'
+      preLoaderRoute: typeof LovableEmailTransactionalSendRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lovable/email/transactional/preview': {
+      id: '/lovable/email/transactional/preview'
+      path: '/lovable/email/transactional/preview'
+      fullPath: '/lovable/email/transactional/preview'
+      preLoaderRoute: typeof LovableEmailTransactionalPreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lovable/email/queue/process': {
+      id: '/lovable/email/queue/process'
+      path: '/lovable/email/queue/process'
+      fullPath: '/lovable/email/queue/process'
+      preLoaderRoute: typeof LovableEmailQueueProcessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lovable/email/auth/webhook': {
+      id: '/lovable/email/auth/webhook'
+      path: '/lovable/email/auth/webhook'
+      fullPath: '/lovable/email/auth/webhook'
+      preLoaderRoute: typeof LovableEmailAuthWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lovable/email/auth/preview': {
+      id: '/lovable/email/auth/preview'
+      path: '/lovable/email/auth/preview'
+      fullPath: '/lovable/email/auth/preview'
+      preLoaderRoute: typeof LovableEmailAuthPreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/signal-reversal-monitor': {
+      id: '/api/public/hooks/signal-reversal-monitor'
+      path: '/api/public/hooks/signal-reversal-monitor'
+      fullPath: '/api/public/hooks/signal-reversal-monitor'
+      preLoaderRoute: typeof ApiPublicHooksSignalReversalMonitorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/scan-signals': {
+      id: '/api/public/hooks/scan-signals'
+      path: '/api/public/hooks/scan-signals'
+      fullPath: '/api/public/hooks/scan-signals'
+      preLoaderRoute: typeof ApiPublicHooksScanSignalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/reindex-insights': {
+      id: '/api/public/hooks/reindex-insights'
+      path: '/api/public/hooks/reindex-insights'
+      fullPath: '/api/public/hooks/reindex-insights'
+      preLoaderRoute: typeof ApiPublicHooksReindexInsightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/paper-trade-resolver': {
+      id: '/api/public/hooks/paper-trade-resolver'
+      path: '/api/public/hooks/paper-trade-resolver'
+      fullPath: '/api/public/hooks/paper-trade-resolver'
+      preLoaderRoute: typeof ApiPublicHooksPaperTradeResolverRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/notify-subscribers': {
+      id: '/api/public/hooks/notify-subscribers'
+      path: '/api/public/hooks/notify-subscribers'
+      fullPath: '/api/public/hooks/notify-subscribers'
+      preLoaderRoute: typeof ApiPublicHooksNotifySubscribersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/news-alerts': {
+      id: '/api/public/hooks/news-alerts'
+      path: '/api/public/hooks/news-alerts'
+      fullPath: '/api/public/hooks/news-alerts'
+      preLoaderRoute: typeof ApiPublicHooksNewsAlertsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/monthly-retune': {
+      id: '/api/public/hooks/monthly-retune'
+      path: '/api/public/hooks/monthly-retune'
+      fullPath: '/api/public/hooks/monthly-retune'
+      preLoaderRoute: typeof ApiPublicHooksMonthlyRetuneRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/generate-insight': {
+      id: '/api/public/hooks/generate-insight'
+      path: '/api/public/hooks/generate-insight'
+      fullPath: '/api/public/hooks/generate-insight'
+      preLoaderRoute: typeof ApiPublicHooksGenerateInsightRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/generate-brief': {
+      id: '/api/public/hooks/generate-brief'
+      path: '/api/public/hooks/generate-brief'
+      fullPath: '/api/public/hooks/generate-brief'
+      preLoaderRoute: typeof ApiPublicHooksGenerateBriefRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/auto-scan': {
+      id: '/api/public/hooks/auto-scan'
+      path: '/api/public/hooks/auto-scan'
+      fullPath: '/api/public/hooks/auto-scan'
+      preLoaderRoute: typeof ApiPublicHooksAutoScanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/brief-audio/$id': {
+      id: '/api/public/brief-audio/$id'
+      path: '/api/public/brief-audio/$id'
+      fullPath: '/api/public/brief-audio/$id'
+      preLoaderRoute: typeof ApiPublicBriefAudioIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/dashboard/admin/tv-mismatch': {
+      id: '/_authenticated/dashboard/admin/tv-mismatch'
+      path: '/admin/tv-mismatch'
+      fullPath: '/dashboard/admin/tv-mismatch'
+      preLoaderRoute: typeof AuthenticatedDashboardAdminTvMismatchRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/admin/tuning': {
+      id: '/_authenticated/dashboard/admin/tuning'
+      path: '/admin/tuning'
+      fullPath: '/dashboard/admin/tuning'
+      preLoaderRoute: typeof AuthenticatedDashboardAdminTuningRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/admin/subscribers': {
+      id: '/_authenticated/dashboard/admin/subscribers'
+      path: '/admin/subscribers'
+      fullPath: '/dashboard/admin/subscribers'
+      preLoaderRoute: typeof AuthenticatedDashboardAdminSubscribersRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/admin/scan-audit': {
+      id: '/_authenticated/dashboard/admin/scan-audit'
+      path: '/admin/scan-audit'
+      fullPath: '/dashboard/admin/scan-audit'
+      preLoaderRoute: typeof AuthenticatedDashboardAdminScanAuditRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/admin/messages': {
+      id: '/_authenticated/dashboard/admin/messages'
+      path: '/admin/messages'
+      fullPath: '/dashboard/admin/messages'
+      preLoaderRoute: typeof AuthenticatedDashboardAdminMessagesRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/admin/founding': {
+      id: '/_authenticated/dashboard/admin/founding'
+      path: '/admin/founding'
+      fullPath: '/dashboard/admin/founding'
+      preLoaderRoute: typeof AuthenticatedDashboardAdminFoundingRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/admin/documents': {
+      id: '/_authenticated/dashboard/admin/documents'
+      path: '/admin/documents'
+      fullPath: '/dashboard/admin/documents'
+      preLoaderRoute: typeof AuthenticatedDashboardAdminDocumentsRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/admin/bugs': {
+      id: '/_authenticated/dashboard/admin/bugs'
+      path: '/admin/bugs'
+      fullPath: '/dashboard/admin/bugs'
+      preLoaderRoute: typeof AuthenticatedDashboardAdminBugsRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/admin/auto-scan': {
+      id: '/_authenticated/dashboard/admin/auto-scan'
+      path: '/admin/auto-scan'
+      fullPath: '/dashboard/admin/auto-scan'
+      preLoaderRoute: typeof AuthenticatedDashboardAdminAutoScanRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/admin/accuracy': {
+      id: '/_authenticated/dashboard/admin/accuracy'
+      path: '/admin/accuracy'
+      fullPath: '/dashboard/admin/accuracy'
+      preLoaderRoute: typeof AuthenticatedDashboardAdminAccuracyRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
   }
 }
 
+interface AuthenticatedDashboardRouteChildren {
+  AuthenticatedDashboardAlertsRoute: typeof AuthenticatedDashboardAlertsRoute
+  AuthenticatedDashboardAnalyticsRoute: typeof AuthenticatedDashboardAnalyticsRoute
+  AuthenticatedDashboardBillingRoute: typeof AuthenticatedDashboardBillingRoute
+  AuthenticatedDashboardDocumentsRoute: typeof AuthenticatedDashboardDocumentsRoute
+  AuthenticatedDashboardJournalRoute: typeof AuthenticatedDashboardJournalRoute
+  AuthenticatedDashboardNotificationsRoute: typeof AuthenticatedDashboardNotificationsRoute
+  AuthenticatedDashboardPayRoute: typeof AuthenticatedDashboardPayRoute
+  AuthenticatedDashboardProfileRoute: typeof AuthenticatedDashboardProfileRoute
+  AuthenticatedDashboardReferralsRoute: typeof AuthenticatedDashboardReferralsRoute
+  AuthenticatedDashboardRiskRoute: typeof AuthenticatedDashboardRiskRoute
+  AuthenticatedDashboardSecurityRoute: typeof AuthenticatedDashboardSecurityRoute
+  AuthenticatedDashboardUsageRoute: typeof AuthenticatedDashboardUsageRoute
+  AuthenticatedDashboardWorkspaceRoute: typeof AuthenticatedDashboardWorkspaceRoute
+  AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute
+  AuthenticatedDashboardAdminAccuracyRoute: typeof AuthenticatedDashboardAdminAccuracyRoute
+  AuthenticatedDashboardAdminAutoScanRoute: typeof AuthenticatedDashboardAdminAutoScanRoute
+  AuthenticatedDashboardAdminBugsRoute: typeof AuthenticatedDashboardAdminBugsRoute
+  AuthenticatedDashboardAdminDocumentsRoute: typeof AuthenticatedDashboardAdminDocumentsRoute
+  AuthenticatedDashboardAdminFoundingRoute: typeof AuthenticatedDashboardAdminFoundingRoute
+  AuthenticatedDashboardAdminMessagesRoute: typeof AuthenticatedDashboardAdminMessagesRoute
+  AuthenticatedDashboardAdminScanAuditRoute: typeof AuthenticatedDashboardAdminScanAuditRoute
+  AuthenticatedDashboardAdminSubscribersRoute: typeof AuthenticatedDashboardAdminSubscribersRoute
+  AuthenticatedDashboardAdminTuningRoute: typeof AuthenticatedDashboardAdminTuningRoute
+  AuthenticatedDashboardAdminTvMismatchRoute: typeof AuthenticatedDashboardAdminTvMismatchRoute
+}
+
+const AuthenticatedDashboardRouteChildren: AuthenticatedDashboardRouteChildren =
+  {
+    AuthenticatedDashboardAlertsRoute: AuthenticatedDashboardAlertsRoute,
+    AuthenticatedDashboardAnalyticsRoute: AuthenticatedDashboardAnalyticsRoute,
+    AuthenticatedDashboardBillingRoute: AuthenticatedDashboardBillingRoute,
+    AuthenticatedDashboardDocumentsRoute: AuthenticatedDashboardDocumentsRoute,
+    AuthenticatedDashboardJournalRoute: AuthenticatedDashboardJournalRoute,
+    AuthenticatedDashboardNotificationsRoute:
+      AuthenticatedDashboardNotificationsRoute,
+    AuthenticatedDashboardPayRoute: AuthenticatedDashboardPayRoute,
+    AuthenticatedDashboardProfileRoute: AuthenticatedDashboardProfileRoute,
+    AuthenticatedDashboardReferralsRoute: AuthenticatedDashboardReferralsRoute,
+    AuthenticatedDashboardRiskRoute: AuthenticatedDashboardRiskRoute,
+    AuthenticatedDashboardSecurityRoute: AuthenticatedDashboardSecurityRoute,
+    AuthenticatedDashboardUsageRoute: AuthenticatedDashboardUsageRoute,
+    AuthenticatedDashboardWorkspaceRoute: AuthenticatedDashboardWorkspaceRoute,
+    AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
+    AuthenticatedDashboardAdminAccuracyRoute:
+      AuthenticatedDashboardAdminAccuracyRoute,
+    AuthenticatedDashboardAdminAutoScanRoute:
+      AuthenticatedDashboardAdminAutoScanRoute,
+    AuthenticatedDashboardAdminBugsRoute: AuthenticatedDashboardAdminBugsRoute,
+    AuthenticatedDashboardAdminDocumentsRoute:
+      AuthenticatedDashboardAdminDocumentsRoute,
+    AuthenticatedDashboardAdminFoundingRoute:
+      AuthenticatedDashboardAdminFoundingRoute,
+    AuthenticatedDashboardAdminMessagesRoute:
+      AuthenticatedDashboardAdminMessagesRoute,
+    AuthenticatedDashboardAdminScanAuditRoute:
+      AuthenticatedDashboardAdminScanAuditRoute,
+    AuthenticatedDashboardAdminSubscribersRoute:
+      AuthenticatedDashboardAdminSubscribersRoute,
+    AuthenticatedDashboardAdminTuningRoute:
+      AuthenticatedDashboardAdminTuningRoute,
+    AuthenticatedDashboardAdminTvMismatchRoute:
+      AuthenticatedDashboardAdminTvMismatchRoute,
+  }
+
+const AuthenticatedDashboardRouteWithChildren =
+  AuthenticatedDashboardRoute._addFileChildren(
+    AuthenticatedDashboardRouteChildren,
+  )
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRouteWithChildren
+  AuthenticatedInboxRoute: typeof AuthenticatedInboxRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRouteWithChildren,
+  AuthenticatedInboxRoute: AuthenticatedInboxRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
+interface InsightsRouteChildren {
+  InsightsSlugRoute: typeof InsightsSlugRoute
+  InsightsIndexRoute: typeof InsightsIndexRoute
+}
+
+const InsightsRouteChildren: InsightsRouteChildren = {
+  InsightsSlugRoute: InsightsSlugRoute,
+  InsightsIndexRoute: InsightsIndexRoute,
+}
+
+const InsightsRouteWithChildren = InsightsRoute._addFileChildren(
+  InsightsRouteChildren,
+)
+
+interface JenvuOpsX9k2RouteChildren {
+  JenvuOpsX9k2InboxRoute: typeof JenvuOpsX9k2InboxRoute
+  JenvuOpsX9k2IndexRoute: typeof JenvuOpsX9k2IndexRoute
+}
+
+const JenvuOpsX9k2RouteChildren: JenvuOpsX9k2RouteChildren = {
+  JenvuOpsX9k2InboxRoute: JenvuOpsX9k2InboxRoute,
+  JenvuOpsX9k2IndexRoute: JenvuOpsX9k2IndexRoute,
+}
+
+const JenvuOpsX9k2RouteWithChildren = JenvuOpsX9k2Route._addFileChildren(
+  JenvuOpsX9k2RouteChildren,
+)
+
+interface LeadsRouteChildren {
+  LeadsAccountRoute: typeof LeadsAccountRoute
+  LeadsActivityRoute: typeof LeadsActivityRoute
+  LeadsEnrichRoute: typeof LeadsEnrichRoute
+  LeadsImportRoute: typeof LeadsImportRoute
+  LeadsListsRoute: typeof LeadsListsRoute
+  LeadsMapsRoute: typeof LeadsMapsRoute
+  LeadsPeopleRoute: typeof LeadsPeopleRoute
+  LeadsIndexRoute: typeof LeadsIndexRoute
+  LeadsAdminUsersRoute: typeof LeadsAdminUsersRoute
+}
+
+const LeadsRouteChildren: LeadsRouteChildren = {
+  LeadsAccountRoute: LeadsAccountRoute,
+  LeadsActivityRoute: LeadsActivityRoute,
+  LeadsEnrichRoute: LeadsEnrichRoute,
+  LeadsImportRoute: LeadsImportRoute,
+  LeadsListsRoute: LeadsListsRoute,
+  LeadsMapsRoute: LeadsMapsRoute,
+  LeadsPeopleRoute: LeadsPeopleRoute,
+  LeadsIndexRoute: LeadsIndexRoute,
+  LeadsAdminUsersRoute: LeadsAdminUsersRoute,
+}
+
+const LeadsRouteWithChildren = LeadsRoute._addFileChildren(LeadsRouteChildren)
+
+interface OpsX9k27m4nRouteChildren {
+  OpsX9k27m4nHubRoute: typeof OpsX9k27m4nHubRoute
+  OpsX9k27m4nLeadsCreditsRoute: typeof OpsX9k27m4nLeadsCreditsRoute
+  OpsX9k27m4nPaymentsRoute: typeof OpsX9k27m4nPaymentsRoute
+  OpsX9k27m4nIndexRoute: typeof OpsX9k27m4nIndexRoute
+}
+
+const OpsX9k27m4nRouteChildren: OpsX9k27m4nRouteChildren = {
+  OpsX9k27m4nHubRoute: OpsX9k27m4nHubRoute,
+  OpsX9k27m4nLeadsCreditsRoute: OpsX9k27m4nLeadsCreditsRoute,
+  OpsX9k27m4nPaymentsRoute: OpsX9k27m4nPaymentsRoute,
+  OpsX9k27m4nIndexRoute: OpsX9k27m4nIndexRoute,
+}
+
+const OpsX9k27m4nRouteWithChildren = OpsX9k27m4nRoute._addFileChildren(
+  OpsX9k27m4nRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AboutRoute: AboutRoute,
+  AiEngineRoute: AiEngineRoute,
+  AppRoute: AppRoute,
+  AuthRoute: AuthRoute,
+  BriefsRoute: BriefsRoute,
+  BroadcastsRoute: BroadcastsRoute,
+  CancellationRoute: CancellationRoute,
+  ConfirmEmailChangeRoute: ConfirmEmailChangeRoute,
+  ContactRoute: ContactRoute,
+  DevelopmentRoute: DevelopmentRoute,
+  DisclaimerRoute: DisclaimerRoute,
+  DownloadRoute: DownloadRoute,
+  FounderRoute: FounderRoute,
+  FoundingRoute: FoundingRoute,
+  InsightsRoute: InsightsRouteWithChildren,
+  JenvuOpsX9k2Route: JenvuOpsX9k2RouteWithChildren,
+  KillzonesRoute: KillzonesRoute,
+  LeadsRoute: LeadsRouteWithChildren,
+  LeadsSigninRoute: LeadsSigninRoute,
+  LeadsSignupRoute: LeadsSignupRoute,
+  LlmRoute: LlmRoute,
+  OpsX9k27m4nRoute: OpsX9k27m4nRouteWithChildren,
+  PricingRoute: PricingRoute,
+  PrivacyRoute: PrivacyRoute,
+  RefundRoute: RefundRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  ScamCheckRoute: ScamCheckRoute,
+  ScamToolRoute: ScamToolRoute,
+  SignalRoute: SignalRoute,
+  SignalsLiveRoute: SignalsLiveRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TermsRoute: TermsRoute,
+  UnsubscribeRoute: UnsubscribeRoute,
+  BriefIdRoute: BriefIdRoute,
+  EmailUnsubscribeRoute: EmailUnsubscribeRoute,
+  HelpIndexRoute: HelpIndexRoute,
+  ApiPublicPodcastDotxmlRoute: ApiPublicPodcastDotxmlRoute,
+  ApiPublicSignalsFeedRoute: ApiPublicSignalsFeedRoute,
+  HelpCollectionSlugRoute: HelpCollectionSlugRoute,
+  LovableEmailSuppressionRoute: LovableEmailSuppressionRoute,
+  HelpCollectionIndexRoute: HelpCollectionIndexRoute,
+  ApiPublicBriefAudioIdRoute: ApiPublicBriefAudioIdRoute,
+  ApiPublicHooksAutoScanRoute: ApiPublicHooksAutoScanRoute,
+  ApiPublicHooksGenerateBriefRoute: ApiPublicHooksGenerateBriefRoute,
+  ApiPublicHooksGenerateInsightRoute: ApiPublicHooksGenerateInsightRoute,
+  ApiPublicHooksMonthlyRetuneRoute: ApiPublicHooksMonthlyRetuneRoute,
+  ApiPublicHooksNewsAlertsRoute: ApiPublicHooksNewsAlertsRoute,
+  ApiPublicHooksNotifySubscribersRoute: ApiPublicHooksNotifySubscribersRoute,
+  ApiPublicHooksPaperTradeResolverRoute: ApiPublicHooksPaperTradeResolverRoute,
+  ApiPublicHooksReindexInsightsRoute: ApiPublicHooksReindexInsightsRoute,
+  ApiPublicHooksScanSignalsRoute: ApiPublicHooksScanSignalsRoute,
+  ApiPublicHooksSignalReversalMonitorRoute:
+    ApiPublicHooksSignalReversalMonitorRoute,
+  LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
+  LovableEmailAuthWebhookRoute: LovableEmailAuthWebhookRoute,
+  LovableEmailQueueProcessRoute: LovableEmailQueueProcessRoute,
+  LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
+  LovableEmailTransactionalSendRoute: LovableEmailTransactionalSendRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

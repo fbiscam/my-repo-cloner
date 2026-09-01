@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.lock_verified_profile_name() FROM PUBLIC, anon, authenticated;

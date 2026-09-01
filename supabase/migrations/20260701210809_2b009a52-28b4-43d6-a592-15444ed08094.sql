@@ -1,0 +1,1 @@
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS killzone_notice_dismissed boolean NOT NULL DEFAULT false;

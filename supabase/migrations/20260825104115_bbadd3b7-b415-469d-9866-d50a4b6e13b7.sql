@@ -1,0 +1,1 @@
+DROP TABLE IF EXISTS public.telegram_alert_links CASCADE;

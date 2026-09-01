@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.user_has_plan_feature(uuid, text) FROM anon, PUBLIC;

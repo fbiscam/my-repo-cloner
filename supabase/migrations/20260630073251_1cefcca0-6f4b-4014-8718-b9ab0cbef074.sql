@@ -1,0 +1,14 @@
+UPDATE insights SET image_url='/__l5e/assets-v1/77ca80b6-0cdc-4c36-a3e7-43965c89ccd6/gold-record-high-2026.jpg' WHERE slug='gold-record-high-2026';
+UPDATE insights SET image_url='/__l5e/assets-v1/e0c52650-e1f3-45de-9da8-f6632a390842/xauusd-today.jpg' WHERE slug='xauusd-today-gold-price-forecast-key-levels';
+UPDATE insights SET image_url='/__l5e/assets-v1/8db3c7f3-7955-4664-9375-5a491ecde8be/ict-killzones.jpg' WHERE slug='power-of-ict-killzones';
+UPDATE insights SET image_url='/__l5e/assets-v1/137f0cf3-aa51-4a72-88e3-127889af1fb6/ict-strategy-guide.jpg' WHERE slug='ict-trading-strategy-complete-guide-gold-traders';
+UPDATE insights SET image_url='/__l5e/assets-v1/5f3a5d34-ae39-4e79-a4c4-6e8a1af2ad9d/nfp-preview.jpg' WHERE slug='nfp-preview-june-2026';
+UPDATE insights SET image_url='/__l5e/assets-v1/44844b6f-61b7-4aec-b216-40dc0ca4f466/smc-explained.jpg' WHERE slug='smart-money-concepts-smc-explained';
+UPDATE insights SET image_url='/__l5e/assets-v1/48168840-a961-40ab-8711-2e210368b2ee/how-to-trade-gold.jpg' WHERE slug='how-to-trade-gold-xauusd-sessions-setups-risk';
+UPDATE insights SET image_url='/__l5e/assets-v1/d49e8efd-a475-48f3-9503-de7a9690d407/fvg-gold.jpg' WHERE slug='fair-value-gaps-fvg-gold-trading';
+UPDATE insights SET image_url='/__l5e/assets-v1/dfb8d5b5-0298-4084-a20d-eed0ecef0f68/order-blocks-breaker.jpg' WHERE slug='order-blocks-vs-breaker-blocks-guide';
+UPDATE insights SET image_url='/__l5e/assets-v1/e25427c1-58e9-493b-800a-bc8776b4b050/liquidity-grabs.jpg' WHERE slug='liquidity-grabs-stop-hunts-gold-trading';
+UPDATE insights SET image_url='/__l5e/assets-v1/10c75ac1-02c4-45f5-80fa-e6a3cad7a961/central-banks-gold.jpg' WHERE slug='central-banks-gold-accumulation';
+UPDATE insights SET image_url='/__l5e/assets-v1/25668936-8b9b-4e94-bdb9-b6f190529aa4/timeframes-confluence.jpg' WHERE slug='best-timeframes-ict-smc-gold-trading';
+UPDATE insights SET image_url='/__l5e/assets-v1/853fa830-54fd-4d79-8e4c-a53688342327/a-plus-checklist.jpg' WHERE slug='a-plus-setup-checklist-institutional-traders';
+UPDATE insights SET image_url='/__l5e/assets-v1/4ad79b56-5560-4c58-a86a-067faf1aa54b/ai-voice-trading.jpg' WHERE slug='ai-voice-trading-assistants-can-ai-call-gold-setups';

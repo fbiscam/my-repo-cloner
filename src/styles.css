@@ -1,8 +1,36 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+@import "@fontsource-variable/inter";
+
+@utility price-font {
+  font-family: "Inter Variable", "Inter", system-ui, sans-serif;
+  font-weight: 700;
+  font-variation-settings: "wght" 700;
+}
+
+/* Sidebar: hide scrollbar until hover */
+.sidebar-hover-scroll {
+  scrollbar-width: none;
+}
+.sidebar-hover-scroll::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+.sidebar-hover-scroll:hover {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+.sidebar-hover-scroll:hover::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar-hover-scroll:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 9999px;
+}
 
 @custom-variant dark (&:is(.dark *));
+
 
 /*
  * Design system definition.
@@ -19,6 +47,9 @@
  */
 
 @theme inline {
+  --font-display: "Google Sans", "Product Sans", "Poppins", system-ui, sans-serif;
+  --font-sans: "Google Sans", "Product Sans", "Poppins", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -63,38 +94,43 @@
 
 :root {
   --radius: 0.625rem;
+  /* Light theme — tuned for WCAG AA and color-blind safety.
+     Muted-foreground darkened to pass 4.5:1 on white.
+     Destructive shifted to orange-red (Okabe-Ito) so red/green confusion is reduced.
+     Chart palette follows Okabe-Ito color-blind-safe set. */
   --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
+  --foreground: oklch(0.145 0.02 264);           /* #1b1d24 — 16.5:1 on white */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
+  --card-foreground: oklch(0.145 0.02 264);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
+  --popover-foreground: oklch(0.145 0.02 264);
   --primary: oklch(0.208 0.042 265.755);
   --primary-foreground: oklch(0.984 0.003 247.858);
   --secondary: oklch(0.968 0.007 247.896);
   --secondary-foreground: oklch(0.208 0.042 265.755);
   --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
+  --muted-foreground: oklch(0.435 0.035 257);    /* darker: ~4.7:1 on white */
   --accent: oklch(0.968 0.007 247.896);
   --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  --destructive: oklch(0.55 0.22 29);            /* orange-red, distinguishable from green */
+  --destructive-foreground: oklch(0.99 0.003 247.858);
+  --border: oklch(0.9 0.013 255.508);
+  --input: oklch(0.9 0.013 255.508);
+  --ring: oklch(0.5 0.05 256.788);
+  /* Okabe-Ito color-blind-safe palette */
+  --chart-1: oklch(0.62 0.14 245);               /* blue */
+  --chart-2: oklch(0.68 0.13 190);               /* sky/teal */
+  --chart-3: oklch(0.72 0.17 60);                /* orange */
+  --chart-4: oklch(0.78 0.16 95);                /* yellow */
+  --chart-5: oklch(0.55 0.18 330);               /* reddish purple */
   --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
+  --sidebar-foreground: oklch(0.145 0.02 264);
   --sidebar-primary: oklch(0.208 0.042 265.755);
   --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
   --sidebar-accent: oklch(0.968 0.007 247.896);
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
+  --sidebar-border: oklch(0.9 0.013 255.508);
+  --sidebar-ring: oklch(0.5 0.05 256.788);
 }
 
 .dark {
@@ -109,27 +145,34 @@
   --secondary: oklch(0.279 0.041 260.031);
   --secondary-foreground: oklch(0.984 0.003 247.858);
   --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
+  --muted-foreground: oklch(0.78 0.03 256.788);   /* brightened for AA on dark bg */
   --accent: oklch(0.279 0.041 260.031);
   --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
+  --destructive: oklch(0.72 0.19 29);             /* orange-red on dark */
+  --destructive-foreground: oklch(0.145 0.02 264);
+  --border: oklch(1 0 0 / 15%);
+  --input: oklch(1 0 0 / 20%);
+  --ring: oklch(0.65 0.03 264.364);
+  --chart-1: oklch(0.7 0.14 245);
+  --chart-2: oklch(0.75 0.13 190);
+  --chart-3: oklch(0.78 0.17 60);
+  --chart-4: oklch(0.85 0.16 95);
+  --chart-5: oklch(0.68 0.18 330);
   --sidebar: oklch(0.208 0.042 265.755);
   --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary: oklch(0.7 0.14 245);
   --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
   --sidebar-accent: oklch(0.279 0.041 260.031);
   --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  --sidebar-border: oklch(1 0 0 / 15%);
+  --sidebar-ring: oklch(0.65 0.03 264.364);
+}
+
+
+:root {
+  --gold: #d4af37;
+  --gold-bright: #f5cf5a;
+  --cyan: #00e5ff;
 }
 
 @layer base {
@@ -137,8 +180,528 @@
     border-color: var(--color-border);
   }
 
+  html, body {
+    min-height: 100%;
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: "Google Sans", "Product Sans", "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
   }
+
+}
+
+/* Orb flowing color animations */
+@keyframes orb-drift-a {
+  0%   { transform: translate(-8%, -6%) rotate(0deg) scale(1); }
+  25%  { transform: translate(10%, -4%) rotate(90deg) scale(1.15); }
+  50%  { transform: translate(6%, 10%) rotate(180deg) scale(0.95); }
+  75%  { transform: translate(-10%, 8%) rotate(270deg) scale(1.1); }
+  100% { transform: translate(-8%, -6%) rotate(360deg) scale(1); }
+}
+@keyframes orb-drift-b {
+  0%   { transform: translate(8%, 6%) rotate(0deg) scale(1.05); }
+  33%  { transform: translate(-10%, 4%) rotate(-120deg) scale(0.9); }
+  66%  { transform: translate(4%, -10%) rotate(-240deg) scale(1.2); }
+  100% { transform: translate(8%, 6%) rotate(-360deg) scale(1.05); }
+}
+@keyframes orb-hue {
+  0%   { filter: blur(22px) hue-rotate(0deg) saturate(1.3); }
+  100% { filter: blur(22px) hue-rotate(360deg) saturate(1.3); }
+}
+@keyframes orb-shimmer {
+  0%, 100% { opacity: 0.6; transform: translate(0, 0) scale(1); }
+  50%      { opacity: 1;   transform: translate(3%, -3%) scale(1.08); }
+}
+@keyframes ticker-marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-ticker { animation: ticker-marquee 60s linear infinite; will-change: transform; }
+.animate-ticker:hover { animation-play-state: paused; }
+
+@keyframes jenvu-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes jenvu-scale-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.animate-fade-in { animation: jenvu-fade-in 180ms ease-out both; }
+.animate-scale-in { animation: jenvu-scale-in 220ms cubic-bezier(0.2, 0.9, 0.3, 1.2) both; }
+
+@keyframes otp-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+.animate-otp-shake { animation: otp-shake 0.42s cubic-bezier(.36,.07,.19,.97) both; }
+
+@keyframes terminal-blink {
+  0%, 40%, 80%, 100% { opacity: 1; }
+  20%, 60% { opacity: 0.15; }
+}
+.animate-terminal-blink { animation: terminal-blink 1s steps(1, end) infinite; }
+
+@keyframes shimmer {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(400%); }
+}
+
+@keyframes flow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+
+
+
+/* Mobile perf: silence heavy GPU animations on small screens to prevent lag */
+@media (max-width: 767px) {
+  .animate-ticker { animation-duration: 90s; }
+  [style*="orb-drift-a"],
+  [style*="orb-drift-b"],
+  [style*="orb-shimmer"],
+  [style*="orb-hue"] {
+    animation: none !important;
+  }
+  .animate-\[spin_18s_linear_infinite\],
+  .animate-\[spin_24s_linear_infinite_reverse\] {
+    animation: none !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *:not(.animate-ticker), *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  .animate-ticker { animation: ticker-marquee 60s linear infinite !important; }
+}
+
+
+/* Capacitor native: safe-area insets for notches / home indicator */
+:root {
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+}
+.safe-top { padding-top: var(--safe-top); }
+.safe-bottom { padding-bottom: var(--safe-bottom); }
+.safe-x { padding-left: var(--safe-left); padding-right: var(--safe-right); }
+
+/* Scrollbar hidden by default, shown on hover/focus/active */
+.scrollbar-auto-hide { scrollbar-width: none; -ms-overflow-style: none; }
+.scrollbar-auto-hide::-webkit-scrollbar { width: 0; height: 0; background: transparent; }
+.scrollbar-auto-hide:hover, .scrollbar-auto-hide:focus-within, .scrollbar-auto-hide:active { scrollbar-width: thin; }
+.scrollbar-auto-hide:hover::-webkit-scrollbar,
+.scrollbar-auto-hide:focus-within::-webkit-scrollbar,
+.scrollbar-auto-hide:active::-webkit-scrollbar { width: 6px; height: 6px; }
+.scrollbar-auto-hide::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.25); border-radius: 3px; }
+
+/* Per-page zoom scaling — proportional across laptop widths so blocks/text
+   keep the same layout and only scale with the viewport (no reflow). */
+/* Laptop range — unchanged */
+ @media (min-width: 1024px) { .jenvu-zoom { zoom: 1.05; } .jenvu-zoom-dashboard { zoom: 0.878; } }
+ @media (min-width: 1200px) { .jenvu-zoom { zoom: 1.15; } .jenvu-zoom-dashboard { zoom: 0.970; } }
+ @media (min-width: 1360px) { .jenvu-zoom { zoom: 1.28; } .jenvu-zoom-dashboard { zoom: 1.063; } }
+ @media (min-width: 1500px) { .jenvu-zoom { zoom: 1.4; } .jenvu-zoom-dashboard { zoom: 1.155; } }
+ /* Desktop range */
+ @media (min-width: 1600px) { .jenvu-zoom-dashboard { zoom: 1.271; } }
+ @media (min-width: 1680px) { .jenvu-zoom { zoom: 1.5; } .jenvu-zoom-dashboard { zoom: 1.342; } }
+ @media (min-width: 1920px) { .jenvu-zoom-dashboard { zoom: 1.432; } }
+
+
+
+
+@media (min-width: 1024px) { .killzones-root { zoom: 1.25; } }
+@media (min-width: 1280px) and (min-height: 800px) { .jenvu-auth-zoom { zoom: 1.21; } }
+
+/* Jenvu Leads: fixed desktop zoom across all laptop / desktop widths */
+@media (min-width: 1024px) { .leads-shell-zoom { zoom: 1.1; } }
+@media (min-width: 1280px) { .leads-shell-zoom { zoom: 1.1; } }
+@media (min-width: 1360px) { .leads-shell-zoom { zoom: 1.1; } }
+@media (min-width: 1500px) { .leads-shell-zoom { zoom: 1.1; } }
+@media (min-width: 1600px) { .leads-shell-zoom { zoom: 1.1; } }
+@media (min-width: 1680px) { .leads-shell-zoom { zoom: 1.1; } }
+@media (min-width: 1920px) { .leads-shell-zoom { zoom: 1.1; } }
+
+/* Founding page: no zoom on mobile/tablet; progressive zoom on desktop */
+@media (min-width: 1024px) { .founding-zoom { zoom: 1.15; } }
+@media (min-width: 1280px) { .founding-zoom { zoom: 1.28; } }
+@media (min-width: 1500px) { .founding-zoom { zoom: 1.44; } }
+
+
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar { width: 0; height: 0; background: transparent; }
+}
+
+/* ---------- Phase 1 polish utilities ---------- */
+
+/* Instrument Serif display accent — used only for hero headline emphasis */
+@utility font-serif-display {
+  font-family: "Instrument Serif", "Cormorant Garamond", ui-serif, Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Premium hover-lift for CTAs / cards — subtle scale + soft shadow */
+@utility hover-lift {
+  transition: transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px -12px rgba(24, 24, 27, 0.25),
+                0 4px 12px -4px rgba(24, 24, 27, 0.08);
+  }
+}
+
+/* Soft glow on hover — for outlined/secondary buttons */
+@utility hover-glow {
+  transition: box-shadow 240ms ease, border-color 240ms ease;
+  &:hover {
+    box-shadow: 0 0 0 4px rgba(24, 24, 27, 0.04),
+                0 8px 24px -12px rgba(24, 24, 27, 0.18);
+  }
+}
+
+/* Layered card depth — for dashboard stat cards */
+@utility card-elevated {
+  background: #ffffff;
+  border: 1px solid rgba(24, 24, 27, 0.06);
+  box-shadow:
+    0 1px 2px rgba(24, 24, 27, 0.04),
+    0 4px 16px -8px rgba(24, 24, 27, 0.06);
+  transition: box-shadow 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+              transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  &:hover {
+    box-shadow:
+      0 1px 2px rgba(24, 24, 27, 0.04),
+      0 12px 32px -12px rgba(24, 24, 27, 0.14);
+    transform: translateY(-2px);
+  }
+}
+
+/* Story-link underline — animated left-to-right on hover */
+@utility story-link {
+  position: relative;
+  display: inline-block;
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  &:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+/* Hero mesh backdrop — very subtle animated gradient orbs, CSS-only */
+@keyframes hero-mesh-a {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(4%, -3%, 0) scale(1.08); }
+}
+@keyframes hero-mesh-b {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.05); }
+  50%      { transform: translate3d(-4%, 4%, 0) scale(0.95); }
+}
+.hero-mesh {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.hero-mesh::before,
+.hero-mesh::after {
+  content: "";
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  opacity: 0.55;
+  will-change: transform;
+}
+.hero-mesh::before {
+  width: 480px; height: 480px;
+  left: -120px; top: -140px;
+  background: radial-gradient(circle at 30% 30%, rgba(212, 175, 55, 0.28), transparent 65%);
+  animation: hero-mesh-a 18s ease-in-out infinite;
+}
+.hero-mesh::after {
+  width: 560px; height: 560px;
+  right: -160px; top: 40px;
+  background: radial-gradient(circle at 70% 40%, rgba(0, 229, 255, 0.16), transparent 65%);
+  animation: hero-mesh-b 22s ease-in-out infinite;
+}
+@media (max-width: 767px) {
+  .hero-mesh::before, .hero-mesh::after { animation: none !important; opacity: 0.35; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-mesh::before, .hero-mesh::after { animation: none !important; }
+}
+
+
+
+/* Dashboard dark widget: retone reused white widgets to look native inside the Stealth Obsidian terminal */
+.dashboard-dark-widget {
+  color: rgb(212 212 216); /* zinc-300 */
+}
+.dashboard-dark-widget .bg-white,
+.dashboard-dark-widget .bg-\[\#FAFAFA\],
+.dashboard-dark-widget .bg-\[\#F8F8F8\],
+.dashboard-dark-widget .bg-zinc-50,
+.dashboard-dark-widget .bg-zinc-100 { background-color: transparent !important; }
+.dashboard-dark-widget .border-zinc-200,
+.dashboard-dark-widget .border-zinc-100 { border-color: rgb(39 39 42) !important; } /* zinc-800 */
+.dashboard-dark-widget .text-zinc-900 { color: rgb(244 244 245) !important; } /* zinc-100 */
+.dashboard-dark-widget .text-zinc-800 { color: rgb(228 228 231) !important; } /* zinc-200 */
+.dashboard-dark-widget .text-zinc-700 { color: rgb(212 212 216) !important; } /* zinc-300 */
+.dashboard-dark-widget .text-zinc-600 { color: rgb(161 161 170) !important; } /* zinc-400 */
+.dashboard-dark-widget .text-zinc-500 { color: rgb(113 113 122) !important; } /* zinc-500 */
+.dashboard-dark-widget .text-zinc-400 { color: rgb(82 82 91) !important; } /* zinc-600 */
+.dashboard-dark-widget .hover\:bg-zinc-50:hover,
+.dashboard-dark-widget .hover\:bg-zinc-100:hover { background-color: rgba(255,255,255,0.04) !important; }
+.dashboard-dark-widget .shadow-sm { box-shadow: none !important; }
+.dashboard-dark-widget .ring-zinc-200 { --tw-ring-color: rgb(39 39 42) !important; }
+
+/* ====== PWA Standalone (Installed App) Mode ====== */
+html[data-pwa="1"], html[data-pwa="1"] body {
+  overscroll-behavior-y: none;
+  -webkit-tap-highlight-color: transparent;
+}
+html[data-pwa="1"] body {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: calc(env(safe-area-inset-bottom) + 64px);
+}
+/* Hide website chrome inside the installed app */
+html[data-pwa="1"] .hide-in-pwa { display: none !important; }
+
+/* Hide dashboard sidebar in PWA — the bottom tab bar replaces it */
+html[data-pwa="1"] .dashboard-sidebar-root { display: none !important; }
+html[data-pwa="1"] .dashboard-main-shift { padding-left: 0 !important; margin-left: 0 !important; }
+
+/* App-mode bottom tab bar */
+.pwa-tabbar { display: none; }
+html[data-pwa="1"] .pwa-tabbar {
+  display: grid;
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 60;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  background: #ffffff;
+  border-top: 1px solid rgb(228 228 231);
+  padding: 6px 6px calc(6px + env(safe-area-inset-bottom));
+  font-family: "Google Sans", "Product Sans", "Roboto", system-ui, sans-serif;
+}
+.pwa-tabbar a {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 2px; padding: 6px 4px; border-radius: 12px;
+  font-size: 11px; color: rgb(82 82 91); text-decoration: none;
+}
+.pwa-tabbar a[data-active="true"] { color: #000; background: rgb(244 244 245); }
+.pwa-tabbar a .material-symbols-rounded { font-size: 22px; }
+
+/* ====== PWA App-Mode: iOS Cards look for dashboard blocks ====== */
+/* Softer background, bigger radii, layered shadows, no hard borders. */
+html[data-pwa="1"] body {
+  background: #ffffff !important;
+}
+html[data-pwa="1"] .jenvu-zoom,
+html[data-pwa="1"] .jenvu-zoom-dashboard {
+  zoom: 1 !important;
+  background: #ffffff !important;
+}
+
+/* Upgrade every card-ish surface inside the app */
+html[data-pwa="1"] main .rounded-xl,
+html[data-pwa="1"] main .rounded-2xl,
+html[data-pwa="1"] main .rounded-\[14px\],
+html[data-pwa="1"] main .rounded-\[16px\],
+html[data-pwa="1"] main .rounded-lg {
+  border-radius: 20px !important;
+}
+html[data-pwa="1"] main .bg-white {
+  background-color: #ffffff !important;
+  border-color: transparent !important;
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.04),
+    0 8px 24px -12px rgba(0,0,0,0.08) !important;
+}
+html[data-pwa="1"] main .border,
+html[data-pwa="1"] main .border-zinc-100,
+html[data-pwa="1"] main .border-zinc-200 {
+  border-color: transparent !important;
+}
+/* More generous padding on primary card blocks */
+html[data-pwa="1"] main .p-4 { padding: 18px !important; }
+html[data-pwa="1"] main .p-5 { padding: 20px !important; }
+html[data-pwa="1"] main .p-6 { padding: 22px !important; }
+
+/* Section headings as iOS-style small caps labels */
+html[data-pwa="1"] main h2 {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  color: rgb(113 113 122) !important;
+  padding: 0 8px 8px !important;
+  border: 0 !important;
+}
+/* Big hero numbers/balances */
+html[data-pwa="1"] main .text-3xl,
+html[data-pwa="1"] main .text-4xl {
+  letter-spacing: -0.02em !important;
+  font-weight: 700 !important;
+}
+
+/* Buttons feel more tactile — pill shape */
+html[data-pwa="1"] main button,
+html[data-pwa="1"] main a[role="button"] {
+  border-radius: 14px !important;
+}
+
+/* Tighten outer container gutter, iOS-style edge padding */
+html[data-pwa="1"] main {
+  padding-left: 14px !important;
+  padding-right: 14px !important;
+}
+
+/* Grouped list rows — remove double borders inside stacked lists */
+html[data-pwa="1"] main .divide-y > * + * {
+  border-color: rgba(0,0,0,0.06) !important;
+}
+
+/* Tab bar shadow lift */
+html[data-pwa="1"] .pwa-tabbar {
+  box-shadow: 0 -8px 24px -12px rgba(0,0,0,0.08);
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+}
+
+/* ====== Desktop Dashboard: iOS Cards look (matches PWA app-mode) ====== */
+/* Apply the same softer surfaces, bigger radii, and layered shadows to the
+   desktop dashboard shell. Scoped to .jenvu-zoom-dashboard so marketing
+   pages stay untouched. PWA rules above still win on mobile via !important. */
+.jenvu-zoom-dashboard {
+  background: #ffffff !important;
+}
+.jenvu-zoom-dashboard main .rounded-xl,
+.jenvu-zoom-dashboard main .rounded-2xl,
+.jenvu-zoom-dashboard main .rounded-\[14px\],
+.jenvu-zoom-dashboard main .rounded-\[16px\],
+.jenvu-zoom-dashboard main .rounded-lg {
+  border-radius: 20px !important;
+}
+.jenvu-zoom-dashboard main .bg-white {
+  background-color: #ffffff !important;
+  border: 1px solid rgba(0,0,0,0.06) !important;
+  box-shadow:
+    0 1px 2px rgba(60,64,67,0.06),
+    0 1px 3px rgba(60,64,67,0.08) !important;
+}
+.jenvu-zoom-dashboard main .border,
+.jenvu-zoom-dashboard main .border-zinc-100,
+.jenvu-zoom-dashboard main .border-zinc-200 {
+  border-color: rgba(0,0,0,0.08) !important;
+}
+
+.jenvu-zoom-dashboard main h1,
+.jenvu-zoom-dashboard main h2,
+.jenvu-zoom-dashboard main h3,
+.jenvu-zoom-dashboard main h4 {
+  color: #000 !important;
+  text-transform: lowercase !important;
+  margin-left: -5px !important;
+}
+.jenvu-zoom-dashboard main h1::first-letter,
+.jenvu-zoom-dashboard main h2::first-letter,
+.jenvu-zoom-dashboard main h3::first-letter,
+.jenvu-zoom-dashboard main h4::first-letter {
+  text-transform: uppercase !important;
+}
+
+
+
+.jenvu-zoom-dashboard main .p-4 { padding: 18px !important; }
+.jenvu-zoom-dashboard main .p-5 { padding: 20px !important; }
+.jenvu-zoom-dashboard main .p-6 { padding: 24px !important; }
+
+.jenvu-zoom-dashboard main h2 {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  text-transform: lowercase !important;
+  letter-spacing: 0 !important;
+  color: rgb(0 0 0) !important;
+  padding: 0 0 8px !important;
+  margin-left: -5px !important;
+  margin-right: 0 !important;
+  border: 0 !important;
+}
+.jenvu-zoom-dashboard main h2::first-letter {
+  text-transform: uppercase !important;
+}
+.jenvu-zoom-dashboard main .text-3xl,
+.jenvu-zoom-dashboard main .text-4xl {
+  letter-spacing: -0.02em !important;
+  font-weight: 700 !important;
+}
+.jenvu-zoom-dashboard main button,
+.jenvu-zoom-dashboard main a[role="button"] {
+  border-radius: 14px !important;
+}
+.jenvu-zoom-dashboard main .divide-y > * + * {
+  border-color: rgba(0,0,0,0.06) !important;
+}
+
+/* ====== Dashboard Sidebar: plain full-height ====== */
+.dashboard-sidebar-root {
+  background-color: #ffffff !important;
+}
+.dashboard-sidebar-root .sidebar-group-label,
+.dashboard-sidebar-root nav > div > div:first-child {
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  font-size: 11px !important;
+  color: rgb(113 113 122) !important;
+}
+
+
+
+/* ====== Material Symbols ligature flash guard ====== */
+/* Until the icon font is ready, hide the ligature text (e.g. "space_dashboard")
+   so sidebars never render raw words. A timeout fallback reveals them anyway. */
+.material-symbols-rounded {
+  font-family: "Material Symbols Rounded", sans-serif;
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 20;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: "liga";
+  font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+}
+html:not(.ms-icons-ready) .material-symbols-rounded {
+  visibility: hidden;
+  color: transparent;
 }

@@ -1,0 +1,1 @@
+UPDATE public.system_settings SET value = jsonb_set(jsonb_set(value, '{min_conf}', '55'::jsonb), '{confirm_window_min}', '90'::jsonb) WHERE key = 'auto_scan_config';
