@@ -1184,7 +1184,7 @@ function HomePage() {
                   { f: "Voice queries / day", b: "Unlimited", c: "Unlimited", d: "Unlimited" },
                   { f: "Signal latency", b: "Realtime", c: "Realtime", d: "Realtime" },
                   { f: "A+ signal access", b: true, c: true, d: true },
-                  { f: "ICT / SMC narration", b: true, c: true, d: true },
+                  { f: "ICT / SMC narration", b: true, c: true, d: true, badge: "New" },
                   { f: "Multi-timeframe bias", b: true, c: true, d: true },
                   { f: "Trade journal", b: true, c: true, d: true },
                   { f: "Email + push alerts", b: true, c: true, d: true },
