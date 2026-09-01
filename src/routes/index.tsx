@@ -584,162 +584,164 @@ function HomePage() {
           </div>
 
           {/* body */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-px bg-zinc-100">
-            {/* LEFT — prediction chart */}
-            <div className="group relative lg:col-span-8 bg-white p-5 sm:p-6 flex flex-col min-h-[330px] sm:min-h-[440px]">
-              <div className="flex flex-1 flex-col blur-[3px] select-none transition-[filter] duration-300 group-hover:blur-[3px]">
-              <div className="flex flex-wrap items-end justify-between gap-4">
-                <div>
-                  <h2 className={`text-[10px] font-bold ${MONO} text-zinc-900 tracking-widest uppercase`}>
-                    XAU/USD · Price Projection
-                  </h2>
-                  <div className="mt-2 flex items-end gap-3">
-                    <span className="text-2xl font-semibold tracking-tight sm:text-3xl">{proj.price}</span>
-                    <span className={`pb-1 text-xs font-medium ${proj.up ? "text-emerald-600" : "text-red-600"}`}>{proj.changePct}</span>
+          <div className="relative">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-px bg-zinc-100 blur-[10px] select-none">
+              {/* LEFT — prediction chart */}
+              <div className="lg:col-span-8 bg-white p-5 sm:p-6 flex flex-col min-h-[330px] sm:min-h-[440px]">
+                <div className="flex flex-1 flex-col">
+                  <div className="flex flex-wrap items-end justify-between gap-4">
+                    <div>
+                      <h2 className={`text-[10px] font-bold ${MONO} text-zinc-900 tracking-widest uppercase`}>
+                        XAU/USD · Price Projection
+                      </h2>
+                      <div className="mt-2 flex items-end gap-3">
+                        <span className="text-2xl font-semibold tracking-tight sm:text-3xl">{proj.price}</span>
+                        <span className={`pb-1 text-xs font-medium ${proj.up ? "text-emerald-600" : "text-red-600"}`}>{proj.changePct}</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-1.5">
+                        <span className="h-px w-5 bg-zinc-900" />
+                        <span className={`text-[10px] ${MONO} uppercase text-zinc-500`}>Actual</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="h-px w-5 bg-emerald-500 [background-image:repeating-linear-gradient(90deg,currentColor_0,currentColor_3px,transparent_3px,transparent_6px)] text-emerald-500" />
+                        <span className={`text-[10px] ${MONO} uppercase text-zinc-500`}>Forecast</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-1.5">
-                    <span className="h-px w-5 bg-zinc-900" />
-                    <span className={`text-[10px] ${MONO} uppercase text-zinc-500`}>Actual</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <span className="h-px w-5 bg-emerald-500 [background-image:repeating-linear-gradient(90deg,currentColor_0,currentColor_3px,transparent_3px,transparent_6px)] text-emerald-500" />
-                    <span className={`text-[10px] ${MONO} uppercase text-zinc-500`}>Forecast</span>
-                  </div>
-                </div>
-              </div>
 
-              <div className="relative mt-6 flex-1">
-                <svg viewBox="0 0 600 240" preserveAspectRatio="none" className="h-full min-h-[190px] w-full">
-                  <defs>
-                    <linearGradient id="xauFill" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#18181b" stopOpacity="0.14" />
-                      <stop offset="100%" stopColor="#18181b" stopOpacity="0" />
-                    </linearGradient>
-                    <linearGradient id="xauBand" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#10b981" stopOpacity="0.18" />
-                      <stop offset="100%" stopColor="#10b981" stopOpacity="0.02" />
-                    </linearGradient>
-                  </defs>
-                  {[40, 90, 140, 190].map((y) => (
-                    <line key={y} x1="0" y1={y} x2="600" y2={y} stroke="#f4f4f5" strokeWidth="1" />
-                  ))}
-                  {/* forecast confidence band */}
-                  <path d={proj.bandPath} fill="url(#xauBand)" />
-                  {/* historical area + line */}
-                  <path d={proj.actualArea} fill="url(#xauFill)" />
-                  <path
-                    d={proj.actualPath}
-                    fill="none"
-                    stroke="#18181b"
-                    strokeWidth="2"
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                  />
-                  {/* forecast line */}
-                  <path
-                    d={proj.forecastPath}
-                    fill="none"
-                    stroke={proj.biasLabel === "Bearish" ? "#ef4444" : "#10b981"}
-                    strokeWidth="2"
-                    strokeDasharray="5 5"
-                    strokeLinecap="round"
-                  />
-                  <line x1="360" y1="0" x2="360" y2="240" stroke="#e4e4e7" strokeWidth="1" strokeDasharray="3 4" />
-                  <circle cx="360" cy={proj.nowY} r="4" fill="#18181b" />
-                  <circle cx="600" cy={proj.endY} r="4" fill={proj.biasLabel === "Bearish" ? "#ef4444" : "#10b981"} />
-                </svg>
-                <span className={`absolute left-[59%] top-0 text-[9px] ${MONO} uppercase text-zinc-400`}>now</span>
-              </div>
-
-              <div className="mt-4 grid grid-cols-4 gap-px overflow-hidden rounded-lg border border-zinc-100 bg-zinc-100">
-                {proj.tf.map(([k, v]) => (
-                  <div key={k} className="bg-white px-3 py-2">
-                    <div className={`text-[9px] ${MONO} uppercase tracking-widest text-zinc-400`}>{k}</div>
-                    <div className={`mt-1 text-xs font-semibold ${MONO}`}>{v}</div>
-                  </div>
-                ))}
-                </div>
-              </div>
-
-              {/* locked overlay — reveals on hover / touch */}
-              <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-white/55 opacity-0 backdrop-blur-[1px] transition-opacity duration-300 group-hover:opacity-100 group-focus-within:opacity-100 group-active:opacity-100">
-                <img
-                  src={eyeIcon.url}
-                  alt="Sign in to view"
-                  className="h-8 w-8 animate-[pulse_1.6s_cubic-bezier(0.4,0,0.6,1)_infinite] drop-shadow-sm"
-                />
-                <p className={`text-[11px] font-semibold ${MONO} uppercase tracking-[0.2em] text-zinc-900`}>
-                  Sign In For full view
-                </p>
-                <Link
-                  to="/auth"
-                  className="pointer-events-auto rounded-full bg-zinc-900 px-5 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-white transition-transform duration-200 hover:scale-105"
-                >
-                  Sign In
-                </Link>
-              </div>
-            </div>
-
-            {/* RIGHT — model read-out */}
-            <div className="lg:col-span-4 bg-white p-5 sm:p-6 lg:border-l border-zinc-100">
-              <h2 className={`text-[10px] font-bold ${MONO} text-zinc-900 tracking-widest uppercase mb-4`}>
-                Model Read-Out
-              </h2>
-              <div className="space-y-6">
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-zinc-900">Directional Bias</span>
-                    <span className={`text-xs font-medium ${proj.biasLabel === "Bearish" ? "text-red-600" : proj.biasLabel === "Neutral" ? "text-zinc-500" : "text-emerald-600"}`}>
-                      {proj.biasLabel}
-                    </span>
-                  </div>
-                  <div className="flex h-1 w-full overflow-hidden rounded-full bg-zinc-100">
-                    <div
-                      className={proj.biasLabel === "Bearish" ? "bg-red-500" : "bg-emerald-500"}
-                      style={{ width: `${proj.longPct}%` }}
-                    />
-                    <div className="bg-zinc-200" style={{ width: `${100 - proj.longPct}%` }} />
-                  </div>
-                  <div className={`flex justify-between text-[10px] ${MONO} text-zinc-400`}>
-                    <span>{proj.longPct}% long</span>
-                    <span>{100 - proj.longPct}% short</span>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex items-end justify-between">
-                    <span className={`text-[10px] ${MONO} uppercase text-zinc-500`}>Model Confidence</span>
-                    <span className="text-xs font-semibold">{proj.confidence}%</span>
-                  </div>
-                  <div className="flex h-16 items-end gap-0.5 rounded border border-zinc-100 p-2">
-                    {proj.confidenceSeries.map((h, i) => (
-                      <div
-                        key={i}
-                        className={`flex-1 rounded-t-sm ${h > 75 ? "bg-emerald-500" : h > 60 ? "bg-zinc-400" : "bg-zinc-200"}`}
-                        style={{ height: `${h}%` }}
+                  <div className="relative mt-6 flex-1">
+                    <svg viewBox="0 0 600 240" preserveAspectRatio="none" className="h-full min-h-[190px] w-full">
+                      <defs>
+                        <linearGradient id="xauFill" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#18181b" stopOpacity="0.14" />
+                          <stop offset="100%" stopColor="#18181b" stopOpacity="0" />
+                        </linearGradient>
+                        <linearGradient id="xauBand" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#10b981" stopOpacity="0.18" />
+                          <stop offset="100%" stopColor="#10b981" stopOpacity="0.02" />
+                        </linearGradient>
+                      </defs>
+                      {[40, 90, 140, 190].map((y) => (
+                        <line key={y} x1="0" y1={y} x2="600" y2={y} stroke="#f4f4f5" strokeWidth="1" />
+                      ))}
+                      {/* forecast confidence band */}
+                      <path d={proj.bandPath} fill="url(#xauBand)" />
+                      {/* historical area + line */}
+                      <path d={proj.actualArea} fill="url(#xauFill)" />
+                      <path
+                        d={proj.actualPath}
+                        fill="none"
+                        stroke="#18181b"
+                        strokeWidth="2"
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
                       />
+                      {/* forecast line */}
+                      <path
+                        d={proj.forecastPath}
+                        fill="none"
+                        stroke={proj.biasLabel === "Bearish" ? "#ef4444" : "#10b981"}
+                        strokeWidth="2"
+                        strokeDasharray="5 5"
+                        strokeLinecap="round"
+                      />
+                      <line x1="360" y1="0" x2="360" y2="240" stroke="#e4e4e7" strokeWidth="1" strokeDasharray="3 4" />
+                      <circle cx="360" cy={proj.nowY} r="4" fill="#18181b" />
+                      <circle cx="600" cy={proj.endY} r="4" fill={proj.biasLabel === "Bearish" ? "#ef4444" : "#10b981"} />
+                    </svg>
+                    <span className={`absolute left-[59%] top-0 text-[9px] ${MONO} uppercase text-zinc-400`}>now</span>
+                  </div>
+
+                  <div className="mt-4 grid grid-cols-4 gap-px overflow-hidden rounded-lg border border-zinc-100 bg-zinc-100">
+                    {proj.tf.map(([k, v]) => (
+                      <div key={k} className="bg-white px-3 py-2">
+                        <div className={`text-[9px] ${MONO} uppercase tracking-widest text-zinc-400`}>{k}</div>
+                        <div className={`mt-1 text-xs font-semibold ${MONO}`}>{v}</div>
+                      </div>
                     ))}
                   </div>
                 </div>
-
-                <div className="grid grid-cols-2 gap-2">
-                  {proj.readout.map(([k, v]) => (
-                    <div key={k} className="rounded-lg border border-zinc-100 p-2">
-                      <p className={`text-[10px] ${MONO} text-zinc-500`}>{k}</p>
-                      <p className={`text-xs ${MONO} font-medium`}>{v}</p>
-                    </div>
-                  ))}
-                </div>
-
-                <Link
-                  to="/signals-live"
-                  className={`w-full inline-flex items-center justify-center mt-2 py-3 bg-zinc-900 text-white text-[11px] font-semibold tracking-[0.18em] rounded-lg hover:bg-zinc-800 transition-colors uppercase`}
-                >
-                  View Live Signals
-                </Link>
               </div>
+
+              {/* RIGHT — model read-out */}
+              <div className="lg:col-span-4 bg-white p-5 sm:p-6 lg:border-l border-zinc-100">
+                <h2 className={`text-[10px] font-bold ${MONO} text-zinc-900 tracking-widest uppercase mb-4`}>
+                  Model Read-Out
+                </h2>
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-zinc-900">Directional Bias</span>
+                      <span className={`text-xs font-medium ${proj.biasLabel === "Bearish" ? "text-red-600" : proj.biasLabel === "Neutral" ? "text-zinc-500" : "text-emerald-600"}`}>
+                        {proj.biasLabel}
+                      </span>
+                    </div>
+                    <div className="flex h-1 w-full overflow-hidden rounded-full bg-zinc-100">
+                      <div
+                        className={proj.biasLabel === "Bearish" ? "bg-red-500" : "bg-emerald-500"}
+                        style={{ width: `${proj.longPct}%` }}
+                      />
+                      <div className="bg-zinc-200" style={{ width: `${100 - proj.longPct}%` }} />
+                    </div>
+                    <div className={`flex justify-between text-[10px] ${MONO} text-zinc-400`}>
+                      <span>{proj.longPct}% long</span>
+                      <span>{100 - proj.longPct}% short</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <div className="flex items-end justify-between">
+                      <span className={`text-[10px] ${MONO} uppercase text-zinc-500`}>Model Confidence</span>
+                      <span className="text-xs font-semibold">{proj.confidence}%</span>
+                    </div>
+                    <div className="flex h-16 items-end gap-0.5 rounded border border-zinc-100 p-2">
+                      {proj.confidenceSeries.map((h, i) => (
+                        <div
+                          key={i}
+                          className={`flex-1 rounded-t-sm ${h > 75 ? "bg-emerald-500" : h > 60 ? "bg-zinc-400" : "bg-zinc-200"}`}
+                          style={{ height: `${h}%` }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2">
+                    {proj.readout.map(([k, v]) => (
+                      <div key={k} className="rounded-lg border border-zinc-100 p-2">
+                        <p className={`text-[10px] ${MONO} text-zinc-500`}>{k}</p>
+                        <p className={`text-xs ${MONO} font-medium`}>{v}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <Link
+                    to="/signals-live"
+                    className={`w-full inline-flex items-center justify-center mt-2 py-3 bg-zinc-900 text-white text-[11px] font-semibold tracking-[0.18em] rounded-lg hover:bg-zinc-800 transition-colors uppercase`}
+                  >
+                    View Live Signals
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* locked overlay — fully hides the entire projection design */}
+            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-white/95 opacity-100 backdrop-blur-[8px] transition-opacity duration-300">
+              <img
+                src={eyeIcon.url}
+                alt="Sign in to view"
+                className="h-8 w-8 animate-[pulse_1.6s_cubic-bezier(0.4,0,0.6,1)_infinite] drop-shadow-sm"
+              />
+              <p className={`text-[11px] font-semibold ${MONO} uppercase tracking-[0.2em] text-zinc-900`}>
+                Sign In For full view
+              </p>
+              <Link
+                to="/auth"
+                className="rounded-full bg-zinc-900 px-5 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-white transition-transform duration-200 hover:scale-105"
+              >
+                Sign In
+              </Link>
             </div>
           </div>
 
