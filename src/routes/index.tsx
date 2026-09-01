@@ -664,24 +664,6 @@ function HomePage() {
                   </div>
                 </div>
 
-                {/* locked overlay — only hides the chart */}
-                <div className="absolute inset-0 z-10 flex flex-col items-center justify-start gap-3 bg-white/95 pt-10 sm:pt-14 backdrop-blur-[8px]">
-                  <img
-                    src={eyeIcon.url}
-                    alt="Sign in to view"
-                    className="h-16 w-16 sm:h-20 sm:w-20 object-contain animate-[pulse_1.6s_cubic-bezier(0.4,0,0.6,1)_infinite]"
-                  />
-                  <p className={`text-[11px] font-semibold ${MONO} uppercase tracking-[0.2em] text-zinc-900`}>
-                    Sign In For full view
-                  </p>
-                  <Link
-                    to="/auth"
-                    className="rounded-full bg-zinc-900 px-5 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-white transition-transform duration-200 hover:scale-105"
-                  >
-                    Sign In
-                  </Link>
-                </div>
-
               </div>
 
               {/* RIGHT — model read-out (always visible) */}
