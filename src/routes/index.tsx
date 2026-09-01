@@ -371,7 +371,8 @@ function buildProjectionView(p: XauProjection | null) {
 
 function HomePage() {
   const ticker = useLiveTicker();
-  const projection = useXauProjection();
+  const initialProjection = (Route.useLoaderData() as { projection?: XauProjection | null } | undefined)?.projection ?? null;
+  const projection = useXauProjection(initialProjection);
   const proj = React.useMemo(() => buildProjectionView(projection), [projection]);
   const currentPlan = useCurrentPlan();
   const upgradeLock = useUpgradeLock();
