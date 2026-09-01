@@ -68,6 +68,7 @@ function HeroBanners() {
   );
 }
 
+import { Check, Sparkles, Zap, Crown, Minus, Menu, X } from "lucide-react";
 
 import xaiLogo from "@/assets/xai-logo.png";
 
