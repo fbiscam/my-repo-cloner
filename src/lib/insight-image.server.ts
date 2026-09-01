@@ -24,9 +24,56 @@ function coverPrompt(title: string, category: string): string {
   ].join(" ");
 }
 
+// Direct Google AI Studio (Gemini) image generation using the user's own key.
+const GOOGLE_IMAGE_MODELS = [
+  "gemini-3-pro-image-preview",
+  "gemini-2.5-flash-image",
+] as const;
+
+async function generateWithGoogle(prompt: string): Promise<{ b64: string; model: string } | null> {
+  const key = process.env.GOOGLE_AI_API_KEY;
+  if (!key) return null;
+
+  for (const model of GOOGLE_IMAGE_MODELS) {
+    try {
+      const res = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
+        {
+          method: "POST",
+          headers: { "x-goog-api-key": key, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ role: "user", parts: [{ text: prompt }] }],
+            generationConfig: { responseModalities: ["IMAGE"] },
+          }),
+        },
+      );
+
+      if (!res.ok) {
+        console.warn("[insight-image] google failed", model, res.status, (await res.text()).slice(0, 200));
+        continue;
+      }
+
+      const json = (await res.json()) as any;
+      const parts: any[] = json?.candidates?.[0]?.content?.parts ?? [];
+      const inline = parts.find((p) => p?.inlineData?.data)?.inlineData?.data;
+      if (typeof inline === "string" && inline.length > 100) {
+        return { b64: inline, model: `google:${model}` };
+      }
+      console.warn("[insight-image] google returned no image", model);
+    } catch (e) {
+      console.warn("[insight-image] google threw", model, String(e));
+    }
+  }
+  return null;
+}
+
 async function generateBase64(prompt: string): Promise<{ b64: string; model: string } | null> {
+  const viaGoogle = await generateWithGoogle(prompt);
+  if (viaGoogle) return viaGoogle;
+
   const key = process.env.LOVABLE_API_KEY;
   if (!key) return null;
+
 
   for (const model of IMAGE_MODELS) {
     try {
