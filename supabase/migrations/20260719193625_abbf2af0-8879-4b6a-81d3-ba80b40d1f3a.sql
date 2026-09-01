@@ -1,0 +1,1 @@
+UPDATE public.user_subscriptions SET plan_id='ultra', status='active', current_period_start=now(), current_period_end=now()+interval '30 days', updated_at=now() WHERE user_id='93576b55-c1e2-4d58-a7b7-03183e661419';

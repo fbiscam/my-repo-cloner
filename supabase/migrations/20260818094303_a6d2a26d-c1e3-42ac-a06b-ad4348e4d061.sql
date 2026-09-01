@@ -1,0 +1,1 @@
+UPDATE public.signal_paper_trades SET outcome = 'not_triggered', realized_r = 0, resolution_method = 'managed_tp1_be_v3' WHERE outcome = 'loss' AND pair = 'XAUUSD' AND fired_at > now() - interval '48 hours' AND NOT EXISTS (SELECT 1 FROM public.signal_paper_trades WHERE id = public.signal_paper_trades.id AND outcome = 'win');

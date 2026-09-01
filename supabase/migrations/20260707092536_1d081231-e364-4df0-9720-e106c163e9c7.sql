@@ -1,0 +1,1 @@
+ALTER TABLE public.trade_journal ADD COLUMN IF NOT EXISTS source TEXT NOT NULL DEFAULT 'system';

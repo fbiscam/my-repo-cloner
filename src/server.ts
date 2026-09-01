@@ -1,7 +1,23 @@
 import "./lib/error-capture";
 
+// Eagerly register all server-fn modules with the Worker runtime so their
+// handler IDs are present in the manifest before the first client call.
+// Without these static imports, lazy `getServerFnById()` lookups fail with
+// "Server function info not found for ..." on Cloudflare Workers (the dev
+// warm-loader in vite.config.ts covers dev only).
+import "./lib/gold-analysis.functions";
+import "./lib/signal-agent.functions";
+import "./lib/signal-alerts.functions";
+import "./lib/news.functions";
+import "./lib/credits.functions";
+import "./lib/contact.functions";
+import "./lib/voice-history.functions";
+import "./lib/backtest.functions";
+import "./lib/backtest-historical.functions";
+
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
+
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -26,7 +42,9 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
   if (!contentType.includes("application/json")) return response;
 
   const body = await response.clone().text();
-  if (!isH3SwallowedErrorBody(body)) return response;
+  if (!body.includes('"unhandled":true') || !body.includes('"message":"HTTPError"')) {
+    return response;
+  }
 
   console.error(consumeLastCapturedError() ?? new Error(`h3 swallowed SSR error: ${body}`));
   return new Response(renderErrorPage(), {
@@ -35,21 +53,24 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
   });
 }
 
-function isH3SwallowedErrorBody(body: string): boolean {
-  try {
-    const payload = JSON.parse(body) as { unhandled?: unknown; message?: unknown };
-    return payload.unhandled === true && payload.message === "HTTPError";
-  } catch {
-    return false;
-  }
-}
+// Subdomain mounting and dashboard URL rewriting are handled in
+// src/lib/url-rewrite.ts and applied by the router in src/router.tsx.
+// On the server we also redirect old subdomain URLs and legacy /dashboard/*
+// paths to the clean apex-domain URLs.
+import { apexRedirectTarget } from "./lib/url-rewrite";
+
 
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
+      const target = apexRedirectTarget(new URL(request.url));
+      if (target) return Response.redirect(target, 301);
+
       const handler = await getServerEntry();
+
       const response = await handler.fetch(request, env, ctx);
       return await normalizeCatastrophicSsrResponse(response);
+
     } catch (error) {
       console.error(error);
       return new Response(renderErrorPage(), {

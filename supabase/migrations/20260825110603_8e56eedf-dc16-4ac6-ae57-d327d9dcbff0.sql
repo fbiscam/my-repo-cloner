@@ -1,0 +1,2 @@
+ALTER TABLE public.founding_documents ALTER COLUMN doc_kind SET DEFAULT 'identity';
+COMMENT ON COLUMN public.founding_documents.doc_kind IS 'Document kind: identity or driving_license. Earning proof is no longer collected.';

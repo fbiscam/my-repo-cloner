@@ -1,0 +1,2 @@
+ALTER TABLE public.founding_documents ADD COLUMN IF NOT EXISTS doc_kind text NOT NULL DEFAULT 'earning_proof';
+CREATE INDEX IF NOT EXISTS founding_documents_doc_kind_idx ON public.founding_documents (doc_kind);

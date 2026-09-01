@@ -1,0 +1,2 @@
+ALTER TABLE public.signal_alert_subscribers ADD COLUMN IF NOT EXISTS user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL;
+CREATE INDEX IF NOT EXISTS signal_alert_subscribers_user_id_idx ON public.signal_alert_subscribers(user_id);

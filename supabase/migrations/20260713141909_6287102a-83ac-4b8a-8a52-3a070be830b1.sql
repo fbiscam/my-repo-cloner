@@ -1,0 +1,1 @@
+UPDATE public.plans SET feature_realtime_alerts = false WHERE id = 'free';

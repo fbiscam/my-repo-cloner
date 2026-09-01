@@ -1,0 +1,1 @@
+ALTER TABLE public.founding_applications ADD COLUMN IF NOT EXISTS whatsapp_number text;

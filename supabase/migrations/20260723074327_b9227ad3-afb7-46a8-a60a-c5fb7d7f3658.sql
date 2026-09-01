@@ -1,0 +1,1 @@
+DROP POLICY IF EXISTS "signal_alert_subscribers_public_insert" ON public.signal_alert_subscribers;

@@ -1,0 +1,21 @@
+# Jenvu AI
+
+> Institutional-grade AI trading intelligence for Gold. Jenvu is a XAU-only desk covering XAU/USD, XAU/EUR, XAU/GBP, XAU/JPY, XAU/AUD and XAU/CHF. It combines an ICT/SMC signal engine, a gold-specialist voice agent, and a live annotated chart desk to deliver A+ setups with multi-timeframe bias.
+
+## Pages
+
+- [Home](/): Overview of the Jenvu gold desk — voice agent, signal engine and terminal workstation.
+- [Live Signal Desk](/signal): Real-time ICT & SMC gold signal desk with A+ setup scoring and voice narration for every XAU cross-pair.
+- [AI Engine](/ai-engine): How the two-stage AI pipeline scores institutional gold setups.
+- [Pricing](/pricing): Free, Pro ($29/mo) and Elite ($99/mo) credit-based plans.
+- [Download](/download): iOS and Android app downloads.
+- [Insights](/insights): Daily AI-authored gold and macro market analysis.
+- [Help Center](/help): Product guides for the gold voice agent, signal engine and trade journal.
+- [About](/about): Mission and product philosophy behind Jenvu.
+- [Contact](/contact): Reach the team.
+
+## Optional
+
+- [Privacy](/privacy): Privacy policy.
+- [Terms](/terms): Terms of service.
+- [Disclaimer](/disclaimer): Trading risk disclaimer.

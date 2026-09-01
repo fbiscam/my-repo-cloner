@@ -1,0 +1,2 @@
+ALTER TABLE public.trade_journal DROP CONSTRAINT IF EXISTS trade_journal_outcome_check;
+ALTER TABLE public.trade_journal ADD CONSTRAINT trade_journal_outcome_check CHECK (outcome = ANY (ARRAY['pending'::text,'open'::text,'win'::text,'loss'::text,'breakeven'::text]));

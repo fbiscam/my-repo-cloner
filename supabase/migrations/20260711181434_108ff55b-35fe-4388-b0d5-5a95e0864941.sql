@@ -1,0 +1,1 @@
+ALTER TABLE public.signal_locks ADD COLUMN IF NOT EXISTS tp1_px numeric;

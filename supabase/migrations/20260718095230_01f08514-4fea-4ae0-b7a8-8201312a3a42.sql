@@ -1,0 +1,1 @@
+ALTER TABLE public.alert_preferences ADD COLUMN IF NOT EXISTS timezone TEXT;

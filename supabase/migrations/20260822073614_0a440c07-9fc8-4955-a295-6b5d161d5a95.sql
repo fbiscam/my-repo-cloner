@@ -1,0 +1,1 @@
+UPDATE system_settings SET value = value || jsonb_build_object('min_conf', 75, 'single_hit_min_conf', 75) WHERE key = 'auto_scan_config'

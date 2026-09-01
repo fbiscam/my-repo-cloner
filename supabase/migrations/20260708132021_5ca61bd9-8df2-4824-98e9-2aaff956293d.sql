@@ -1,0 +1,1 @@
+ALTER TABLE public.custom_auth_otps DROP COLUMN IF EXISTS user_id;

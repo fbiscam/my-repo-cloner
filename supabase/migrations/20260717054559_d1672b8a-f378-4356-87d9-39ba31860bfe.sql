@@ -1,0 +1,1 @@
+UPDATE public.system_settings SET value = '{"confirm_window_min":90,"cooldown_min":60,"max_broadcasts_per_day":8,"min_conf":59,"news_skip_min":30,"pairs":["XAUUSD","XAUEUR","XAUGBP","XAUJPY","XAUAUD","XAUCHF"]}'::jsonb WHERE key = 'auto_scan_config';
