@@ -267,8 +267,8 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 }
 
 /* ---------- page ---------- */
-function useXauProjection(): XauProjection | null {
-  const [data, setData] = React.useState<XauProjection | null>(null);
+function useXauProjection(initial: XauProjection | null): XauProjection | null {
+  const [data, setData] = React.useState<XauProjection | null>(initial);
   const fetchProjection = useServerFn(getXauProjection);
 
   React.useEffect(() => {
@@ -277,10 +277,10 @@ function useXauProjection(): XauProjection | null {
       try {
         const res = await fetchProjection();
         if (alive && res) setData(res as XauProjection);
-      } catch { /* keep static defaults */ }
+      } catch { /* keep last known values */ }
     };
     run();
-    const id = setInterval(run, 5 * 60_000);
+    const id = setInterval(run, 60_000);
     return () => { alive = false; clearInterval(id); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
