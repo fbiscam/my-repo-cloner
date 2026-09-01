@@ -7,7 +7,8 @@ import SiteFooter from "@/components/SiteFooter";
 import HeaderAuthButtons from "@/components/HeaderAuthButtons";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { TrendingUp, TrendingDown, Trophy, Flame, Clock, Filter, RefreshCw, Sparkles, CheckCircle2, XCircle, Circle, Bookmark, Lock } from "lucide-react";
+import { TrendingUp, TrendingDown, Trophy, Flame, Clock, Filter, RefreshCw, Sparkles, CheckCircle2, XCircle, Circle, Bookmark } from "lucide-react";
+import eyeIcon from "@/assets/eye-icon.png.asset.json";
 
 type Signal = {
   id: string;
