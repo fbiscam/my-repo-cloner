@@ -1188,7 +1188,7 @@ function HomePage() {
                   { f: "Multi-timeframe bias", b: true, c: true, d: true },
                   { f: "Trade journal", b: true, c: true, d: true },
                   { f: "Email + push alerts", b: true, c: true, d: true },
-                  { f: "Multi-pair scanner", b: false, c: true, d: true, badge: "new" },
+                  
                   { f: "Custom alert rules", b: false, c: true, d: true },
                   { f: "Priority desk support", b: false, c: false, d: true },
                 ] as ReadonlyArray<{ f: string; b: string | boolean; c: string | boolean; d: string | boolean; isHeading?: boolean; badge?: string }>).map((row, idx) => (
