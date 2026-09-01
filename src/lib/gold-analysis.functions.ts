@@ -1870,8 +1870,23 @@ export const getMarketSnapshotsBatch = createServerFn({ method: "POST" })
     return { symbols: symbols.length ? symbols : ["XAUUSD"] };
   })
   .handler(async ({ data }) => {
-    const results = await Promise.all(
-      data.symbols.map(async (symbol) => {
+    // Process symbols sequentially. Each snapshot may contact more than one
+    // upstream provider, and fanning out the whole ticker can exceed the
+    // server runtime's outbound connection limit and stall unrelated pages.
+    const results: Array<{
+      symbol: string;
+      snapshot: {
+        price: number;
+        prevClose: number | null;
+        changePct: number | null;
+        decimals: number;
+        display: string;
+        kind: ResolvedInstrument["kind"];
+        t: number;
+      } | null;
+    }> = [];
+    for (const symbol of data.symbols) {
+      const result = await (async () => {
         try {
           const inst = resolveInstrument(symbol);
           const [quote, dayStats] = await Promise.all([
@@ -1909,8 +1924,9 @@ export const getMarketSnapshotsBatch = createServerFn({ method: "POST" })
         } catch {
           return { symbol, snapshot: null };
         }
-      }),
-    );
+      })();
+      results.push(result);
+    }
     return { results };
   });
 

@@ -107,23 +107,9 @@ export const Route = createFileRoute("/")({
     ],
   }),
 
-  // Prices are fetched on the server so the ticker is already populated in the
-  // very first paint (no "—…" placeholders while the client warms up).
-  loader: async () => {
-    try {
-      const symbols = INITIAL_TICKER
-        .map(([label]) => SYMBOL_MAP[label])
-        .filter((s): s is string => !!s);
-      const res = await Promise.race([
-        getMarketSnapshotsBatch({ data: { symbols } }),
-        new Promise<null>((resolve) => setTimeout(() => resolve(null), 6_000)),
-      ]);
-      if (!res?.results) return { tickerRows: INITIAL_TICKER };
-      return { tickerRows: snapshotsToRows(res.results, INITIAL_TICKER) };
-    } catch {
-      return { tickerRows: INITIAL_TICKER };
-    }
-  },
+  // Keep SSR independent from third-party market feeds. Live prices hydrate
+  // after first paint, so a slow provider can never prevent the page loading.
+  loader: () => ({ tickerRows: INITIAL_TICKER }),
   component: HomePage,
 });
 
@@ -232,8 +218,10 @@ function useLiveTicker(): TickerRow[] {
         /* ignore */
       }
     };
+    // One refresh per minute is sufficient for the compact homepage ticker and
+    // avoids exhausting the server runtime's outbound connection limit.
     fetchPrices();
-    const id = setInterval(fetchPrices, 3_000);
+    const id = setInterval(fetchPrices, 60_000);
     return () => {
       alive = false;
       clearInterval(id);
