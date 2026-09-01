@@ -13,6 +13,7 @@ import { useTrial } from "@/hooks/useTrial";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { useUpgradeLock } from "@/hooks/useUpgradeLock";
 import { getMarketSnapshotsBatch } from "@/lib/gold-analysis.functions";
+import { getXauProjection, type XauProjection } from "@/lib/home-projection.functions";
 
 /* ---------- hero background banners (desktop / tablet only) ---------- */
 function HeroBanners() {
