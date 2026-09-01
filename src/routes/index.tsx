@@ -109,7 +109,15 @@ export const Route = createFileRoute("/")({
 
   // Keep SSR independent from third-party market feeds. Live prices hydrate
   // after first paint, so a slow provider can never prevent the page loading.
-  loader: () => ({ tickerRows: INITIAL_TICKER }),
+  // The XAU projection is primed server-side (5-min cache) so the very first
+  // paint shows the real live price instead of a stale placeholder.
+  loader: async () => ({
+    tickerRows: INITIAL_TICKER,
+    projection: await getXauProjection().catch(() => null),
+  }),
+  errorComponent: ({ error }) => (
+    <div role="alert" className="p-8 text-sm text-zinc-600">{(error as Error)?.message ?? "Something went wrong."}</div>
+  ),
   component: HomePage,
 });
 
