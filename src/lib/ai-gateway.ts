@@ -62,7 +62,7 @@ function sleep(ms: number) {
 function providerConfigured(model: string): boolean {
   if (model.startsWith("blackboxai/")) return Boolean(process.env.BLACKBOX_API_KEY);
   if (model.startsWith("nvapi/")) return Boolean(process.env.NVIDIA_API_KEY);
-  if (model.startsWith("bmind/")) return Boolean(process.env.OPENAI_API_KEY || process.env.BLUESMINDS_API_KEY);
+  if (model.startsWith("bmind/")) return Boolean(process.env.BLUESMIND_API_KEY || process.env.BLUESMINDS_API_KEY || process.env.OPENAI_API_KEY);
   if (model.startsWith("dsofficial/")) return Boolean(process.env.DEEPSEEK_API_KEY);
   if (model.startsWith("oai/")) return Boolean(process.env.OPENAI_API_KEY);
   return Boolean(process.env.LOVABLE_API_KEY);
@@ -108,11 +108,22 @@ async function singleAttempt(
   const isOai = model.startsWith("oai/");
   const blackboxKey = process.env.BLACKBOX_API_KEY;
   const nvidiaKey = process.env.NVIDIA_API_KEY;
-  // The newest Bluesminds key was saved under OPENAI_API_KEY, so prefer it and
-  // fall back to the legacy BLUESMINDS_API_KEY.
-  const bmindKey = process.env.OPENAI_API_KEY || process.env.BLUESMINDS_API_KEY;
+  // Bluesmind key: prefer the dedicated BLUESMIND_API_KEY, then the older
+  // slots it was previously saved under.
+  const bmindKey =
+    process.env.BLUESMIND_API_KEY ||
+    process.env.BLUESMINDS_API_KEY ||
+    process.env.OPENAI_API_KEY;
   const deepseekKey = process.env.DEEPSEEK_API_KEY;
   const openaiKey = process.env.OPENAI_API_KEY;
+
+  // Bluesmind base URL is configurable (BLUESMIND_BASE_URL), e.g.
+  // "https://api.bluesminds.com/v1" — with or without a trailing
+  // /chat/completions.
+  const bmindBase = (process.env.BLUESMIND_BASE_URL || "https://api.bluesminds.com/v1").replace(/\/+$/, "");
+  const bmindEndpoint = /\/chat\/completions$/.test(bmindBase)
+    ? bmindBase
+    : `${bmindBase}/chat/completions`;
 
   const endpoint = isOai
     ? "https://api.openai.com/v1/chat/completions"
@@ -121,7 +132,7 @@ async function singleAttempt(
     : isNvidia
     ? "https://integrate.api.nvidia.com/v1/chat/completions"
     : isBmind
-    ? "https://api.bluesminds.com/v1/chat/completions"
+    ? bmindEndpoint
     : isDsOfficial
     ? "https://api.deepseek.com/chat/completions"
     : "https://ai.gateway.lovable.dev/v1/chat/completions";
@@ -134,7 +145,7 @@ async function singleAttempt(
     if (!nvidiaKey) throw new AiGatewayError("NVIDIA_API_KEY missing on server", 0, true);
     headers["Authorization"] = `Bearer ${nvidiaKey}`;
   } else if (isBmind) {
-    if (!bmindKey) throw new AiGatewayError("BLUESMINDS_API_KEY missing on server", 0, true);
+    if (!bmindKey) throw new AiGatewayError("BLUESMIND_API_KEY missing on server", 0, true);
     headers["Authorization"] = `Bearer ${bmindKey}`;
   } else if (isDsOfficial) {
     if (!deepseekKey) throw new AiGatewayError("DEEPSEEK_API_KEY missing on server", 0, true);
@@ -434,9 +445,11 @@ export function setCachedPlan<T>(key: string, value: T, ttlMs: number = PLAN_CAC
 // deepseek endpoint never responds. Dead ids are removed from every chain so a
 // scan no longer burns 30–60s per dead hop before falling back.
 const WORKING_BMIND = [
+  // Bluesmind GPT-4o is the primary review brain (customer-supplied key), with
+  // the stronger GPT-5.6 route right behind it for maximum scrutiny.
+  "bmind/gpt-4o",
   "bmind/gpt-5.6-sol",
   "bmind/gpt-5.2-chat",
-  "bmind/gpt-4o",
   // Workspace-safe fallbacks. These use LOVABLE_API_KEY, so a stale or
   // unavailable Bluesminds route cannot silently remove AI review in another
   // browser or production worker.
@@ -470,6 +483,7 @@ export const SENIOR_REVIEW_CHAIN = WORKING_BMIND;
 // never rubber-stamps its own answer. This stage is ENRICHMENT ONLY — it can
 // agree (small confidence lift) or flag a risk note, but never vetoes.
 export const DEEPSEEK_REVIEW_CHAIN = [
+  "bmind/gpt-4o",
   "bmind/gpt-5.2-chat",
   "google/gemini-3.7-flash",
   "bmind/gpt-4o",
