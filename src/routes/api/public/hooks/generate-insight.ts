@@ -110,7 +110,7 @@ Return STRICT JSON only, no prose, with this exact shape:
   "content": "<full markdown article 900-1300 words with ## H2 sections, lists, and a final ## FAQ section. Use internal links to /signal, /app, /insights, /download where natural>"
 }`;
 
-        const bmindKey = process.env.BLUESMINDS_API_KEY;
+        const bmindKey = process.env.BLUESMIND_API_KEY || process.env.BLUESMINDS_API_KEY;
         if (!bmindKey) {
           return new Response(JSON.stringify({ error: "no-bluesminds-key" }), { status: 500 });
         }
@@ -142,6 +142,7 @@ Return STRICT JSON only, no prose, with this exact shape:
         // Bluesminds only — no external fallback. If all models are down,
         // skip this run; the next scheduled cron will retry a few hours later.
         const chain: Array<{ model: string }> = [
+          { model: "gpt-4o" },
           { model: "gpt-5.5" },
           { model: "gpt-5.2-chat" },
           { model: "deepseek-v4-pro" },
@@ -210,16 +211,12 @@ Return STRICT JSON only, no prose, with this exact shape:
           return Response.json({ skipped: "duplicate-slug", slug });
         }
 
-        const stockImages = [
-          "https://images.unsplash.com/photo-1605792657660-596af9009e82?w=1600&q=80",
-          "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1600&q=80",
-          "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=1600&q=80",
-          "https://images.unsplash.com/photo-1610375461246-83df859d849d?w=1600&q=80",
-          "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1600&q=80",
-          "https://images.unsplash.com/photo-1642790551116-18e150f248e3?w=1600&q=80",
-          "https://images.unsplash.com/photo-1620266757065-5814239881fd?w=1600&q=80",
-        ];
-        const image_url = stockImages[Math.floor(Math.random() * stockImages.length)];
+        // AI-generated cover image (Bluesminds writes the text; the image comes
+        // from Lovable AI's image model since Bluesminds has no image model).
+        const { generateInsightCover } = await import("@/lib/insight-image.server");
+        const image_url =
+          (await generateInsightCover({ title, category: topic.category, slug })) ??
+          "https://images.unsplash.com/photo-1610375461246-83df859d849d?w=1600&q=80";
 
         const { data: inserted, error: insErr } = await supabaseAdmin
           .from("insights")

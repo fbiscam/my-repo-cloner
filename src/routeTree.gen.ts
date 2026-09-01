@@ -89,6 +89,7 @@ import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/l
 import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
+import { Route as ApiPublicInsightImageSplatRouteImport } from './routes/api/public/insight-image.$'
 import { Route as ApiPublicHooksSignalReversalMonitorRouteImport } from './routes/api/public/hooks/signal-reversal-monitor'
 import { Route as ApiPublicHooksScanSignalsRouteImport } from './routes/api/public/hooks/scan-signals'
 import { Route as ApiPublicHooksReindexInsightsRouteImport } from './routes/api/public/hooks/reindex-insights'
@@ -98,6 +99,7 @@ import { Route as ApiPublicHooksNewsAlertsRouteImport } from './routes/api/publi
 import { Route as ApiPublicHooksMonthlyRetuneRouteImport } from './routes/api/public/hooks/monthly-retune'
 import { Route as ApiPublicHooksGenerateInsightRouteImport } from './routes/api/public/hooks/generate-insight'
 import { Route as ApiPublicHooksGenerateBriefRouteImport } from './routes/api/public/hooks/generate-brief'
+import { Route as ApiPublicHooksBackfillInsightImagesRouteImport } from './routes/api/public/hooks/backfill-insight-images'
 import { Route as ApiPublicHooksAutoScanRouteImport } from './routes/api/public/hooks/auto-scan'
 import { Route as ApiPublicBriefAudioIdRouteImport } from './routes/api/public/brief-audio.$id'
 import { Route as AuthenticatedDashboardAdminTvMismatchRouteImport } from './routes/_authenticated/dashboard.admin.tv-mismatch'
@@ -105,6 +107,7 @@ import { Route as AuthenticatedDashboardAdminTuningRouteImport } from './routes/
 import { Route as AuthenticatedDashboardAdminSubscribersRouteImport } from './routes/_authenticated/dashboard.admin.subscribers'
 import { Route as AuthenticatedDashboardAdminScanAuditRouteImport } from './routes/_authenticated/dashboard.admin.scan-audit'
 import { Route as AuthenticatedDashboardAdminMessagesRouteImport } from './routes/_authenticated/dashboard.admin.messages'
+import { Route as AuthenticatedDashboardAdminInsightsRouteImport } from './routes/_authenticated/dashboard.admin.insights'
 import { Route as AuthenticatedDashboardAdminFoundingRouteImport } from './routes/_authenticated/dashboard.admin.founding'
 import { Route as AuthenticatedDashboardAdminDocumentsRouteImport } from './routes/_authenticated/dashboard.admin.documents'
 import { Route as AuthenticatedDashboardAdminBugsRouteImport } from './routes/_authenticated/dashboard.admin.bugs'
@@ -527,6 +530,12 @@ const LovableEmailAuthPreviewRoute = LovableEmailAuthPreviewRouteImport.update({
   path: '/lovable/email/auth/preview',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicInsightImageSplatRoute =
+  ApiPublicInsightImageSplatRouteImport.update({
+    id: '/api/public/insight-image/$',
+    path: '/api/public/insight-image/$',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicHooksSignalReversalMonitorRoute =
   ApiPublicHooksSignalReversalMonitorRouteImport.update({
     id: '/api/public/hooks/signal-reversal-monitor',
@@ -581,6 +590,12 @@ const ApiPublicHooksGenerateBriefRoute =
     path: '/api/public/hooks/generate-brief',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicHooksBackfillInsightImagesRoute =
+  ApiPublicHooksBackfillInsightImagesRouteImport.update({
+    id: '/api/public/hooks/backfill-insight-images',
+    path: '/api/public/hooks/backfill-insight-images',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicHooksAutoScanRoute = ApiPublicHooksAutoScanRouteImport.update({
   id: '/api/public/hooks/auto-scan',
   path: '/api/public/hooks/auto-scan',
@@ -619,6 +634,12 @@ const AuthenticatedDashboardAdminMessagesRoute =
   AuthenticatedDashboardAdminMessagesRouteImport.update({
     id: '/admin/messages',
     path: '/admin/messages',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardAdminInsightsRoute =
+  AuthenticatedDashboardAdminInsightsRouteImport.update({
+    id: '/admin/insights',
+    path: '/admin/insights',
     getParentRoute: () => AuthenticatedDashboardRoute,
   } as any)
 const AuthenticatedDashboardAdminFoundingRoute =
@@ -732,6 +753,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/admin/bugs': typeof AuthenticatedDashboardAdminBugsRoute
   '/dashboard/admin/documents': typeof AuthenticatedDashboardAdminDocumentsRoute
   '/dashboard/admin/founding': typeof AuthenticatedDashboardAdminFoundingRoute
+  '/dashboard/admin/insights': typeof AuthenticatedDashboardAdminInsightsRoute
   '/dashboard/admin/messages': typeof AuthenticatedDashboardAdminMessagesRoute
   '/dashboard/admin/scan-audit': typeof AuthenticatedDashboardAdminScanAuditRoute
   '/dashboard/admin/subscribers': typeof AuthenticatedDashboardAdminSubscribersRoute
@@ -739,6 +761,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/admin/tv-mismatch': typeof AuthenticatedDashboardAdminTvMismatchRoute
   '/api/public/brief-audio/$id': typeof ApiPublicBriefAudioIdRoute
   '/api/public/hooks/auto-scan': typeof ApiPublicHooksAutoScanRoute
+  '/api/public/hooks/backfill-insight-images': typeof ApiPublicHooksBackfillInsightImagesRoute
   '/api/public/hooks/generate-brief': typeof ApiPublicHooksGenerateBriefRoute
   '/api/public/hooks/generate-insight': typeof ApiPublicHooksGenerateInsightRoute
   '/api/public/hooks/monthly-retune': typeof ApiPublicHooksMonthlyRetuneRoute
@@ -748,6 +771,7 @@ export interface FileRoutesByFullPath {
   '/api/public/hooks/reindex-insights': typeof ApiPublicHooksReindexInsightsRoute
   '/api/public/hooks/scan-signals': typeof ApiPublicHooksScanSignalsRoute
   '/api/public/hooks/signal-reversal-monitor': typeof ApiPublicHooksSignalReversalMonitorRoute
+  '/api/public/insight-image/$': typeof ApiPublicInsightImageSplatRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
@@ -829,6 +853,7 @@ export interface FileRoutesByTo {
   '/dashboard/admin/bugs': typeof AuthenticatedDashboardAdminBugsRoute
   '/dashboard/admin/documents': typeof AuthenticatedDashboardAdminDocumentsRoute
   '/dashboard/admin/founding': typeof AuthenticatedDashboardAdminFoundingRoute
+  '/dashboard/admin/insights': typeof AuthenticatedDashboardAdminInsightsRoute
   '/dashboard/admin/messages': typeof AuthenticatedDashboardAdminMessagesRoute
   '/dashboard/admin/scan-audit': typeof AuthenticatedDashboardAdminScanAuditRoute
   '/dashboard/admin/subscribers': typeof AuthenticatedDashboardAdminSubscribersRoute
@@ -836,6 +861,7 @@ export interface FileRoutesByTo {
   '/dashboard/admin/tv-mismatch': typeof AuthenticatedDashboardAdminTvMismatchRoute
   '/api/public/brief-audio/$id': typeof ApiPublicBriefAudioIdRoute
   '/api/public/hooks/auto-scan': typeof ApiPublicHooksAutoScanRoute
+  '/api/public/hooks/backfill-insight-images': typeof ApiPublicHooksBackfillInsightImagesRoute
   '/api/public/hooks/generate-brief': typeof ApiPublicHooksGenerateBriefRoute
   '/api/public/hooks/generate-insight': typeof ApiPublicHooksGenerateInsightRoute
   '/api/public/hooks/monthly-retune': typeof ApiPublicHooksMonthlyRetuneRoute
@@ -845,6 +871,7 @@ export interface FileRoutesByTo {
   '/api/public/hooks/reindex-insights': typeof ApiPublicHooksReindexInsightsRoute
   '/api/public/hooks/scan-signals': typeof ApiPublicHooksScanSignalsRoute
   '/api/public/hooks/signal-reversal-monitor': typeof ApiPublicHooksSignalReversalMonitorRoute
+  '/api/public/insight-image/$': typeof ApiPublicInsightImageSplatRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
@@ -933,6 +960,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard/admin/bugs': typeof AuthenticatedDashboardAdminBugsRoute
   '/_authenticated/dashboard/admin/documents': typeof AuthenticatedDashboardAdminDocumentsRoute
   '/_authenticated/dashboard/admin/founding': typeof AuthenticatedDashboardAdminFoundingRoute
+  '/_authenticated/dashboard/admin/insights': typeof AuthenticatedDashboardAdminInsightsRoute
   '/_authenticated/dashboard/admin/messages': typeof AuthenticatedDashboardAdminMessagesRoute
   '/_authenticated/dashboard/admin/scan-audit': typeof AuthenticatedDashboardAdminScanAuditRoute
   '/_authenticated/dashboard/admin/subscribers': typeof AuthenticatedDashboardAdminSubscribersRoute
@@ -940,6 +968,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard/admin/tv-mismatch': typeof AuthenticatedDashboardAdminTvMismatchRoute
   '/api/public/brief-audio/$id': typeof ApiPublicBriefAudioIdRoute
   '/api/public/hooks/auto-scan': typeof ApiPublicHooksAutoScanRoute
+  '/api/public/hooks/backfill-insight-images': typeof ApiPublicHooksBackfillInsightImagesRoute
   '/api/public/hooks/generate-brief': typeof ApiPublicHooksGenerateBriefRoute
   '/api/public/hooks/generate-insight': typeof ApiPublicHooksGenerateInsightRoute
   '/api/public/hooks/monthly-retune': typeof ApiPublicHooksMonthlyRetuneRoute
@@ -949,6 +978,7 @@ export interface FileRoutesById {
   '/api/public/hooks/reindex-insights': typeof ApiPublicHooksReindexInsightsRoute
   '/api/public/hooks/scan-signals': typeof ApiPublicHooksScanSignalsRoute
   '/api/public/hooks/signal-reversal-monitor': typeof ApiPublicHooksSignalReversalMonitorRoute
+  '/api/public/insight-image/$': typeof ApiPublicInsightImageSplatRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
@@ -1037,6 +1067,7 @@ export interface FileRouteTypes {
     | '/dashboard/admin/bugs'
     | '/dashboard/admin/documents'
     | '/dashboard/admin/founding'
+    | '/dashboard/admin/insights'
     | '/dashboard/admin/messages'
     | '/dashboard/admin/scan-audit'
     | '/dashboard/admin/subscribers'
@@ -1044,6 +1075,7 @@ export interface FileRouteTypes {
     | '/dashboard/admin/tv-mismatch'
     | '/api/public/brief-audio/$id'
     | '/api/public/hooks/auto-scan'
+    | '/api/public/hooks/backfill-insight-images'
     | '/api/public/hooks/generate-brief'
     | '/api/public/hooks/generate-insight'
     | '/api/public/hooks/monthly-retune'
@@ -1053,6 +1085,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/reindex-insights'
     | '/api/public/hooks/scan-signals'
     | '/api/public/hooks/signal-reversal-monitor'
+    | '/api/public/insight-image/$'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/queue/process'
@@ -1134,6 +1167,7 @@ export interface FileRouteTypes {
     | '/dashboard/admin/bugs'
     | '/dashboard/admin/documents'
     | '/dashboard/admin/founding'
+    | '/dashboard/admin/insights'
     | '/dashboard/admin/messages'
     | '/dashboard/admin/scan-audit'
     | '/dashboard/admin/subscribers'
@@ -1141,6 +1175,7 @@ export interface FileRouteTypes {
     | '/dashboard/admin/tv-mismatch'
     | '/api/public/brief-audio/$id'
     | '/api/public/hooks/auto-scan'
+    | '/api/public/hooks/backfill-insight-images'
     | '/api/public/hooks/generate-brief'
     | '/api/public/hooks/generate-insight'
     | '/api/public/hooks/monthly-retune'
@@ -1150,6 +1185,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/reindex-insights'
     | '/api/public/hooks/scan-signals'
     | '/api/public/hooks/signal-reversal-monitor'
+    | '/api/public/insight-image/$'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/queue/process'
@@ -1237,6 +1273,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard/admin/bugs'
     | '/_authenticated/dashboard/admin/documents'
     | '/_authenticated/dashboard/admin/founding'
+    | '/_authenticated/dashboard/admin/insights'
     | '/_authenticated/dashboard/admin/messages'
     | '/_authenticated/dashboard/admin/scan-audit'
     | '/_authenticated/dashboard/admin/subscribers'
@@ -1244,6 +1281,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard/admin/tv-mismatch'
     | '/api/public/brief-audio/$id'
     | '/api/public/hooks/auto-scan'
+    | '/api/public/hooks/backfill-insight-images'
     | '/api/public/hooks/generate-brief'
     | '/api/public/hooks/generate-insight'
     | '/api/public/hooks/monthly-retune'
@@ -1253,6 +1291,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/reindex-insights'
     | '/api/public/hooks/scan-signals'
     | '/api/public/hooks/signal-reversal-monitor'
+    | '/api/public/insight-image/$'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/queue/process'
@@ -1305,6 +1344,7 @@ export interface RootRouteChildren {
   HelpCollectionIndexRoute: typeof HelpCollectionIndexRoute
   ApiPublicBriefAudioIdRoute: typeof ApiPublicBriefAudioIdRoute
   ApiPublicHooksAutoScanRoute: typeof ApiPublicHooksAutoScanRoute
+  ApiPublicHooksBackfillInsightImagesRoute: typeof ApiPublicHooksBackfillInsightImagesRoute
   ApiPublicHooksGenerateBriefRoute: typeof ApiPublicHooksGenerateBriefRoute
   ApiPublicHooksGenerateInsightRoute: typeof ApiPublicHooksGenerateInsightRoute
   ApiPublicHooksMonthlyRetuneRoute: typeof ApiPublicHooksMonthlyRetuneRoute
@@ -1314,6 +1354,7 @@ export interface RootRouteChildren {
   ApiPublicHooksReindexInsightsRoute: typeof ApiPublicHooksReindexInsightsRoute
   ApiPublicHooksScanSignalsRoute: typeof ApiPublicHooksScanSignalsRoute
   ApiPublicHooksSignalReversalMonitorRoute: typeof ApiPublicHooksSignalReversalMonitorRoute
+  ApiPublicInsightImageSplatRoute: typeof ApiPublicInsightImageSplatRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
   LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
   LovableEmailQueueProcessRoute: typeof LovableEmailQueueProcessRoute
@@ -1883,6 +1924,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LovableEmailAuthPreviewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/insight-image/$': {
+      id: '/api/public/insight-image/$'
+      path: '/api/public/insight-image/$'
+      fullPath: '/api/public/insight-image/$'
+      preLoaderRoute: typeof ApiPublicInsightImageSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/hooks/signal-reversal-monitor': {
       id: '/api/public/hooks/signal-reversal-monitor'
       path: '/api/public/hooks/signal-reversal-monitor'
@@ -1946,6 +1994,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicHooksGenerateBriefRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/hooks/backfill-insight-images': {
+      id: '/api/public/hooks/backfill-insight-images'
+      path: '/api/public/hooks/backfill-insight-images'
+      fullPath: '/api/public/hooks/backfill-insight-images'
+      preLoaderRoute: typeof ApiPublicHooksBackfillInsightImagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/hooks/auto-scan': {
       id: '/api/public/hooks/auto-scan'
       path: '/api/public/hooks/auto-scan'
@@ -1993,6 +2048,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/messages'
       fullPath: '/dashboard/admin/messages'
       preLoaderRoute: typeof AuthenticatedDashboardAdminMessagesRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/admin/insights': {
+      id: '/_authenticated/dashboard/admin/insights'
+      path: '/admin/insights'
+      fullPath: '/dashboard/admin/insights'
+      preLoaderRoute: typeof AuthenticatedDashboardAdminInsightsRouteImport
       parentRoute: typeof AuthenticatedDashboardRoute
     }
     '/_authenticated/dashboard/admin/founding': {
@@ -2053,6 +2115,7 @@ interface AuthenticatedDashboardRouteChildren {
   AuthenticatedDashboardAdminBugsRoute: typeof AuthenticatedDashboardAdminBugsRoute
   AuthenticatedDashboardAdminDocumentsRoute: typeof AuthenticatedDashboardAdminDocumentsRoute
   AuthenticatedDashboardAdminFoundingRoute: typeof AuthenticatedDashboardAdminFoundingRoute
+  AuthenticatedDashboardAdminInsightsRoute: typeof AuthenticatedDashboardAdminInsightsRoute
   AuthenticatedDashboardAdminMessagesRoute: typeof AuthenticatedDashboardAdminMessagesRoute
   AuthenticatedDashboardAdminScanAuditRoute: typeof AuthenticatedDashboardAdminScanAuditRoute
   AuthenticatedDashboardAdminSubscribersRoute: typeof AuthenticatedDashboardAdminSubscribersRoute
@@ -2086,6 +2149,8 @@ const AuthenticatedDashboardRouteChildren: AuthenticatedDashboardRouteChildren =
       AuthenticatedDashboardAdminDocumentsRoute,
     AuthenticatedDashboardAdminFoundingRoute:
       AuthenticatedDashboardAdminFoundingRoute,
+    AuthenticatedDashboardAdminInsightsRoute:
+      AuthenticatedDashboardAdminInsightsRoute,
     AuthenticatedDashboardAdminMessagesRoute:
       AuthenticatedDashboardAdminMessagesRoute,
     AuthenticatedDashboardAdminScanAuditRoute:
@@ -2233,6 +2298,8 @@ const rootRouteChildren: RootRouteChildren = {
   HelpCollectionIndexRoute: HelpCollectionIndexRoute,
   ApiPublicBriefAudioIdRoute: ApiPublicBriefAudioIdRoute,
   ApiPublicHooksAutoScanRoute: ApiPublicHooksAutoScanRoute,
+  ApiPublicHooksBackfillInsightImagesRoute:
+    ApiPublicHooksBackfillInsightImagesRoute,
   ApiPublicHooksGenerateBriefRoute: ApiPublicHooksGenerateBriefRoute,
   ApiPublicHooksGenerateInsightRoute: ApiPublicHooksGenerateInsightRoute,
   ApiPublicHooksMonthlyRetuneRoute: ApiPublicHooksMonthlyRetuneRoute,
@@ -2243,6 +2310,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicHooksScanSignalsRoute: ApiPublicHooksScanSignalsRoute,
   ApiPublicHooksSignalReversalMonitorRoute:
     ApiPublicHooksSignalReversalMonitorRoute,
+  ApiPublicInsightImageSplatRoute: ApiPublicInsightImageSplatRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
   LovableEmailAuthWebhookRoute: LovableEmailAuthWebhookRoute,
   LovableEmailQueueProcessRoute: LovableEmailQueueProcessRoute,
