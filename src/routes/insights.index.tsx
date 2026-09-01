@@ -215,12 +215,12 @@ function InsightsPage() {
                 <div className="lg:col-span-5">
                   <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-zinc-200 border border-zinc-200 shadow-2xl relative group">
                     <img
-                      src={featured.image_url || `https://source.unsplash.com/1600x1200/?gold,trading,${encodeURIComponent(featured.category)}`}
+                      src={featured.image_url || "https://images.unsplash.com/photo-1610375461246-83df859d849d?w=1600&q=80"}
                       alt={featured.title}
                       onError={(e) => {
                         const t = e.currentTarget;
                         t.onerror = null;
-                        t.src = `https://source.unsplash.com/1600x1200/?gold,finance`;
+                        t.src = "https://images.unsplash.com/photo-1610375461246-83df859d849d?w=1600&q=80";
                       }}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
@@ -280,13 +280,13 @@ function InsightsPage() {
                         onError={(e) => {
                           const t = e.currentTarget;
                           t.onerror = null;
-                          t.src = `https://source.unsplash.com/1200x800/?gold,trading,finance,${encodeURIComponent(item.category)}`;
+                          t.src = "https://images.unsplash.com/photo-1610375461246-83df859d849d?w=1600&q=80";
                         }}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
                     ) : (
                       <img
-                        src={`https://source.unsplash.com/1200x800/?gold,trading,${encodeURIComponent(item.category)}`}
+                        src={"https://images.unsplash.com/photo-1610375461246-83df859d849d?w=1600&q=80"}
                         alt={item.title}
                         loading="lazy"
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"

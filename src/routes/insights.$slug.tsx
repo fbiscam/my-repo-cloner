@@ -184,12 +184,12 @@ function InsightDetailPage() {
 
           <div className="aspect-[21/9] rounded-2xl overflow-hidden mb-12 border border-zinc-100 shadow-xl bg-zinc-100">
             <img
-              src={insight.image_url || `https://source.unsplash.com/1600x900/?gold,trading,${encodeURIComponent(insight.category)}`}
+              src={insight.image_url || "https://images.unsplash.com/photo-1610375461246-83df859d849d?w=1600&q=80"}
               alt={insight.title}
               onError={(e) => {
                 const t = e.currentTarget;
                 t.onerror = null;
-                t.src = `https://source.unsplash.com/1600x900/?gold,finance,${encodeURIComponent(insight.category)}`;
+                t.src = "https://images.unsplash.com/photo-1610375461246-83df859d849d?w=1600&q=80";
               }}
               className="w-full h-full object-cover"
             />
