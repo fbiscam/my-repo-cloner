@@ -690,40 +690,6 @@ function HomePage() {
         </div>
       </section>
 
-      {/* COVERAGE */}
-      <section className="border-t border-zinc-100 bg-white/40">
-        <div className="mx-auto max-w-6xl px-5 py-10 sm:px-6 sm:py-14">
-          <div className="grid gap-8 sm:gap-10 lg:grid-cols-12">
-            <div className="text-left lg:col-span-4 lg:text-left">
-              
-              <h2 className="mt-4 text-xl font-semibold tracking-tight sm:text-3xl">
-                One terminal.&nbsp;<br className="hidden sm:inline" />
-              </h2>
-              <p className="mt-4 text-zinc-900 leading-relaxed">
-                Jenvu routes liquidity, structure and news context for XAU/USD&nbsp;
-              </p>
-            </div>
-            <div className="lg:col-span-8 grid grid-cols-1 gap-px bg-zinc-100 border border-zinc-100 rounded-xl overflow-hidden">
-              {[
-                ["XAU / USD", "Primary bullion benchmark"],
-              ].map(([k, v]) => (
-                <div key={k} className="bg-white p-5 text-left sm:text-left">
-                  <div className={`${MONO} text-[10px] uppercase tracking-widest text-zinc-900`}>{k}</div>
-                  <div className="mt-2 text-sm font-medium tracking-tight whitespace-nowrap">{v}</div>
-                </div>
-              ))}
-              <div className="bg-white p-2">
-                <div className="h-[320px] w-full sm:h-[420px]">
-                  <ClientOnly fallback={<div className="h-full w-full animate-pulse rounded-lg bg-zinc-50" />}>
-                    <TradingViewChart symbol="XAUUSD" timeframe="15m" theme="light" />
-                  </ClientOnly>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
 
       {/* CHANGELOG */}
       <section className="border-t border-zinc-100 bg-white/40">
