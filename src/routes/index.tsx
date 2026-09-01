@@ -292,6 +292,86 @@ function useXauProjection(): XauProjection | null {
   return data;
 }
 
+/* Turns the engine/AI projection into display strings + SVG chart geometry.
+   Falls back to the original static read-out until live data arrives. */
+function buildProjectionView(p: XauProjection | null) {
+  const num = (n: number) => n.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  if (!p) {
+    return {
+      live: false,
+      price: "2,412.60",
+      changePct: "+0.84%",
+      up: true,
+      biasLabel: "Bullish",
+      longPct: 72,
+      confidence: 86,
+      confidenceSeries: [52, 61, 58, 70, 66, 78, 74, 86, 82],
+      tf: [["H1", "2,418"], ["H4", "2,431"], ["1D", "2,447"], ["1W", "2,468"]] as [string, string][],
+      readout: [["Target", "2,447"], ["Invalidation", "2,388"], ["Key Level", "2,402"], ["Est. R:R", "1 : 3.4"]] as [string, string][],
+      actualPath: "M0 172 L60 158 L120 176 L180 138 L240 150 L300 124 L360 124",
+      actualArea: "M0 172 L60 158 L120 176 L180 138 L240 150 L300 124 L360 124 L360 240 L0 240 Z",
+      forecastPath: "M360 124 L440 110 L520 100 L600 78",
+      bandPath: "M360 118 L440 92 L520 70 L600 44 L600 152 L520 132 L440 128 L360 130 Z",
+      nowY: 124,
+      endY: 78,
+      note: "Engine warming up — connecting to live XAU/USD feed.",
+      model: "",
+    };
+  }
+
+  const series = p.series.length >= 8 ? p.series : [p.price, p.price];
+  const fc = [p.price, p.targets.h1, p.targets.h4, p.targets.d1, p.targets.w1];
+  const all = [...series, ...fc, p.invalidation, p.keyLevel];
+  const min = Math.min(...all);
+  const max = Math.max(...all);
+  const span = max - min || 1;
+  const y = (v: number) => Math.round(((max - v) / span) * 190 + 20);
+
+  const step = 360 / Math.max(1, series.length - 1);
+  const pts = series.map((v, i) => `${Math.round(i * step)} ${y(v)}`);
+  const actualPath = `M${pts.join(" L")}`;
+  const actualArea = `${actualPath} L360 240 L0 240 Z`;
+
+  const fxs = fc.map((v, i) => `${360 + i * 60} ${y(v)}`);
+  const forecastPath = `M${fxs.join(" L")}`;
+  const spread = (i: number) => 6 + i * 7;
+  const upper = fc.map((v, i) => `${360 + i * 60} ${y(v) - spread(i)}`);
+  const lower = fc.map((v, i) => `${360 + i * 60} ${y(v) + spread(i)}`).reverse();
+  const bandPath = `M${upper.join(" L")} L${lower.join(" L")} Z`;
+
+  const up = p.changePct >= 0;
+  return {
+    live: true,
+    price: num(p.price),
+    changePct: `${up ? "+" : ""}${p.changePct.toFixed(2)}%`,
+    up,
+    biasLabel: p.bias.charAt(0).toUpperCase() + p.bias.slice(1),
+    longPct: p.longPct,
+    confidence: p.confidence,
+    confidenceSeries: p.confidenceSeries,
+    tf: [
+      ["H1", num(p.targets.h1)],
+      ["H4", num(p.targets.h4)],
+      ["1D", num(p.targets.d1)],
+      ["1W", num(p.targets.w1)],
+    ] as [string, string][],
+    readout: [
+      ["Target", num(p.targets.d1)],
+      ["Invalidation", num(p.invalidation)],
+      ["Key Level", num(p.keyLevel)],
+      ["Est. R:R", `1 : ${p.rr.toFixed(1)}`],
+    ] as [string, string][],
+    actualPath,
+    actualArea,
+    forecastPath,
+    bandPath,
+    nowY: y(p.price),
+    endY: y(p.targets.w1),
+    note: p.narrative,
+    model: p.model,
+  };
+}
+
 function HomePage() {
   const ticker = useLiveTicker();
   const projection = useXauProjection();
