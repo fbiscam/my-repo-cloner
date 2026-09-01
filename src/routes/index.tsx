@@ -597,7 +597,8 @@ function HomePage() {
           {/* body */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-px bg-zinc-100">
             {/* LEFT — prediction chart */}
-            <div className="lg:col-span-8 bg-white p-5 sm:p-6 flex flex-col min-h-[330px] sm:min-h-[440px]">
+            <div className="group relative lg:col-span-8 bg-white p-5 sm:p-6 flex flex-col min-h-[330px] sm:min-h-[440px]">
+              <div className="flex flex-1 flex-col blur-[3px] select-none transition-[filter] duration-300 group-hover:blur-[3px]">
               <div className="flex flex-wrap items-end justify-between gap-4">
                 <div>
                   <h2 className={`text-[10px] font-bold ${MONO} text-zinc-900 tracking-widest uppercase`}>
