@@ -1,5 +1,3 @@
-import { useEffect, useRef } from "react";
-
 const TF_MAP: Record<string, string> = {
   "1m": "1",
   "5m": "5",
@@ -39,53 +37,32 @@ export function TradingViewChart({
   theme = "light",
   studies = ["STD;EMA", "STD;RSI", "STD;Volume"],
 }: Props) {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-    container.innerHTML = "";
-    const widget = document.createElement("div");
-    widget.className = "tradingview-widget-container__widget";
-    widget.style.height = "100%";
-    widget.style.width = "100%";
-    container.appendChild(widget);
-
-    const script = document.createElement("script");
-    script.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
-    script.type = "text/javascript";
-    script.async = true;
-    script.innerHTML = JSON.stringify({
-      autosize: true,
-      symbol: toTvSymbol(symbol),
-      interval: TF_MAP[timeframe] ?? "15",
-      timezone: "Etc/UTC",
-      theme,
-      style: "1",
-      locale: "en",
-      backgroundColor: theme === "dark" ? "rgba(8, 10, 20, 1)" : "rgba(255,255,255,1)",
-      gridColor: theme === "dark" ? "rgba(212, 175, 55, 0.06)" : "rgba(15,23,42,0.06)",
-      hide_top_toolbar: true,
-      hide_legend: true,
-      hide_side_toolbar: true,
-      hide_volume: true,
-      allow_symbol_change: false,
-      save_image: false,
-      withdateranges: false,
-      details: false,
-      calendar: false,
-      studies,
-      support_host: "https://www.tradingview.com",
-    });
-    container.appendChild(script);
-
-    return () => {
-      script.remove();
-      container.replaceChildren();
-    };
-  }, [symbol, timeframe, theme, studies.join("|")]);
+  const params = new URLSearchParams({
+    symbol: toTvSymbol(symbol),
+    interval: TF_MAP[timeframe] ?? "15",
+    timezone: "Etc/UTC",
+    theme,
+    style: "1",
+    locale: "en",
+    hide_top_toolbar: "1",
+    hide_legend: "1",
+    hide_side_toolbar: "1",
+    hide_volume: "1",
+    allow_symbol_change: "0",
+    save_image: "0",
+    withdateranges: "0",
+    details: "0",
+    calendar: "0",
+    studies: JSON.stringify(studies),
+  });
 
   return (
-    <div className="tradingview-widget-container h-full w-full" ref={containerRef} />
+    <iframe
+      className="h-full w-full border-0"
+      src={`https://s.tradingview.com/widgetembed/?${params.toString()}`}
+      title="Live XAU/USD price chart"
+      loading="lazy"
+      allowFullScreen
+    />
   );
 }
