@@ -295,6 +295,7 @@ function useXauProjection(): XauProjection | null {
 function HomePage() {
   const ticker = useLiveTicker();
   const projection = useXauProjection();
+  const proj = React.useMemo(() => buildProjectionView(projection), [projection]);
   const currentPlan = useCurrentPlan();
   const upgradeLock = useUpgradeLock();
   const trial = useTrial();
