@@ -29,7 +29,7 @@ export function PageShell({
               <span className="truncate text-[22px] tracking-tight leading-none" style={{ color: "#3c4043", fontFamily: "\"Google Sans\", \"Product Sans\", \"DM Sans\", system-ui, sans-serif", fontWeight: 500 }}>Jenvu</span>
             </Link>
             <nav className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-7 text-sm text-zinc-900">
-            <Link to="/signal" className="hover:text-zinc-900">Signal Engine</Link>
+            <Link to="/signals-live" className="hover:text-zinc-900">Live Signals</Link>
             <Link to="/signals-live" className="hover:text-zinc-900">Signals Live</Link>
             <Link to="/pricing" className="hover:text-zinc-900">Pricing</Link>
             <Link to="/founder" className="hover:text-zinc-900">Founder</Link>

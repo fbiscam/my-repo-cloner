@@ -83,7 +83,7 @@ function SignalsLivePage() {
             <span className="truncate text-[22px] tracking-tight leading-none" style={{ color: "#3c4043", fontWeight: 500 }}>Jenvu</span>
           </Link>
           <nav className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-7 text-sm text-zinc-900">
-            <Link to="/signal" className="hover:text-zinc-900">Signal Engine</Link>
+            <Link to="/signals-live" className="hover:text-zinc-900">Live Signals</Link>
             <Link to="/signals-live" className="font-semibold text-emerald-700">Live Feed</Link>
             <Link to="/briefs" className="hover:text-zinc-900">Briefs</Link>
             <Link to="/pricing" className="hover:text-zinc-900">Pricing</Link>

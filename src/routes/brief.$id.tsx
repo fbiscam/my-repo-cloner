@@ -96,7 +96,7 @@ function BriefPage() {
             <span className="truncate text-[22px] tracking-tight leading-none" style={{ color: "#3c4043", fontFamily: "\"Google Sans\", \"Product Sans\", \"DM Sans\", system-ui, sans-serif", fontWeight: 500 }}>Jenvu</span>
           </Link>
           <nav className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-7 text-sm">
-            <Link to="/signal">Signal Engine</Link>
+            <Link to="/signals-live">Live Signals</Link>
             <Link to="/briefs" className="font-semibold">Briefs</Link>
             <Link to="/founding">Founding</Link>
             <Link to="/insights">Insights</Link>

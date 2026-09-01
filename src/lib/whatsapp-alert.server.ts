@@ -73,7 +73,7 @@ export async function sendSignalAlertWhatsApp(a: SignalAlertArgs): Promise<{ sen
     '',
     a.rationale ? `_Why this ${a.direction.toLowerCase()}:_\n${a.rationale.slice(0, 500)}` : '',
     '',
-    `View details: https://jenvu.com/signal?alertId=${a.alertId}`
+    `View details: https://jenvu.com/signals-live?alertId=${a.alertId}`
   ].filter(Boolean).join('\n')
 
   const templateParams: [string, string] = [
