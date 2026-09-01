@@ -1233,27 +1233,88 @@ function HomePage() {
       </section>
 
 
-      {/* TESTIMONIALS */}
+      {/* TESTIMONIALS — desk log style */}
       <section className="border-t border-zinc-100 bg-white">
-        <div className="mx-auto max-w-6xl px-5 py-10 sm:px-6 sm:py-14">
-          <h2 className="mb-10 text-xl font-semibold tracking-tight sm:text-3xl md:text-4xl">Trusted by traders.</h2>
-          <div className="grid gap-6 md:grid-cols-3">
+        <div className="mx-auto max-w-6xl px-5 py-10 sm:px-6 sm:py-16">
+          <div className="flex flex-col gap-4 border-b border-zinc-100 pb-6 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <span className={`text-[9px] font-bold ${MONO} uppercase tracking-[0.25em] text-zinc-400`}>
+                Desk log · verified users
+              </span>
+              <h2 className="mt-2.5 text-xl font-semibold tracking-tight sm:text-3xl md:text-4xl">
+                Trusted by traders.
+              </h2>
+            </div>
+            <div className={`flex items-center gap-2 text-[9px] ${MONO} uppercase tracking-[0.2em] text-zinc-400`}>
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              3 desks · gold only
+            </div>
+          </div>
+
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
             {[
-              ["Feels like sitting next to a 25-year desk trader. The narration alone changed how I read structure.", "A. Rahman", "Prop Desk · Dubai"],
-              ["ICT setups marked live on the chart, with voice — I stopped second-guessing my entries.", "M. Chen", "Independent · Singapore"],
-              ["Gold execution is on another level. The killzone + sweep logic is exactly how I trade.", "S. Patel", "Family Office · London"],
-            ].map(([q, n, r]) => (
-              <figure key={n} className="rounded-2xl border border-zinc-200 bg-white p-6">
-                <blockquote className="text-sm leading-relaxed text-zinc-700">"{q}"</blockquote>
-                <figcaption className="mt-4 flex items-center justify-between text-xs">
-                  <div>
-                    <div className="font-medium text-zinc-900">{n}</div>
-                    <div className="text-zinc-500">{r}</div>
+              ["Feels like sitting next to a 25-year desk trader. The narration alone changed how I read structure.", "A. Rahman", "Prop Desk · Dubai", "Narration"],
+              ["ICT setups marked live on the chart, with voice — I stopped second-guessing my entries.", "M. Chen", "Independent · Singapore", "Chart markup"],
+              ["Gold execution is on another level. The killzone + sweep logic is exactly how I trade.", "S. Patel", "Family Office · London", "Killzones"],
+            ].map(([q, n, r, tag], i) => {
+              const featured = i === 0;
+              return (
+                <figure
+                  key={String(n)}
+                  className={`group relative flex flex-col overflow-hidden rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-1 ${
+                    featured
+                      ? "border-zinc-900 bg-zinc-900 text-zinc-100 shadow-[0_18px_40px_-24px_rgba(24,24,27,0.7)]"
+                      : "border-zinc-200 bg-white hover:border-zinc-900/30 hover:shadow-[0_18px_40px_-28px_rgba(24,24,27,0.35)]"
+                  }`}
+                >
+                  <span
+                    aria-hidden="true"
+                    className={`pointer-events-none absolute -right-2 -top-6 select-none text-[110px] leading-none ${
+                      featured ? "text-white/10" : "text-zinc-100"
+                    }`}
+                  >
+                    &ldquo;
+                  </span>
+
+                  <div className="relative flex items-center justify-between">
+                    <span className={`text-[9px] font-bold ${MONO} uppercase tracking-[0.2em] ${featured ? "text-emerald-400" : "text-zinc-400"}`}>
+                      {String(tag)}
+                    </span>
+                    <span className={`text-[9px] ${MONO} ${featured ? "text-white/40" : "text-zinc-300"}`}>
+                      0{i + 1}
+                    </span>
                   </div>
-                  <span className="text-zinc-600" aria-hidden="true">↗</span>
-                </figcaption>
-              </figure>
-            ))}
+
+                  <blockquote className={`relative mt-5 text-[15px] leading-relaxed ${featured ? "text-zinc-100" : "text-zinc-700"}`}>
+                    {q}
+                  </blockquote>
+
+                  <figcaption
+                    className={`relative mt-6 flex items-center gap-3 border-t pt-4 ${featured ? "border-white/10" : "border-zinc-100"}`}
+                  >
+                    <span
+                      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold ${MONO} ${
+                        featured ? "bg-white/10 text-zinc-100" : "bg-zinc-100 text-zinc-700"
+                      }`}
+                    >
+                      {String(n).replace(/[^A-Z]/g, "").slice(0, 2)}
+                    </span>
+                    <div className="min-w-0">
+                      <div className={`truncate text-[13px] font-medium ${featured ? "text-white" : "text-zinc-900"}`}>{n}</div>
+                      <div className={`truncate text-[10px] ${MONO} uppercase tracking-widest ${featured ? "text-white/50" : "text-zinc-500"}`}>{r}</div>
+                    </div>
+                    <span
+                      aria-hidden="true"
+                      className={`ml-auto text-sm transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 ${
+                        featured ? "text-emerald-400" : "text-zinc-400"
+                      }`}
+                    >
+                      ↗
+                    </span>
+                  </figcaption>
+                </figure>
+              );
+            })}
           </div>
         </div>
       </section>
