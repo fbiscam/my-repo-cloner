@@ -461,12 +461,17 @@ function buildProjectionView(p: XauProjection | null) {
     longPct: p.longPct,
     confidence: p.confidence,
     confidenceSeries: p.confidenceSeries,
-    tf: [
-      ["H1", num(p.targets.h1)],
-      ["H4", num(p.targets.h4)],
-      ["1D", num(p.targets.d1)],
-      ["1W", num(p.targets.w1)],
-    ] as [string, string][],
+    tf: (
+      [
+        ["H1", p.targets.h1],
+        ["H4", p.targets.h4],
+        ["1D", p.targets.d1],
+        ["1W", p.targets.w1],
+      ] as [string, number][]
+    ).map(([k, v]) => {
+      const pct = p.price ? ((v - p.price) / p.price) * 100 : 0;
+      return { k, v: num(v), pct: `${pct >= 0 ? "+" : ""}${pct.toFixed(2)}%`, up: pct >= 0 };
+    }),
     readout: [
       ["Target", num(p.targets.d1)],
       ["Invalidation", num(p.invalidation)],
