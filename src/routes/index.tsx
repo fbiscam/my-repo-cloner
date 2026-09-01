@@ -138,10 +138,13 @@ export const Route = createFileRoute("/")({
   // after first paint, so a slow provider can never prevent the page loading.
   // The XAU projection is primed server-side (5-min cache) so the very first
   // paint shows the real live price instead of a stale placeholder.
-  loader: async () => ({
-    tickerRows: INITIAL_TICKER,
-    projection: await getXauProjection().catch(() => null),
-  }),
+  loader: async () => {
+    const [projection, board] = await Promise.all([
+      getXauProjection().catch(() => null),
+      getCorrelatedMarkets().catch(() => null),
+    ]);
+    return { tickerRows: INITIAL_TICKER, projection, board };
+  },
   errorComponent: ({ error }) => (
     <div role="alert" className="p-8 text-sm text-zinc-600">{(error as Error)?.message ?? "Something went wrong."}</div>
   ),
@@ -316,8 +319,8 @@ function useXauProjection(initial: XauProjection | null): XauProjection | null {
 }
 
 /* Live macro board: markets that materially move the XAU/USD price. */
-function useCorrelatedMarkets(): CorrelatedBoard | null {
-  const [data, setData] = React.useState<CorrelatedBoard | null>(null);
+function useCorrelatedMarkets(initial: CorrelatedBoard | null): CorrelatedBoard | null {
+  const [data, setData] = React.useState<CorrelatedBoard | null>(initial);
   const fetchBoard = useServerFn(getCorrelatedMarkets);
 
   React.useEffect(() => {
@@ -332,7 +335,7 @@ function useCorrelatedMarkets(): CorrelatedBoard | null {
       } catch { /* keep last known values */ } finally { inFlight = false; }
     };
     run();
-    const id = setInterval(run, 5_000);
+    const id = setInterval(run, 2_000);
     return () => { alive = false; clearInterval(id); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -454,7 +457,9 @@ function HomePage() {
   const ticker = useLiveTicker();
   const initialProjection = (Route.useLoaderData() as { projection?: XauProjection | null } | undefined)?.projection ?? null;
   const projection = useXauProjection(initialProjection);
-  const board = useCorrelatedMarkets();
+  const board = useCorrelatedMarkets(
+    (Route.useLoaderData() as { board?: CorrelatedBoard | null } | undefined)?.board ?? null,
+  );
   const proj = React.useMemo(() => buildProjectionView(projection), [projection]);
   const currentPlan = useCurrentPlan();
   const upgradeLock = useUpgradeLock();

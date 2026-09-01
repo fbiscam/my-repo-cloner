@@ -25,7 +25,7 @@ export type CorrelatedMarket = {
 
 export type CorrelatedBoard = { markets: CorrelatedMarket[]; updatedAt: number };
 
-const TTL_MS = 4_000;
+const TTL_MS = 1_500;
 let cache: { at: number; data: CorrelatedBoard } | null = null;
 
 const CONTEXT: Array<{ symbol: string; note: string; decimals: number }> = [
