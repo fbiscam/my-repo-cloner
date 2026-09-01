@@ -682,25 +682,30 @@ function HomePage() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-zinc-900">Directional Bias</span>
-                    <span className="text-xs font-medium text-emerald-600">Bullish</span>
+                    <span className={`text-xs font-medium ${proj.biasLabel === "Bearish" ? "text-red-600" : proj.biasLabel === "Neutral" ? "text-zinc-500" : "text-emerald-600"}`}>
+                      {proj.biasLabel}
+                    </span>
                   </div>
                   <div className="flex h-1 w-full overflow-hidden rounded-full bg-zinc-100">
-                    <div className="w-[72%] bg-emerald-500" />
-                    <div className="w-[28%] bg-zinc-200" />
+                    <div
+                      className={proj.biasLabel === "Bearish" ? "bg-red-500" : "bg-emerald-500"}
+                      style={{ width: `${proj.longPct}%` }}
+                    />
+                    <div className="bg-zinc-200" style={{ width: `${100 - proj.longPct}%` }} />
                   </div>
                   <div className={`flex justify-between text-[10px] ${MONO} text-zinc-400`}>
-                    <span>72% long</span>
-                    <span>28% short</span>
+                    <span>{proj.longPct}% long</span>
+                    <span>{100 - proj.longPct}% short</span>
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <div className="flex items-end justify-between">
                     <span className={`text-[10px] ${MONO} uppercase text-zinc-500`}>Model Confidence</span>
-                    <span className="text-xs font-semibold">86%</span>
+                    <span className="text-xs font-semibold">{proj.confidence}%</span>
                   </div>
                   <div className="flex h-16 items-end gap-0.5 rounded border border-zinc-100 p-2">
-                    {[52, 61, 58, 70, 66, 78, 74, 86, 82].map((h, i) => (
+                    {proj.confidenceSeries.map((h, i) => (
                       <div
                         key={i}
                         className={`flex-1 rounded-t-sm ${h > 75 ? "bg-emerald-500" : h > 60 ? "bg-zinc-400" : "bg-zinc-200"}`}
@@ -711,18 +716,20 @@ function HomePage() {
                 </div>
 
                 <div className="grid grid-cols-2 gap-2">
-                  {[
-                    ["Target", "2,447"],
-                    ["Invalidation", "2,388"],
-                    ["Key Level", "2,402"],
-                    ["Est. R:R", "1 : 3.4"],
-                  ].map(([k, v]) => (
+                  {proj.readout.map(([k, v]) => (
                     <div key={k} className="rounded-lg border border-zinc-100 p-2">
                       <p className={`text-[10px] ${MONO} text-zinc-500`}>{k}</p>
                       <p className={`text-xs ${MONO} font-medium`}>{v}</p>
                     </div>
                   ))}
                 </div>
+
+                <p className="text-[11px] leading-relaxed text-zinc-500">
+                  {proj.note}
+                  {proj.live && proj.model ? (
+                    <span className={`ml-1 ${MONO} text-[10px] uppercase text-zinc-400`}>· {proj.model}</span>
+                  ) : null}
+                </p>
 
                 <Link
                   to="/signals-live"
