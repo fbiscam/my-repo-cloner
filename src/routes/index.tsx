@@ -724,13 +724,6 @@ function HomePage() {
                   ))}
                 </div>
 
-                <p className="text-[11px] leading-relaxed text-zinc-500">
-                  {proj.note}
-                  {proj.live && proj.model ? (
-                    <span className={`ml-1 ${MONO} text-[10px] uppercase text-zinc-400`}>· {proj.model}</span>
-                  ) : null}
-                </p>
-
                 <Link
                   to="/signals-live"
                   className={`w-full inline-flex items-center justify-center mt-2 py-3 bg-zinc-900 text-white text-[11px] font-semibold tracking-[0.18em] rounded-lg hover:bg-zinc-800 transition-colors uppercase`}
