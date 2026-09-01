@@ -14,7 +14,6 @@ import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { useUpgradeLock } from "@/hooks/useUpgradeLock";
 import { getMarketSnapshotsBatch } from "@/lib/gold-analysis.functions";
 import { getXauProjection, type XauProjection } from "@/lib/home-projection.functions";
-import eyeIcon from "@/assets/eye-icon.png.asset.json";
 
 /* ---------- hero background banners (desktop / tablet only) ---------- */
 function HeroBanners() {
