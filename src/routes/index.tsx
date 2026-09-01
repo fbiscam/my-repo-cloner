@@ -709,6 +709,13 @@ function HomePage() {
                   <div className="mt-2 text-sm font-medium tracking-tight whitespace-nowrap">{v}</div>
                 </div>
               ))}
+              <div className="bg-white p-2">
+                <div className="h-[320px] w-full sm:h-[420px]">
+                  <ClientOnly fallback={<div className="h-full w-full animate-pulse rounded-lg bg-zinc-50" />}>
+                    <TradingViewChart symbol="XAUUSD" timeframe="15m" theme="light" />
+                  </ClientOnly>
+                </div>
+              </div>
             </div>
 
           </div>
