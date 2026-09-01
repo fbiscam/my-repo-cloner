@@ -13,7 +13,7 @@ import { useTrial } from "@/hooks/useTrial";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { useUpgradeLock } from "@/hooks/useUpgradeLock";
 import { getMarketSnapshotsBatch } from "@/lib/gold-analysis.functions";
-import { getXauProjection, type XauProjection } from "@/lib/home-projection.functions";
+import { getXauProjection, getXauTick, type XauProjection, type XauTick } from "@/lib/home-projection.functions";
 import {
   getCorrelatedMarkets,
   type CorrelatedBoard,
@@ -299,19 +299,45 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 /* ---------- page ---------- */
 function useXauProjection(initial: XauProjection | null): XauProjection | null {
   const [data, setData] = React.useState<XauProjection | null>(initial);
+  // Full ICT/SMC engine read + BluesMind gpt-4o senior review (server cached).
   const fetchProjection = useServerFn(getXauProjection);
+  // 1s spot tick — keeps the printed price live between analysis refreshes.
+  const fetchTick = useServerFn(getXauTick);
 
   React.useEffect(() => {
     let alive = true;
-    const run = async () => {
+    let analysisInFlight = false;
+    let tickInFlight = false;
+
+    const runAnalysis = async () => {
+      if (analysisInFlight) return;
+      analysisInFlight = true;
       try {
         const res = await fetchProjection();
         if (alive && res) setData(res as XauProjection);
-      } catch { /* keep last known values */ }
+      } catch { /* keep last known values */ } finally { analysisInFlight = false; }
     };
-    run();
-    const id = setInterval(run, 60_000);
-    return () => { alive = false; clearInterval(id); };
+
+    const runTick = async () => {
+      if (tickInFlight) return;
+      tickInFlight = true;
+      try {
+        const tick = (await fetchTick()) as XauTick | null;
+        if (alive && tick) {
+          setData((prev) =>
+            prev
+              ? { ...prev, price: tick.price, changePct: tick.changePct, updatedAt: tick.updatedAt }
+              : prev,
+          );
+        }
+      } catch { /* keep last known price */ } finally { tickInFlight = false; }
+    };
+
+    runAnalysis();
+    runTick();
+    const analysisId = setInterval(runAnalysis, 60_000);
+    const tickId = setInterval(runTick, 1_000);
+    return () => { alive = false; clearInterval(analysisId); clearInterval(tickId); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -335,7 +361,7 @@ function useCorrelatedMarkets(initial: CorrelatedBoard | null): CorrelatedBoard 
       } catch { /* keep last known values */ } finally { inFlight = false; }
     };
     run();
-    const id = setInterval(run, 2_000);
+    const id = setInterval(run, 1_000);
     return () => { alive = false; clearInterval(id); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

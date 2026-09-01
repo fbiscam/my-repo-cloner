@@ -36,7 +36,7 @@ export type XauProjection = {
   updatedAt: number;
 };
 
-const TTL_MS = 5 * 60_000;
+const TTL_MS = 60_000; // ICT/SMC + BluesMind gpt-4o review refresh window
 let cache: { at: number; data: XauProjection } | null = null;
 
 const round2 = (n: number) => Math.round(n * 100) / 100;
@@ -233,6 +233,55 @@ export const getXauProjection = createServerFn({ method: "GET" }).handler(
       return data;
     } catch {
       return cache?.data ?? null;
+    }
+  },
+);
+
+// ---------------------------------------------------------------
+// 1-second live tick. The full ICT/SMC + BluesMind gpt-4o review is
+// expensive, so the panel keeps its cached analysis and only refreshes
+// the spot price/change on this fast path.
+// ---------------------------------------------------------------
+export type XauTick = { price: number; changePct: number; updatedAt: number };
+
+const TICK_TTL_MS = 900;
+let tickCache: { at: number; data: XauTick } | null = null;
+let prevClose: { at: number; value: number } | null = null;
+
+async function getPrevClose(): Promise<number | null> {
+  if (prevClose && Date.now() - prevClose.at < 10 * 60_000) return prevClose.value;
+  try {
+    const c1d = await fetchInstrumentCandles(resolveInstrument("XAUUSD"), "1d");
+    const v = c1d.length >= 2 ? c1d[c1d.length - 2].c : c1d[c1d.length - 1]?.c;
+    if (v && Number.isFinite(v)) {
+      prevClose = { at: Date.now(), value: v };
+      return v;
+    }
+  } catch { /* ignore */ }
+  return prevClose?.value ?? null;
+}
+
+export const getXauTick = createServerFn({ method: "GET" }).handler(
+  async (): Promise<XauTick | null> => {
+    if (tickCache && Date.now() - tickCache.at < TICK_TTL_MS) return tickCache.data;
+    try {
+      const res = await fetch("https://api.gold-api.com/price/XAU", {
+        headers: { "User-Agent": "Mozilla/5.0", Accept: "application/json" },
+      });
+      if (!res.ok) return tickCache?.data ?? null;
+      const j: any = await res.json();
+      const price = Number(j?.price ?? j?.Price);
+      if (!Number.isFinite(price) || price <= 0) return tickCache?.data ?? null;
+      const prev = await getPrevClose();
+      const data: XauTick = {
+        price: round2(price),
+        changePct: prev ? Math.round(((price - prev) / prev) * 10000) / 100 : (cache?.data.changePct ?? 0),
+        updatedAt: Date.now(),
+      };
+      tickCache = { at: Date.now(), data };
+      return data;
+    } catch {
+      return tickCache?.data ?? null;
     }
   },
 );
