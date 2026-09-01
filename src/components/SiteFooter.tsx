@@ -205,7 +205,7 @@ export default function SiteFooter({ className }: { className?: string }) {
               </div>
               <ul className="space-y-2">
                 {col.links.map((l) => (
-                  <li key={l.to}>
+                  <li key={`${l.to}:${l.label}`}>
                     <Link
                       to={l.to}
                       className="text-sm text-zinc-800 hover:text-black transition-colors whitespace-nowrap"
