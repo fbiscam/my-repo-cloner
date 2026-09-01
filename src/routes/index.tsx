@@ -585,9 +585,9 @@ function HomePage() {
 
           {/* body */}
           <div className="relative">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-px bg-zinc-100 blur-[10px] select-none">
-              {/* LEFT — prediction chart */}
-              <div className="lg:col-span-8 bg-white p-5 sm:p-6 flex flex-col min-h-[330px] sm:min-h-[440px]">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-px bg-zinc-100 select-none">
+              {/* LEFT — prediction chart (locked for guests) */}
+              <div className="relative lg:col-span-8 bg-white p-5 sm:p-6 flex flex-col min-h-[330px] sm:min-h-[440px] blur-[10px] select-none">
                 <div className="flex flex-1 flex-col">
                   <div className="flex flex-wrap items-end justify-between gap-4">
                     <div>
@@ -663,9 +663,27 @@ function HomePage() {
                     ))}
                   </div>
                 </div>
+
+                {/* locked overlay — only hides the chart */}
+                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-white/95 opacity-100 backdrop-blur-[8px] transition-opacity duration-300">
+                  <img
+                    src={eyeIcon.url}
+                    alt="Sign in to view"
+                    className="h-8 w-8 animate-[pulse_1.6s_cubic-bezier(0.4,0,0.6,1)_infinite] drop-shadow-sm"
+                  />
+                  <p className={`text-[11px] font-semibold ${MONO} uppercase tracking-[0.2em] text-zinc-900`}>
+                    Sign In For full view
+                  </p>
+                  <Link
+                    to="/auth"
+                    className="rounded-full bg-zinc-900 px-5 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-white transition-transform duration-200 hover:scale-105"
+                  >
+                    Sign In
+                  </Link>
+                </div>
               </div>
 
-              {/* RIGHT — model read-out */}
+              {/* RIGHT — model read-out (always visible) */}
               <div className="lg:col-span-4 bg-white p-5 sm:p-6 lg:border-l border-zinc-100">
                 <h2 className={`text-[10px] font-bold ${MONO} text-zinc-900 tracking-widest uppercase mb-4`}>
                   Model Read-Out
@@ -724,24 +742,6 @@ function HomePage() {
                   </Link>
                 </div>
               </div>
-            </div>
-
-            {/* locked overlay — fully hides the entire projection design */}
-            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-white/95 opacity-100 backdrop-blur-[8px] transition-opacity duration-300">
-              <img
-                src={eyeIcon.url}
-                alt="Sign in to view"
-                className="h-8 w-8 animate-[pulse_1.6s_cubic-bezier(0.4,0,0.6,1)_infinite] drop-shadow-sm"
-              />
-              <p className={`text-[11px] font-semibold ${MONO} uppercase tracking-[0.2em] text-zinc-900`}>
-                Sign In For full view
-              </p>
-              <Link
-                to="/auth"
-                className="rounded-full bg-zinc-900 px-5 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-white transition-transform duration-200 hover:scale-105"
-              >
-                Sign In
-              </Link>
             </div>
           </div>
 
