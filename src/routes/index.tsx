@@ -451,6 +451,7 @@ function HomePage() {
   const ticker = useLiveTicker();
   const initialProjection = (Route.useLoaderData() as { projection?: XauProjection | null } | undefined)?.projection ?? null;
   const projection = useXauProjection(initialProjection);
+  const board = useCorrelatedMarkets();
   const proj = React.useMemo(() => buildProjectionView(projection), [projection]);
   const currentPlan = useCurrentPlan();
   const upgradeLock = useUpgradeLock();
