@@ -465,17 +465,22 @@ const FAST_NARRATION_BMIND = [
   "bmind/gpt-5.2-chat",
 ] as const;
 
+// Senior review runs on Bluesminds GPT-4o ONLY (desk decision). No fallback
+// hops: if 4o cannot answer, the hard review gate holds the setup at WAIT
+// rather than letting a different model sign off the trade.
+const SENIOR_REVIEW_BMIND_4O = ["bmind/gpt-4o"] as const;
+
 export const MODEL_CHAIN = {
   intent: WORKING_BMIND,
   narration: FAST_NARRATION_BMIND,
-  seniorReview: WORKING_BMIND,
+  seniorReview: SENIOR_REVIEW_BMIND_4O,
   macroContext: WORKING_BMIND,
   chat: WORKING_BMIND,
 } as const;
 
 export const MACRO_CONTEXT_CHAIN = WORKING_BMIND;
 
-export const SENIOR_REVIEW_CHAIN = WORKING_BMIND;
+export const SENIOR_REVIEW_CHAIN = SENIOR_REVIEW_BMIND_4O;
 
 // -------- Stage 2: independent SMC second-opinion chain --------------------
 // A SECOND pass that must not reuse the senior-review primary, so the desk
