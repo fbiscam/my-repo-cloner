@@ -4,7 +4,9 @@ import { Suspense, useMemo, useState, useEffect } from "react";
 
 import SiteFooter from "@/components/SiteFooter";
 import HeaderAuthButtons from "@/components/HeaderAuthButtons";
-import { TrendingUp, TrendingDown, Trophy, Flame, Clock, Filter, RefreshCw, Sparkles, CheckCircle2, XCircle, Circle } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { TrendingUp, TrendingDown, Trophy, Flame, Clock, Filter, RefreshCw, Sparkles, CheckCircle2, XCircle, Circle, Bookmark } from "lucide-react";
 
 type Signal = {
   id: string;
@@ -472,7 +474,103 @@ function SignalCard({ s }: { s: Signal }) {
           <span className="font-mono text-[10px] text-zinc-400">{relativeTime(fired)}</span>
         </div>
       </footer>
+
+      <SignalActions s={s} />
     </li>
+  );
+}
+
+function SignalActions({ s }: { s: Signal }) {
+  const [busy, setBusy] = useState<"trade" | "save" | null>(null);
+  const [traded, setTraded] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  const requireUser = async () => {
+    const { data } = await supabase.auth.getUser();
+    if (!data.user) {
+      toast.error("Sign in required", { description: "Please sign in to track this signal." });
+      return null;
+    }
+    return data.user.id;
+  };
+
+  const tradeDone = async () => {
+    setBusy("trade");
+    try {
+      const userId = await requireUser();
+      if (!userId) return;
+      const { error } = await supabase.from("trade_journal").insert({
+        user_id: userId,
+        pair: s.pair || "XAUUSD",
+        direction: s.direction,
+        entry: s.entry,
+        stop_loss: s.sl,
+        take_profit: s.tp,
+        outcome: "open",
+        source: "system",
+        opened_at: s.fired_at,
+        notes: `Taken from Live Signals · ${s.grade ?? ""} ${s.confidence ?? "—"}% ${s.session ?? ""}`.trim(),
+      });
+      if (error) throw error;
+      setTraded(true);
+      toast.success("Trade added to your journal", { description: "Open Dashboard → Trades to manage it." });
+    } catch (e) {
+      toast.error("Could not add trade", { description: e instanceof Error ? e.message : "Please try again." });
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  const saveSignal = async () => {
+    setBusy("save");
+    try {
+      const userId = await requireUser();
+      if (!userId) return;
+      const { error } = await supabase.from("saved_signals").insert({
+        user_id: userId,
+        alert_id: s.id,
+        snapshot: {
+          pair: s.pair,
+          direction: s.direction,
+          entry: s.entry,
+          stop_loss: s.sl,
+          take_profit: s.tp,
+          rr: s.rr,
+          confidence: s.confidence,
+          session: s.session,
+        },
+      });
+      if (error) throw error;
+      setSaved(true);
+      toast.success("Signal saved", { description: "Find it under Saved Signals in your dashboard." });
+    } catch (e) {
+      toast.error("Could not save signal", { description: e instanceof Error ? e.message : "Please try again." });
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  return (
+    <div className="mt-3 grid grid-cols-2 gap-2 border-t border-zinc-100 pt-3">
+      <button
+        type="button"
+        onClick={tradeDone}
+        disabled={busy !== null || traded}
+        className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-zinc-900 px-3 py-2 text-[11px] font-semibold text-white transition hover:bg-zinc-800 disabled:opacity-50"
+      >
+        <CheckCircle2 className="h-3.5 w-3.5" />
+        {traded ? "In journal" : busy === "trade" ? "Adding…" : "Trade Done"}
+      </button>
+      <button
+        type="button"
+        onClick={saveSignal}
+        disabled={busy !== null || saved}
+        className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-3 py-2 text-[11px] font-semibold text-zinc-800 transition hover:border-zinc-400 disabled:opacity-50"
+      >
+        <Bookmark className="h-3.5 w-3.5" />
+        {saved ? "Saved" : busy === "save" ? "Saving…" : "Save Signal"}
+      </button>
+    </div>
   );
 }
 
