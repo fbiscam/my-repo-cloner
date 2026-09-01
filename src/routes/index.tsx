@@ -413,7 +413,12 @@ function buildProjectionView(p: XauProjection | null) {
       longPct: 50,
       confidence: 0,
       confidenceSeries: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      tf: [["H1", "—"], ["H4", "—"], ["1D", "—"], ["1W", "—"]] as [string, string][],
+      tf: [
+        { k: "H1", v: "—", pct: "—", up: true },
+        { k: "H4", v: "—", pct: "—", up: true },
+        { k: "1D", v: "—", pct: "—", up: true },
+        { k: "1W", v: "—", pct: "—", up: true },
+      ] as { k: string; v: string; pct: string; up: boolean }[],
       readout: [["Target", "—"], ["Invalidation", "—"], ["Key Level", "—"], ["Est. R:R", "—"]] as [string, string][],
       actualPath: "",
       actualArea: "",
@@ -456,12 +461,17 @@ function buildProjectionView(p: XauProjection | null) {
     longPct: p.longPct,
     confidence: p.confidence,
     confidenceSeries: p.confidenceSeries,
-    tf: [
-      ["H1", num(p.targets.h1)],
-      ["H4", num(p.targets.h4)],
-      ["1D", num(p.targets.d1)],
-      ["1W", num(p.targets.w1)],
-    ] as [string, string][],
+    tf: (
+      [
+        ["H1", p.targets.h1],
+        ["H4", p.targets.h4],
+        ["1D", p.targets.d1],
+        ["1W", p.targets.w1],
+      ] as [string, number][]
+    ).map(([k, v]) => {
+      const pct = p.price ? ((v - p.price) / p.price) * 100 : 0;
+      return { k, v: num(v), pct: `${pct >= 0 ? "+" : ""}${pct.toFixed(2)}%`, up: pct >= 0 };
+    }),
     readout: [
       ["Target", num(p.targets.d1)],
       ["Invalidation", num(p.invalidation)],
@@ -777,10 +787,11 @@ function HomePage() {
                   </div>
 
                   <div className="mt-4 grid grid-cols-4 gap-px overflow-hidden rounded-lg border border-zinc-100 bg-zinc-100">
-                    {proj.tf.map(([k, v]) => (
-                      <div key={k} className="bg-white px-3 py-2">
-                        <div className={`text-[9px] ${MONO} uppercase tracking-widest text-zinc-400`}>{k}</div>
-                        <div className={`mt-1 text-xs font-semibold ${MONO}`}>{v}</div>
+                    {proj.tf.map((t) => (
+                      <div key={t.k} className="bg-white px-3 py-2">
+                        <div className={`text-[9px] ${MONO} uppercase tracking-widest text-zinc-400`}>{t.k}</div>
+                        <div className={`mt-1 text-xs font-semibold ${MONO}`}>{t.v}</div>
+                        <div className={`text-[9px] ${MONO} ${t.pct === "—" ? "text-zinc-400" : t.up ? "text-emerald-600" : "text-red-600"}`}>{t.pct}</div>
                       </div>
                     ))}
                   </div>
