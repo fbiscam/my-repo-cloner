@@ -13,6 +13,7 @@ import { useTrial } from "@/hooks/useTrial";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { useUpgradeLock } from "@/hooks/useUpgradeLock";
 import { getMarketSnapshotsBatch } from "@/lib/gold-analysis.functions";
+import { getXauProjection, type XauProjection } from "@/lib/home-projection.functions";
 
 /* ---------- hero background banners (desktop / tablet only) ---------- */
 function HeroBanners() {
@@ -270,8 +271,111 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 }
 
 /* ---------- page ---------- */
+function useXauProjection(): XauProjection | null {
+  const [data, setData] = React.useState<XauProjection | null>(null);
+  const fetchProjection = useServerFn(getXauProjection);
+
+  React.useEffect(() => {
+    let alive = true;
+    const run = async () => {
+      try {
+        const res = await fetchProjection();
+        if (alive && res) setData(res as XauProjection);
+      } catch { /* keep static defaults */ }
+    };
+    run();
+    const id = setInterval(run, 5 * 60_000);
+    return () => { alive = false; clearInterval(id); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return data;
+}
+
+/* Turns the engine/AI projection into display strings + SVG chart geometry.
+   Falls back to the original static read-out until live data arrives. */
+function buildProjectionView(p: XauProjection | null) {
+  const num = (n: number) => n.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  if (!p) {
+    return {
+      live: false,
+      price: "2,412.60",
+      changePct: "+0.84%",
+      up: true,
+      biasLabel: "Bullish",
+      longPct: 72,
+      confidence: 86,
+      confidenceSeries: [52, 61, 58, 70, 66, 78, 74, 86, 82],
+      tf: [["H1", "2,418"], ["H4", "2,431"], ["1D", "2,447"], ["1W", "2,468"]] as [string, string][],
+      readout: [["Target", "2,447"], ["Invalidation", "2,388"], ["Key Level", "2,402"], ["Est. R:R", "1 : 3.4"]] as [string, string][],
+      actualPath: "M0 172 L60 158 L120 176 L180 138 L240 150 L300 124 L360 124",
+      actualArea: "M0 172 L60 158 L120 176 L180 138 L240 150 L300 124 L360 124 L360 240 L0 240 Z",
+      forecastPath: "M360 124 L440 110 L520 100 L600 78",
+      bandPath: "M360 118 L440 92 L520 70 L600 44 L600 152 L520 132 L440 128 L360 130 Z",
+      nowY: 124,
+      endY: 78,
+      note: "Engine warming up — connecting to live XAU/USD feed.",
+      model: "",
+    };
+  }
+
+  const series = p.series.length >= 8 ? p.series : [p.price, p.price];
+  const fc = [p.price, p.targets.h1, p.targets.h4, p.targets.d1, p.targets.w1];
+  const all = [...series, ...fc, p.invalidation, p.keyLevel];
+  const min = Math.min(...all);
+  const max = Math.max(...all);
+  const span = max - min || 1;
+  const y = (v: number) => Math.round(((max - v) / span) * 190 + 20);
+
+  const step = 360 / Math.max(1, series.length - 1);
+  const pts = series.map((v, i) => `${Math.round(i * step)} ${y(v)}`);
+  const actualPath = `M${pts.join(" L")}`;
+  const actualArea = `${actualPath} L360 240 L0 240 Z`;
+
+  const fxs = fc.map((v, i) => `${360 + i * 60} ${y(v)}`);
+  const forecastPath = `M${fxs.join(" L")}`;
+  const spread = (i: number) => 6 + i * 7;
+  const upper = fc.map((v, i) => `${360 + i * 60} ${y(v) - spread(i)}`);
+  const lower = fc.map((v, i) => `${360 + i * 60} ${y(v) + spread(i)}`).reverse();
+  const bandPath = `M${upper.join(" L")} L${lower.join(" L")} Z`;
+
+  const up = p.changePct >= 0;
+  return {
+    live: true,
+    price: num(p.price),
+    changePct: `${up ? "+" : ""}${p.changePct.toFixed(2)}%`,
+    up,
+    biasLabel: p.bias.charAt(0).toUpperCase() + p.bias.slice(1),
+    longPct: p.longPct,
+    confidence: p.confidence,
+    confidenceSeries: p.confidenceSeries,
+    tf: [
+      ["H1", num(p.targets.h1)],
+      ["H4", num(p.targets.h4)],
+      ["1D", num(p.targets.d1)],
+      ["1W", num(p.targets.w1)],
+    ] as [string, string][],
+    readout: [
+      ["Target", num(p.targets.d1)],
+      ["Invalidation", num(p.invalidation)],
+      ["Key Level", num(p.keyLevel)],
+      ["Est. R:R", `1 : ${p.rr.toFixed(1)}`],
+    ] as [string, string][],
+    actualPath,
+    actualArea,
+    forecastPath,
+    bandPath,
+    nowY: y(p.price),
+    endY: y(p.targets.w1),
+    note: p.narrative,
+    model: p.model,
+  };
+}
+
 function HomePage() {
   const ticker = useLiveTicker();
+  const projection = useXauProjection();
+  const proj = React.useMemo(() => buildProjectionView(projection), [projection]);
   const currentPlan = useCurrentPlan();
   const upgradeLock = useUpgradeLock();
   const trial = useTrial();
@@ -500,8 +604,8 @@ function HomePage() {
                     XAU/USD · Price Projection
                   </h2>
                   <div className="mt-2 flex items-end gap-3">
-                    <span className="text-2xl font-semibold tracking-tight sm:text-3xl">2,412.60</span>
-                    <span className="pb-1 text-xs font-medium text-emerald-600">+0.84%</span>
+                    <span className="text-2xl font-semibold tracking-tight sm:text-3xl">{proj.price}</span>
+                    <span className={`pb-1 text-xs font-medium ${proj.up ? "text-emerald-600" : "text-red-600"}`}>{proj.changePct}</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
@@ -532,14 +636,11 @@ function HomePage() {
                     <line key={y} x1="0" y1={y} x2="600" y2={y} stroke="#f4f4f5" strokeWidth="1" />
                   ))}
                   {/* forecast confidence band */}
-                  <path d="M360 118 L440 92 L520 70 L600 44 L600 152 L520 132 L440 128 L360 130 Z" fill="url(#xauBand)" />
+                  <path d={proj.bandPath} fill="url(#xauBand)" />
                   {/* historical area + line */}
+                  <path d={proj.actualArea} fill="url(#xauFill)" />
                   <path
-                    d="M0 172 L60 158 L120 176 L180 138 L240 150 L300 124 L360 124 L360 240 L0 240 Z"
-                    fill="url(#xauFill)"
-                  />
-                  <path
-                    d="M0 172 L60 158 L120 176 L180 138 L240 150 L300 124 L360 124"
+                    d={proj.actualPath}
                     fill="none"
                     stroke="#18181b"
                     strokeWidth="2"
@@ -548,27 +649,22 @@ function HomePage() {
                   />
                   {/* forecast line */}
                   <path
-                    d="M360 124 L440 110 L520 100 L600 78"
+                    d={proj.forecastPath}
                     fill="none"
-                    stroke="#10b981"
+                    stroke={proj.biasLabel === "Bearish" ? "#ef4444" : "#10b981"}
                     strokeWidth="2"
                     strokeDasharray="5 5"
                     strokeLinecap="round"
                   />
                   <line x1="360" y1="0" x2="360" y2="240" stroke="#e4e4e7" strokeWidth="1" strokeDasharray="3 4" />
-                  <circle cx="360" cy="124" r="4" fill="#18181b" />
-                  <circle cx="600" cy="78" r="4" fill="#10b981" />
+                  <circle cx="360" cy={proj.nowY} r="4" fill="#18181b" />
+                  <circle cx="600" cy={proj.endY} r="4" fill={proj.biasLabel === "Bearish" ? "#ef4444" : "#10b981"} />
                 </svg>
                 <span className={`absolute left-[59%] top-0 text-[9px] ${MONO} uppercase text-zinc-400`}>now</span>
               </div>
 
               <div className="mt-4 grid grid-cols-4 gap-px overflow-hidden rounded-lg border border-zinc-100 bg-zinc-100">
-                {[
-                  ["H1", "2,418"],
-                  ["H4", "2,431"],
-                  ["1D", "2,447"],
-                  ["1W", "2,468"],
-                ].map(([k, v]) => (
+                {proj.tf.map(([k, v]) => (
                   <div key={k} className="bg-white px-3 py-2">
                     <div className={`text-[9px] ${MONO} uppercase tracking-widest text-zinc-400`}>{k}</div>
                     <div className={`mt-1 text-xs font-semibold ${MONO}`}>{v}</div>
@@ -586,25 +682,30 @@ function HomePage() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-zinc-900">Directional Bias</span>
-                    <span className="text-xs font-medium text-emerald-600">Bullish</span>
+                    <span className={`text-xs font-medium ${proj.biasLabel === "Bearish" ? "text-red-600" : proj.biasLabel === "Neutral" ? "text-zinc-500" : "text-emerald-600"}`}>
+                      {proj.biasLabel}
+                    </span>
                   </div>
                   <div className="flex h-1 w-full overflow-hidden rounded-full bg-zinc-100">
-                    <div className="w-[72%] bg-emerald-500" />
-                    <div className="w-[28%] bg-zinc-200" />
+                    <div
+                      className={proj.biasLabel === "Bearish" ? "bg-red-500" : "bg-emerald-500"}
+                      style={{ width: `${proj.longPct}%` }}
+                    />
+                    <div className="bg-zinc-200" style={{ width: `${100 - proj.longPct}%` }} />
                   </div>
                   <div className={`flex justify-between text-[10px] ${MONO} text-zinc-400`}>
-                    <span>72% long</span>
-                    <span>28% short</span>
+                    <span>{proj.longPct}% long</span>
+                    <span>{100 - proj.longPct}% short</span>
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <div className="flex items-end justify-between">
                     <span className={`text-[10px] ${MONO} uppercase text-zinc-500`}>Model Confidence</span>
-                    <span className="text-xs font-semibold">86%</span>
+                    <span className="text-xs font-semibold">{proj.confidence}%</span>
                   </div>
                   <div className="flex h-16 items-end gap-0.5 rounded border border-zinc-100 p-2">
-                    {[52, 61, 58, 70, 66, 78, 74, 86, 82].map((h, i) => (
+                    {proj.confidenceSeries.map((h, i) => (
                       <div
                         key={i}
                         className={`flex-1 rounded-t-sm ${h > 75 ? "bg-emerald-500" : h > 60 ? "bg-zinc-400" : "bg-zinc-200"}`}
@@ -615,18 +716,20 @@ function HomePage() {
                 </div>
 
                 <div className="grid grid-cols-2 gap-2">
-                  {[
-                    ["Target", "2,447"],
-                    ["Invalidation", "2,388"],
-                    ["Key Level", "2,402"],
-                    ["Est. R:R", "1 : 3.4"],
-                  ].map(([k, v]) => (
+                  {proj.readout.map(([k, v]) => (
                     <div key={k} className="rounded-lg border border-zinc-100 p-2">
                       <p className={`text-[10px] ${MONO} text-zinc-500`}>{k}</p>
                       <p className={`text-xs ${MONO} font-medium`}>{v}</p>
                     </div>
                   ))}
                 </div>
+
+                <p className="text-[11px] leading-relaxed text-zinc-500">
+                  {proj.note}
+                  {proj.live && proj.model ? (
+                    <span className={`ml-1 ${MONO} text-[10px] uppercase text-zinc-400`}>· {proj.model}</span>
+                  ) : null}
+                </p>
 
                 <Link
                   to="/signals-live"
