@@ -288,6 +288,57 @@ function useXauProjection(initial: XauProjection | null): XauProjection | null {
   return data;
 }
 
+/* Live macro board: markets that materially move the XAU/USD price. */
+function useCorrelatedMarkets(): CorrelatedBoard | null {
+  const [data, setData] = React.useState<CorrelatedBoard | null>(null);
+  const fetchBoard = useServerFn(getCorrelatedMarkets);
+
+  React.useEffect(() => {
+    let alive = true;
+    const run = async () => {
+      try {
+        const res = await fetchBoard();
+        if (alive && res) setData(res as CorrelatedBoard);
+      } catch { /* keep last known values */ }
+    };
+    run();
+    const id = setInterval(run, 60_000);
+    return () => { alive = false; clearInterval(id); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return data;
+}
+
+/* Tiny low/high sparkline for one correlated market row. */
+function Sparkline({ series, up }: { series: number[]; up: boolean }) {
+  if (!series || series.length < 3) {
+    return <div className="h-8 w-full rounded bg-zinc-50" />;
+  }
+  const lo = Math.min(...series);
+  const hi = Math.max(...series);
+  const span = hi - lo || 1;
+  const W = 120;
+  const H = 32;
+  const pts = series.map((v, i) => {
+    const x = (i / (series.length - 1)) * W;
+    const y = H - 3 - ((v - lo) / span) * (H - 6);
+    return `${Math.round(x * 100) / 100},${Math.round(y * 100) / 100}`;
+  });
+  const stroke = up ? "#10b981" : "#ef4444";
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} className="h-8 w-[110px]" preserveAspectRatio="none" aria-hidden="true">
+      <polyline
+        points={`0,${H} ${pts.join(" ")} ${W},${H}`}
+        fill={up ? "rgba(16,185,129,0.10)" : "rgba(239,68,68,0.10)"}
+        stroke="none"
+      />
+      <polyline points={pts.join(" ")} fill="none" stroke={stroke} strokeWidth="1.6" strokeLinejoin="round" />
+      <circle cx={W} cy={pts[pts.length - 1].split(",")[1]} r="2" fill={stroke} />
+    </svg>
+  );
+}
+
 /* Turns the engine/AI projection into display strings + SVG chart geometry.
    While live data is missing we render a neutral loading read-out — never
    stale prices, which used to flash an old ~2,4xx quote on first paint. */
@@ -863,106 +914,95 @@ function HomePage() {
 
           </div>
 
-          <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-zinc-100 bg-zinc-100 lg:grid-cols-12">
-            {/* Session volatility profile */}
-            <div className="bg-white p-5 sm:p-6 lg:col-span-8">
-              <div className="flex items-center justify-between">
-                <h3 className={`text-[10px] font-bold ${MONO} uppercase tracking-widest text-zinc-900`}>
-                  XAU/USD Session Volatility Profile
-                </h3>
-                <span className={`text-[9px] ${MONO} uppercase tracking-widest text-zinc-400`}>avg pips / hour</span>
-              </div>
-
-              <div className="relative mt-5 w-full">
-                <svg viewBox="0 0 600 220" className="h-[200px] w-full sm:h-[240px]" preserveAspectRatio="none">
-                  <defs>
-                    <linearGradient id="volBar" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#18181b" stopOpacity="0.9" />
-                      <stop offset="100%" stopColor="#18181b" stopOpacity="0.35" />
-                    </linearGradient>
-                    <linearGradient id="volBarHot" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#10b981" stopOpacity="0.95" />
-                      <stop offset="100%" stopColor="#10b981" stopOpacity="0.3" />
-                    </linearGradient>
-                  </defs>
-                  {[0, 1, 2, 3].map((i) => (
-                    <line key={i} x1="0" y1={20 + i * 50} x2="600" y2={20 + i * 50} stroke="#f4f4f5" strokeWidth="1" />
-                  ))}
-                  {[
-                    { h: "00", v: 18 }, { h: "02", v: 24 }, { h: "04", v: 31 },
-                    { h: "06", v: 44 }, { h: "08", v: 72 }, { h: "10", v: 96 },
-                    { h: "12", v: 81 }, { h: "14", v: 118 }, { h: "16", v: 104 },
-                    { h: "18", v: 63 }, { h: "20", v: 37 }, { h: "22", v: 22 },
-                  ].map((d, i) => {
-                    const max = 130;
-                    const h = (d.v / max) * 160;
-                    const bw = 30;
-                    const x = 14 + i * 48;
-                    const hot = d.v >= 90;
-                    return (
-                      <g key={d.h}>
-                        <rect
-                          x={x}
-                          y={180 - h}
-                          width={bw}
-                          height={h}
-                          rx="4"
-                          fill={hot ? "url(#volBarHot)" : "url(#volBar)"}
-                        />
-                        <text x={x + bw / 2} y="200" textAnchor="middle" fontSize="10" fill="#a1a1aa">{d.h}</text>
-                      </g>
-                    );
-                  })}
-                  <line x1="0" y1="180" x2="600" y2="180" stroke="#e4e4e7" strokeWidth="1" />
-                </svg>
-              </div>
-
-              <div className="mt-4 grid grid-cols-3 gap-px overflow-hidden rounded-lg border border-zinc-100 bg-zinc-100">
-                {[
-                  ["Asia", "00–07 UTC"],
-                  ["London", "07–12 UTC"],
-                  ["New York", "12–17 UTC"],
-                ].map(([k, v]) => (
-                  <div key={k} className="bg-white px-3 py-2">
-                    <div className={`text-[9px] ${MONO} uppercase tracking-widest text-zinc-400`}>{k}</div>
-                    <div className={`mt-1 text-xs font-semibold ${MONO}`}>{v}</div>
-                  </div>
-                ))}
-              </div>
+          {/* CORRELATED MARKETS — live prices that move XAU/USD */}
+          <div className="mt-12 overflow-hidden rounded-2xl border border-zinc-100 bg-white">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-100 px-5 py-3.5">
+              <h3 className={`text-[10px] font-bold ${MONO} uppercase tracking-widest text-zinc-900`}>
+                Markets that move XAU/USD
+              </h3>
+              <span className={`flex items-center gap-2 text-[9px] ${MONO} uppercase tracking-widest text-zinc-400`}>
+                <span className={`h-1.5 w-1.5 rounded-full ${board ? "bg-emerald-500 animate-pulse" : "bg-zinc-300"}`} />
+                {board ? "live · 24h range" : "connecting feed"}
+              </span>
             </div>
 
-            {/* Killzone read-out */}
-            <div className="bg-white p-5 sm:p-6 lg:col-span-4 lg:border-l border-zinc-100">
-              <h3 className={`mb-4 text-[10px] font-bold ${MONO} uppercase tracking-widest text-zinc-900`}>
-                Killzone Read-Out
-              </h3>
-              <div className="space-y-5">
-                {[
-                  { k: "London Open", v: 78 },
-                  { k: "NY Open", v: 91 },
-                  { k: "Asian Range", v: 34 },
-                  { k: "London Close", v: 52 },
-                ].map((r) => (
-                  <div key={r.k} className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-zinc-900">{r.k}</span>
-                      <span className={`text-xs font-semibold ${MONO} ${r.v >= 75 ? "text-emerald-600" : "text-zinc-500"}`}>
-                        {r.v}%
-                      </span>
-                    </div>
-                    <div className="flex h-1 w-full overflow-hidden rounded-full bg-zinc-100">
-                      <div
-                        className={`h-full rounded-full ${r.v >= 75 ? "bg-emerald-500" : "bg-zinc-900"}`}
-                        style={{ width: `${r.v}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
-                <div className="border-t border-zinc-100 pt-4">
-                  <div className={`text-[9px] ${MONO} uppercase tracking-widest text-zinc-400`}>Highest expansion window</div>
-                  <div className="mt-1 text-sm font-semibold tracking-tight">14:00 – 15:00 UTC</div>
-                </div>
-              </div>
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[720px] border-collapse text-sm">
+                <thead>
+                  <tr className={`text-left text-[9px] ${MONO} uppercase tracking-widest text-zinc-400`}>
+                    <th className="px-5 py-2.5 font-medium">Market</th>
+                    <th className="px-3 py-2.5 text-right font-medium">Price</th>
+                    <th className="px-3 py-2.5 text-right font-medium">24h</th>
+                    <th className="px-3 py-2.5 font-medium">Low / High</th>
+                    <th className="px-3 py-2.5 font-medium">Trend</th>
+                    <th className="px-5 py-2.5 text-right font-medium">Gold impact</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(board?.markets ?? CORR_PLACEHOLDER).map((m) => {
+                    const live = !!board;
+                    const up = m.changePct >= 0;
+                    return (
+                      <tr key={m.symbol} className="border-t border-zinc-100 align-middle">
+                        <td className="px-5 py-3.5">
+                          <div className="text-[13px] font-semibold tracking-tight text-zinc-900">{m.display}</div>
+                          <div className="mt-0.5 text-[11px] leading-tight text-zinc-500">{m.note}</div>
+                        </td>
+                        <td className={`px-3 py-3.5 text-right text-[13px] font-semibold ${MONO} text-zinc-900`}>
+                          {live
+                            ? m.price.toLocaleString("en-US", {
+                                minimumFractionDigits: Math.min(m.decimals, 3),
+                                maximumFractionDigits: Math.min(m.decimals, 3),
+                              })
+                            : "—"}
+                        </td>
+                        <td className={`px-3 py-3.5 text-right text-[13px] font-semibold ${MONO} ${live ? (up ? "text-emerald-600" : "text-red-500") : "text-zinc-300"}`}>
+                          {live ? `${up ? "+" : ""}${m.changePct.toFixed(2)}%` : "—"}
+                        </td>
+                        <td className="px-3 py-3.5">
+                          <div className="w-[132px]">
+                            <div className="relative h-1 w-full rounded-full bg-zinc-100">
+                              <span
+                                className={`absolute top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full border-2 border-white ${up ? "bg-emerald-500" : "bg-red-500"}`}
+                                style={{ left: `calc(${live ? Math.min(96, Math.max(2, m.rangePos)) : 50}% - 5px)` }}
+                              />
+                            </div>
+                            <div className={`mt-1.5 flex justify-between text-[9px] ${MONO} text-zinc-400`}>
+                              <span>{live ? m.low.toLocaleString("en-US") : "—"}</span>
+                              <span>{live ? m.high.toLocaleString("en-US") : "—"}</span>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-3 py-3.5">
+                          <Sparkline series={m.series} up={up} />
+                        </td>
+                        <td className="px-5 py-3.5 text-right">
+                          <span
+                            className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[9px] font-bold ${MONO} uppercase tracking-widest ${
+                              !live
+                                ? "bg-zinc-50 text-zinc-400"
+                                : m.impact === "bullish"
+                                  ? "bg-emerald-50 text-emerald-700"
+                                  : m.impact === "bearish"
+                                    ? "bg-red-50 text-red-600"
+                                    : "bg-zinc-100 text-zinc-500"
+                            }`}
+                          >
+                            {live ? m.impact : "—"}
+                          </span>
+                          <div className={`mt-1 text-[9px] ${MONO} text-zinc-400`}>
+                            corr {live ? (m.correlation > 0 ? "+" : "") + m.correlation.toFixed(2) : "—"}
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            <div className={`border-t border-zinc-100 px-5 py-3 text-[9px] ${MONO} uppercase tracking-widest text-zinc-400`}>
+              Correlation vs XAU/USD hourly returns · context feeds only — Jenvu trades XAU/USD exclusively
             </div>
           </div>
 
