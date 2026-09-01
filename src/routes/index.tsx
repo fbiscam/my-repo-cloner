@@ -6,6 +6,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { CloudOrb } from "@/components/CloudOrb";
 import SiteFooter from "@/components/SiteFooter";
 import HeaderAuthButtons from "@/components/HeaderAuthButtons";
+import { ClientOnly } from "@tanstack/react-router";
+import { TradingViewChart } from "@/components/TradingViewChart";
 
 
 import { useAuthUser } from "@/hooks/useAuthUser";
@@ -709,6 +711,13 @@ function HomePage() {
                   <div className="mt-2 text-sm font-medium tracking-tight whitespace-nowrap">{v}</div>
                 </div>
               ))}
+              <div className="bg-white p-2">
+                <div className="h-[320px] w-full sm:h-[420px]">
+                  <ClientOnly fallback={<div className="h-full w-full animate-pulse rounded-lg bg-zinc-50" />}>
+                    <TradingViewChart symbol="XAUUSD" timeframe="15m" theme="light" />
+                  </ClientOnly>
+                </div>
+              </div>
             </div>
 
           </div>
