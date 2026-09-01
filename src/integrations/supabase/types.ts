@@ -865,6 +865,30 @@ export type Database = {
         }
         Relationships: []
       }
+      email_change_audit: {
+        Row: {
+          created_at: string
+          id: string
+          new_email: string | null
+          old_email: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          new_email?: string | null
+          old_email?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          new_email?: string | null
+          old_email?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       email_change_requests: {
         Row: {
           consumed_at: string | null
@@ -1235,6 +1259,7 @@ export type Database = {
         Row: {
           application_id: string
           created_at: string
+          doc_kind: string
           file_size: number
           id: string
           mime_type: string
@@ -1245,6 +1270,7 @@ export type Database = {
         Insert: {
           application_id: string
           created_at?: string
+          doc_kind?: string
           file_size?: number
           id?: string
           mime_type: string
@@ -1255,6 +1281,7 @@ export type Database = {
         Update: {
           application_id?: string
           created_at?: string
+          doc_kind?: string
           file_size?: number
           id?: string
           mime_type?: string
@@ -1844,12 +1871,14 @@ export type Database = {
           email: string | null
           expires_at: string
           id: string
+          is_upgrade: boolean | null
           network: string
           pay_amount_usd: number
           promo_code: string | null
           reject_reason: string | null
           status: string
           submitted_at: string | null
+          target_plan_id: string | null
           tx_hash: string | null
           user_id: string
         }
@@ -1865,12 +1894,14 @@ export type Database = {
           email?: string | null
           expires_at?: string
           id?: string
+          is_upgrade?: boolean | null
           network: string
           pay_amount_usd: number
           promo_code?: string | null
           reject_reason?: string | null
           status?: string
           submitted_at?: string | null
+          target_plan_id?: string | null
           tx_hash?: string | null
           user_id: string
         }
@@ -1886,16 +1917,26 @@ export type Database = {
           email?: string | null
           expires_at?: string
           id?: string
+          is_upgrade?: boolean | null
           network?: string
           pay_amount_usd?: number
           promo_code?: string | null
           reject_reason?: string | null
           status?: string
           submitted_at?: string | null
+          target_plan_id?: string | null
           tx_hash?: string | null
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "payment_orders_target_plan_id_fkey"
+            columns: ["target_plan_id"]
+            isOneToOne: false
+            referencedRelation: "plans"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       plans: {
         Row: {
@@ -2032,6 +2073,36 @@ export type Database = {
           usage_limit?: number | null
           used_count?: number
           value?: number
+        }
+        Relationships: []
+      }
+      promo_redemptions: {
+        Row: {
+          bonus_usd: number
+          code: string
+          created_at: string
+          id: string
+          order_id: string | null
+          pay_amount_usd: number
+          user_id: string
+        }
+        Insert: {
+          bonus_usd?: number
+          code: string
+          created_at?: string
+          id?: string
+          order_id?: string | null
+          pay_amount_usd?: number
+          user_id: string
+        }
+        Update: {
+          bonus_usd?: number
+          code?: string
+          created_at?: string
+          id?: string
+          order_id?: string | null
+          pay_amount_usd?: number
+          user_id?: string
         }
         Relationships: []
       }
@@ -2603,39 +2674,6 @@ export type Database = {
         }
         Relationships: []
       }
-      telegram_alert_links: {
-        Row: {
-          bot_token: string | null
-          chat_id: string
-          created_at: string
-          last_error: string | null
-          telegram_enabled: boolean
-          updated_at: string
-          user_id: string
-          verified_at: string | null
-        }
-        Insert: {
-          bot_token?: string | null
-          chat_id: string
-          created_at?: string
-          last_error?: string | null
-          telegram_enabled?: boolean
-          updated_at?: string
-          user_id: string
-          verified_at?: string | null
-        }
-        Update: {
-          bot_token?: string | null
-          chat_id?: string
-          created_at?: string
-          last_error?: string | null
-          telegram_enabled?: boolean
-          updated_at?: string
-          user_id?: string
-          verified_at?: string | null
-        }
-        Relationships: []
-      }
       topup_packs: {
         Row: {
           credits: number
@@ -3007,6 +3045,42 @@ export type Database = {
         }
         Relationships: []
       }
+      whatsapp_alert_links: {
+        Row: {
+          created_at: string | null
+          id: string
+          last_error: string | null
+          phone_number: string
+          updated_at: string | null
+          user_id: string
+          verification_code: string | null
+          verified_at: string | null
+          whatsapp_enabled: boolean | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          last_error?: string | null
+          phone_number: string
+          updated_at?: string | null
+          user_id: string
+          verification_code?: string | null
+          verified_at?: string | null
+          whatsapp_enabled?: boolean | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          last_error?: string | null
+          phone_number?: string
+          updated_at?: string | null
+          user_id?: string
+          verification_code?: string | null
+          verified_at?: string | null
+          whatsapp_enabled?: boolean | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       v_scan_charge_mismatches: {
@@ -3025,7 +3099,6 @@ export type Database = {
       }
     }
     Functions: {
-      __apply_migration: { Args: { sql: string }; Returns: undefined }
       admin_auto_scan_cron_history: {
         Args: never
         Returns: {
@@ -3065,6 +3138,7 @@ export type Database = {
           session_token: string
         }[]
       }
+      current_profile_plan: { Args: { _user_id: string }; Returns: string }
       delete_email: {
         Args: { message_id: number; queue_name: string }
         Returns: boolean
@@ -3189,20 +3263,15 @@ export type Database = {
           local_part: string
         }[]
       }
-      mail_send:
-        | {
-            Args: { _body: string; _subject: string; _to_address: string }
-            Returns: string
-          }
-        | {
-            Args: {
-              _body: string
-              _from_address?: string
-              _subject: string
-              _to_address: string
-            }
-            Returns: string
-          }
+      mail_send: {
+        Args: {
+          _body: string
+          _from_address?: string
+          _subject: string
+          _to_address: string
+        }
+        Returns: string
+      }
       mail_system_send: {
         Args: {
           _body: string
