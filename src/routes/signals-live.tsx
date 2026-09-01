@@ -508,7 +508,7 @@ function SignalActions({ s }: { s: Signal }) {
         take_profit: s.tp,
         outcome: "open",
         source: "system",
-        opened_at: s.fired_at,
+        opened_at: s.fired_at ?? new Date().toISOString(),
         notes: `Taken from Live Signals · ${s.grade ?? ""} ${s.confidence ?? "—"}% ${s.session ?? ""}`.trim(),
       });
       if (error) throw error;
