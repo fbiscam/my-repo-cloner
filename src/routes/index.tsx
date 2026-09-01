@@ -604,8 +604,8 @@ function HomePage() {
                     XAU/USD · Price Projection
                   </h2>
                   <div className="mt-2 flex items-end gap-3">
-                    <span className="text-2xl font-semibold tracking-tight sm:text-3xl">2,412.60</span>
-                    <span className="pb-1 text-xs font-medium text-emerald-600">+0.84%</span>
+                    <span className="text-2xl font-semibold tracking-tight sm:text-3xl">{proj.price}</span>
+                    <span className={`pb-1 text-xs font-medium ${proj.up ? "text-emerald-600" : "text-red-600"}`}>{proj.changePct}</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
