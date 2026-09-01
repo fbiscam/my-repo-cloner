@@ -163,7 +163,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               publisher: { "@id": "https://jenvu.com/#org" },
               potentialAction: {
                 "@type": "SearchAction",
-                target: "https://jenvu.com/signal?symbol={search_term_string}",
+                target: "https://jenvu.com/signals-live?symbol={search_term_string}",
                 "query-input": "required name=search_term_string",
               },
             },

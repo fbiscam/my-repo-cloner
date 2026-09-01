@@ -61,7 +61,7 @@ const columns = [
     links: [
       { to: "/", label: "Home" },
       { to: "/app", label: "Voice Agent" },
-      { to: "/signal", label: "Signal Desk" },
+      { to: "/signals-live", label: "Live Signals" },
       { to: "/broadcasts", label: "Broadcast" },
       { to: "/pricing", label: "Pricing" },
       { to: "/download", label: "Download App" },

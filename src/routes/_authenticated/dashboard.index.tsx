@@ -71,11 +71,11 @@ function SavedSignals() {
         </div>
         <h3 className="mt-4 text-lg font-semibold tracking-tight">No saved setups yet</h3>
         <p className="mx-auto mt-1.5 max-w-md text-sm text-zinc-500 sm:max-w-none sm:whitespace-nowrap">
-          On the Signal Desk, tap <span className="font-medium text-zinc-700">Save Signal</span> to keep an A+ setup here for later.
+          On the Live Signals, tap <span className="font-medium text-zinc-700">Save Signal</span> to keep an A+ setup here for later.
         </p>
         <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-          <Link to="/signal" className="inline-flex items-center gap-1.5 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800">
-            Open Signal Desk <ExternalLink className="h-3.5 w-3.5" />
+          <Link to="/signals-live" className="inline-flex items-center gap-1.5 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800">
+            Open Live Signals <ExternalLink className="h-3.5 w-3.5" />
           </Link>
           <Link to="/dashboard/alerts" className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50">
             Set alert preferences
@@ -156,7 +156,7 @@ function SavedSignals() {
                 {session ? `${session} · ` : ""}
                 Saved {new Date(r.created_at).toLocaleDateString()}
               </span>
-              {snap && <Link to="/signal" search={{ symbol: pair, savedId: r.id }} className="text-zinc-600 hover:text-zinc-900">Re-open →</Link>}
+              {snap && <Link to="/signals-live" className="text-zinc-600 hover:text-zinc-900">Re-open →</Link>}
             </footer>
           </article>
         );

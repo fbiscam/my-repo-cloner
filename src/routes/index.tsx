@@ -297,7 +297,7 @@ function HomePage() {
           </Link>
 
           <nav className={`hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-7 text-sm text-zinc-900`}>
-            <Link to="/signal" className="hover:text-zinc-900">Signal Engine</Link>
+            <Link to="/signals-live" className="hover:text-zinc-900">Live Signals</Link>
             <Link to="/signals-live" className="hover:text-zinc-900">Signals Live</Link>
             <Link to="/pricing" className="hover:text-zinc-900">Pricing</Link>
             <Link to="/founding" className="hover:text-zinc-900">Founding</Link>
@@ -358,7 +358,7 @@ function HomePage() {
             </div>
             <nav className="flex flex-col px-3 pb-4 pt-1 text-[15px] text-zinc-900">
               {[
-                { to: "/signal", label: "Signal Engine" },
+                { to: "/signals-live", label: "Live Signals" },
                 { to: "/signals-live", label: "Signals Live" },
                 { to: "/pricing", label: "Pricing" },
                 { to: "/founding", label: "Founding" },
@@ -434,7 +434,7 @@ function HomePage() {
                 <span className={`${MONO} text-xs opacity-80`}>→</span>
               </Link>
               <Link
-                to={isAuthed ? "/signal" : "/auth"}
+                to={isAuthed ? "/signals-live" : "/auth"}
                 className="hover-glow inline-flex items-center justify-center gap-2 rounded-lg border border-zinc-200 bg-white px-5 py-3 text-sm font-medium text-zinc-900 hover:bg-white"
               >
                 See Signal Engine
@@ -1132,7 +1132,7 @@ function HomePage() {
                   Launch Voice Agent
                 </Link>
                 <Link
-                  to="/signal"
+                  to="/signals-live"
                   className="inline-flex items-center justify-center gap-2 rounded-lg border border-zinc-200 px-5 py-3 text-sm font-medium text-zinc-900 hover:bg-white"
                 >
                   Open Signal Engine

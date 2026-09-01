@@ -88,7 +88,7 @@ const NAV_GROUPS: Array<{ label: string; items: TabItem[] }> = [
     label: "Trades & Insights",
     items: [
       { to: "/dashboard/journal", label: "Trades", icon: "candlestick_chart", countKey: "journalTotal" },
-      { to: "/signal", label: "Signal Desk", icon: "radar" },
+      { to: "/signals-live", label: "Live Signals", icon: "radar" },
       { to: "/dashboard/analytics", label: "Analytics", icon: "query_stats" },
       { to: "/dashboard/risk", label: "Risk Manager", icon: "balance" },
     ],
@@ -294,7 +294,7 @@ function SignalDeskHistory() {
         return (
           <Link
             key={a.id}
-            to="/signal"
+            to="/signals-live"
             className="flex items-center gap-3 px-4 py-2.5 hover:bg-zinc-50"
           >
             
@@ -1194,7 +1194,7 @@ function DashboardLayout() {
               icon={LineChart}
               title="Market Pulse"
               right={
-                <Link to="/signal" className="inline-flex items-center gap-1 text-[12px] text-zinc-500 hover:text-zinc-900">
+                <Link to="/signals-live" className="inline-flex items-center gap-1 text-[12px] text-zinc-500 hover:text-zinc-900">
                   <span>12</span> <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
               }
@@ -1218,7 +1218,7 @@ function DashboardLayout() {
               icon={Gauge}
               title="Best Time to Trade"
               right={
-                <Link to="/signal" className="inline-flex items-center gap-1 text-[12px] font-medium text-zinc-700 hover:text-zinc-900">
+                <Link to="/signals-live" className="inline-flex items-center gap-1 text-[12px] font-medium text-zinc-700 hover:text-zinc-900">
                   Open desk <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
               }
@@ -1230,9 +1230,9 @@ function DashboardLayout() {
           <Card className="flex flex-col">
             <CardHeader
               icon={Activity}
-              title="Signal Desk"
+              title="Live Signals"
               right={
-                <Link to="/signal" className="inline-flex items-center gap-1 text-[12px] font-medium text-zinc-700 hover:text-zinc-900">
+                <Link to="/signals-live" className="inline-flex items-center gap-1 text-[12px] font-medium text-zinc-700 hover:text-zinc-900">
                   Open desk <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
               }
@@ -1476,7 +1476,7 @@ function VoiceAgentHistory() {
 
 function QuickActions() {
   const actions: { label: string; to: string; icon: typeof Activity; tone: string }[] = [
-    { label: "New Scan",   to: "/signal",                 icon: Activity,    tone: "bg-blue-50 text-blue-700 border-blue-100" },
+    { label: "New Scan",   to: "/signals-live",                 icon: Activity,    tone: "bg-blue-50 text-blue-700 border-blue-100" },
     { label: "Journal",    to: "/dashboard/journal",       icon: BookOpen,    tone: "bg-emerald-50 text-emerald-700 border-emerald-100" },
     { label: "Killzones",  to: "/killzones",              icon: Calendar,    tone: "bg-amber-50 text-amber-700 border-amber-100" },
     { label: "Insights",   to: "/insights",               icon: LineChart,   tone: "bg-violet-50 text-violet-700 border-violet-100" },
@@ -1490,7 +1490,7 @@ function QuickActions() {
         return (
           <Link
             key={a.to}
-            to={a.to as "/signal"}
+            to={a.to as "/signals-live"}
             className="group flex flex-col items-center justify-center gap-1.5 rounded-md border border-zinc-200 bg-white px-2 py-3 text-center transition hover:border-zinc-300 hover:bg-zinc-50"
           >
             <span className={`inline-flex h-8 w-8 items-center justify-center rounded-md border ${a.tone}`}>

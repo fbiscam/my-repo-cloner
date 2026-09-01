@@ -13,7 +13,6 @@ import { Route as UnsubscribeRouteImport } from './routes/unsubscribe'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SignalsLiveRouteImport } from './routes/signals-live'
-import { Route as SignalRouteImport } from './routes/signal'
 import { Route as ScamToolRouteImport } from './routes/scam-tool'
 import { Route as ScamCheckRouteImport } from './routes/scam-check'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
@@ -130,11 +129,6 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const SignalsLiveRoute = SignalsLiveRouteImport.update({
   id: '/signals-live',
   path: '/signals-live',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SignalRoute = SignalRouteImport.update({
-  id: '/signal',
-  path: '/signal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ScamToolRoute = ScamToolRouteImport.update({
@@ -688,7 +682,6 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/scam-check': typeof ScamCheckRoute
   '/scam-tool': typeof ScamToolRoute
-  '/signal': typeof SignalRoute
   '/signals-live': typeof SignalsLiveRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
@@ -787,7 +780,6 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/scam-check': typeof ScamCheckRoute
   '/scam-tool': typeof ScamToolRoute
-  '/signal': typeof SignalRoute
   '/signals-live': typeof SignalsLiveRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
@@ -891,7 +883,6 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/scam-check': typeof ScamCheckRoute
   '/scam-tool': typeof ScamToolRoute
-  '/signal': typeof SignalRoute
   '/signals-live': typeof SignalsLiveRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
@@ -996,7 +987,6 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/scam-check'
     | '/scam-tool'
-    | '/signal'
     | '/signals-live'
     | '/sitemap.xml'
     | '/terms'
@@ -1095,7 +1085,6 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/scam-check'
     | '/scam-tool'
-    | '/signal'
     | '/signals-live'
     | '/sitemap.xml'
     | '/terms'
@@ -1198,7 +1187,6 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/scam-check'
     | '/scam-tool'
-    | '/signal'
     | '/signals-live'
     | '/sitemap.xml'
     | '/terms'
@@ -1303,7 +1291,6 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   ScamCheckRoute: typeof ScamCheckRoute
   ScamToolRoute: typeof ScamToolRoute
-  SignalRoute: typeof SignalRoute
   SignalsLiveRoute: typeof SignalsLiveRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
@@ -1362,13 +1349,6 @@ declare module '@tanstack/react-router' {
       path: '/signals-live'
       fullPath: '/signals-live'
       preLoaderRoute: typeof SignalsLiveRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/signal': {
-      id: '/signal'
-      path: '/signal'
-      fullPath: '/signal'
-      preLoaderRoute: typeof SignalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/scam-tool': {
@@ -2239,7 +2219,6 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   ScamCheckRoute: ScamCheckRoute,
   ScamToolRoute: ScamToolRoute,
-  SignalRoute: SignalRoute,
   SignalsLiveRoute: SignalsLiveRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,

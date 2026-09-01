@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 
 /** Canonical top-navigation links, shared by every public page. */
 export const SITE_NAV_LINKS = [
-  { to: "/signal", label: "Signal Engine" },
+  { to: "/signals-live", label: "Live Signals" },
   { to: "/signals-live", label: "Signals Live" },
   { to: "/pricing", label: "Pricing" },
   { to: "/insights", label: "Insights" },

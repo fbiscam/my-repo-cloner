@@ -20,9 +20,9 @@ const STEPS: Step[] = [
   },
   {
     title: "Institutional signal engine",
-    body: "Signal Desk runs ICT/SMC scans across XAU/USD, EUR, GBP, JPY, AUD, CHF with 64% confidence gate and killzone timing.",
+    body: "Live Signals runs ICT/SMC scans across XAU/USD, EUR, GBP, JPY, AUD, CHF with 64% confidence gate and killzone timing.",
     icon: Radar,
-    cta: { to: "/signal", label: "Open Signal Desk" },
+    cta: { to: "/signals-live", label: "Open Live Signals" },
   },
   {
     title: "Risk sized to your balance",
