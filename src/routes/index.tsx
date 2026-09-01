@@ -14,6 +14,33 @@ import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { useUpgradeLock } from "@/hooks/useUpgradeLock";
 import { getMarketSnapshotsBatch } from "@/lib/gold-analysis.functions";
 import { getXauProjection, type XauProjection } from "@/lib/home-projection.functions";
+import {
+  getCorrelatedMarkets,
+  type CorrelatedBoard,
+  type CorrelatedMarket,
+} from "@/lib/correlated-markets.functions";
+
+/* Neutral skeleton rows shown until the live macro feed hydrates. */
+const CORR_PLACEHOLDER: CorrelatedMarket[] = [
+  { symbol: "DXY", display: "DXY", note: "USD strength — inverse driver" },
+  { symbol: "US10Y", display: "US10Y", note: "Real yields — inverse driver" },
+  { symbol: "XAGUSD", display: "XAG/USD", note: "Silver beta — confirms metals" },
+  { symbol: "EURUSD", display: "EUR/USD", note: "USD leg — positive driver" },
+  { symbol: "USDJPY", display: "USD/JPY", note: "Carry / risk — inverse driver" },
+  { symbol: "SPX", display: "S&P 500", note: "Risk appetite — rotation cue" },
+  { symbol: "WTI", display: "WTI Oil", note: "Inflation impulse — positive" },
+].map((m) => ({
+  ...m,
+  price: 0,
+  decimals: 2,
+  changePct: 0,
+  high: 0,
+  low: 0,
+  rangePos: 50,
+  series: [],
+  correlation: 0,
+  impact: "neutral" as const,
+}));
 
 /* ---------- hero background banners (desktop / tablet only) ---------- */
 function HeroBanners() {
