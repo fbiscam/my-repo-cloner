@@ -69,15 +69,17 @@ export const Route = createFileRoute("/api/public/hooks/generate-insight")({
 
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
-        // Daily cap: 2 articles in last 24h
+        // Daily cap: 1 article per 24h (bypass with ?force=1 for manual publishing)
+        const force = new URL(request.url).searchParams.get("force") === "1";
         const since = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
         const { count: recentCount } = await supabaseAdmin
           .from("insights")
           .select("id", { count: "exact", head: true })
           .gte("created_at", since);
-        if ((recentCount ?? 0) >= 1) {
+        if (!force && (recentCount ?? 0) >= 1) {
           return Response.json({ skipped: "daily-cap-reached", recentCount });
         }
+
 
         // Pick a topic not used in 30 days (or never used), highest priority first
         const cutoff = new Date(Date.now() - 30 * 24 * 3600 * 1000).toISOString();
