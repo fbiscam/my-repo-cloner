@@ -9,6 +9,8 @@ import {
   detectSilverBullet, detectPowerOf3, detectMitigationAtEntry,
   detectCETap, detectLiquidityVoidAtEntry, detectMomentumDivergence,
   detectVolumeSpikeOnBreak, detectMidnightOpenBias,
+  computeSessionOpens, detectAsianRange, detectDailyOpenSide, detectAtrRoom,
+  detectLtfMomentum, detectRangePosition, detectSwingRoom,
 } from "@/lib/analysis/engine";
 import {
   callChatCompletion, tryParseJsonLoose, AiGatewayError,
@@ -2635,6 +2637,16 @@ Produce the A+ ICT/SMC trade plan for ${inst.display} now.`;
     const volumeSpike = detectVolumeSpikeOnBreak(htf, htfStructureEvents);
     const midnightOpen = detectMidnightOpenBias(htf, built.direction);
 
+    // ---- Expert-tier signals (takes the desk past 30 experts) ----
+    const __tp1 = built.tp1 ?? built.tp;
+    const __opens = computeSessionOpens(htf);
+    const asianRange = detectAsianRange(ltf, last.c, built.direction);
+    const dailyOpenSide = detectDailyOpenSide(__opens.dailyOpen, last.c, built.direction);
+    const atrRoom = detectAtrRoom(ltf, built.entry, __tp1);
+    const ltfMomentum = detectLtfMomentum(ltf, built.direction);
+    const rangePosition = detectRangePosition(ltf, built.entry);
+    const swingRoom = detectSwingRoom(ltfA.swings, built.entry, __tp1, built.direction);
+
     // ---- Capital-protection gate: no naked retracement calls ----
     // Yesterday's bad trades came from treating an HTF pullback zone as a live
     // signal before the lower timeframe confirmed. From now on a BUY/SELL must
@@ -2754,6 +2766,12 @@ Produce the A+ ICT/SMC trade plan for ${inst.display} now.`;
       momentumDivergence,
       volumeSpike,
       midnightOpen,
+      asianRange,
+      dailyOpenSide,
+      atrRoom,
+      ltfMomentum,
+      rangePosition,
+      swingRoom,
     });
     let setupScore = scored.score;
     let setupGrade = scored.grade;

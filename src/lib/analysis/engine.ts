@@ -511,11 +511,11 @@ export type VetoResult = { key: string; label: string; reason: string };
 // These are the SEED defaults — the live active set is loaded from
 // public.signal_weight_configs and can be tuned via /dashboard/admin/tuning.
 export const DEFAULT_FACTOR_WEIGHTS: Record<AssetKind, Record<string, number>> = {
-  metal:  { bias: 12, sweep: 9, zone: 8, pd: 4, killzone: 6, dxy: 6, rr: 5, structure: 5, smt: 3, session_align: 3, displacement: 6, rejection: 5, confluence: 3, freshness: 2, eqhl: 3, turtle: 3, htf_poi: 5, silver_bullet: 3, power3: 3, mitigation: 3, ce: 4, liq_void: 4, momentum_div: 4, vol_spike: 3, midnight: 3 },
-  forex:  { bias: 12, sweep: 9, zone: 8, pd: 4, killzone: 7, dxy: 4, rr: 5, structure: 5, smt: 4, session_align: 3, displacement: 6, rejection: 5, confluence: 3, freshness: 2, eqhl: 4, turtle: 3, htf_poi: 5, silver_bullet: 3, power3: 4, mitigation: 3, ce: 4, liq_void: 4, momentum_div: 4, vol_spike: 2, midnight: 3 },
-  index:  { bias: 14, sweep: 9, zone: 8, pd: 4, killzone: 7, dxy: 0, rr: 5, structure: 6, smt: 4, session_align: 4, displacement: 8, rejection: 5, confluence: 2, freshness: 2, eqhl: 3, turtle: 3, htf_poi: 5, silver_bullet: 4, power3: 3, mitigation: 3, ce: 4, liq_void: 5, momentum_div: 4, vol_spike: 5, midnight: 3 },
-  crypto: { bias: 16, sweep: 12, zone: 9, pd: 4, killzone: 0, dxy: 0, rr: 7, structure: 7, smt: 3, session_align: 2, displacement: 9, rejection: 5, confluence: 2, freshness: 0, eqhl: 4, turtle: 4, htf_poi: 5, silver_bullet: 0, power3: 0, mitigation: 3, ce: 4, liq_void: 6, momentum_div: 4, vol_spike: 6, midnight: 0 },
-  stock:  { bias: 14, sweep: 9, zone: 8, pd: 4, killzone: 7, dxy: 0, rr: 5, structure: 6, smt: 4, session_align: 4, displacement: 8, rejection: 5, confluence: 2, freshness: 2, eqhl: 3, turtle: 3, htf_poi: 5, silver_bullet: 4, power3: 3, mitigation: 3, ce: 4, liq_void: 5, momentum_div: 4, vol_spike: 5, midnight: 3 },
+  metal:  { bias: 12, sweep: 9, zone: 8, pd: 4, killzone: 6, dxy: 6, rr: 5, structure: 5, smt: 3, session_align: 3, displacement: 6, rejection: 5, confluence: 3, freshness: 2, eqhl: 3, turtle: 3, htf_poi: 5, silver_bullet: 3, power3: 3, mitigation: 3, ce: 4, liq_void: 4, momentum_div: 4, vol_spike: 3, midnight: 3, asian_range: 4, daily_open: 4, atr_room: 4, ltf_momentum: 3, range_pos: 3, swing_room: 4 },
+  forex:  { bias: 12, sweep: 9, zone: 8, pd: 4, killzone: 7, dxy: 4, rr: 5, structure: 5, smt: 4, session_align: 3, displacement: 6, rejection: 5, confluence: 3, freshness: 2, eqhl: 4, turtle: 3, htf_poi: 5, silver_bullet: 3, power3: 4, mitigation: 3, ce: 4, liq_void: 4, momentum_div: 4, vol_spike: 2, midnight: 3, asian_range: 5, daily_open: 4, atr_room: 4, ltf_momentum: 3, range_pos: 3, swing_room: 4 },
+  index:  { bias: 14, sweep: 9, zone: 8, pd: 4, killzone: 7, dxy: 0, rr: 5, structure: 6, smt: 4, session_align: 4, displacement: 8, rejection: 5, confluence: 2, freshness: 2, eqhl: 3, turtle: 3, htf_poi: 5, silver_bullet: 4, power3: 3, mitigation: 3, ce: 4, liq_void: 5, momentum_div: 4, vol_spike: 5, midnight: 3, asian_range: 3, daily_open: 5, atr_room: 4, ltf_momentum: 3, range_pos: 3, swing_room: 4 },
+  crypto: { bias: 16, sweep: 12, zone: 9, pd: 4, killzone: 0, dxy: 0, rr: 7, structure: 7, smt: 3, session_align: 2, displacement: 9, rejection: 5, confluence: 2, freshness: 0, eqhl: 4, turtle: 4, htf_poi: 5, silver_bullet: 0, power3: 0, mitigation: 3, ce: 4, liq_void: 6, momentum_div: 4, vol_spike: 6, midnight: 0, asian_range: 2, daily_open: 4, atr_room: 5, ltf_momentum: 4, range_pos: 3, swing_room: 4 },
+  stock:  { bias: 14, sweep: 9, zone: 8, pd: 4, killzone: 7, dxy: 0, rr: 5, structure: 6, smt: 4, session_align: 4, displacement: 8, rejection: 5, confluence: 2, freshness: 2, eqhl: 3, turtle: 3, htf_poi: 5, silver_bullet: 4, power3: 3, mitigation: 3, ce: 4, liq_void: 5, momentum_div: 4, vol_spike: 5, midnight: 3, asian_range: 3, daily_open: 5, atr_room: 4, ltf_momentum: 3, range_pos: 3, swing_room: 4 },
 };
 const FACTOR_WEIGHTS = DEFAULT_FACTOR_WEIGHTS;
 export type FactorWeightsByAsset = Record<AssetKind, Record<string, number>>;
@@ -554,6 +554,13 @@ export function scoreSetup(args: {
   momentumDivergence?: { present: boolean; detail: string } | null;
   volumeSpike?: { spike: boolean; detail: string } | null;
   midnightOpen?: { aligned: boolean; detail: string } | null;
+  // ---- expert-tier layer (30+ experts) ----
+  asianRange?: { aligned: boolean; detail: string } | null;
+  dailyOpenSide?: { aligned: boolean; detail: string } | null;
+  atrRoom?: { ok: boolean; detail: string } | null;
+  ltfMomentum?: { aligned: boolean; detail: string } | null;
+  rangePosition?: { ok: boolean; detail: string } | null;
+  swingRoom?: { clear: boolean; detail: string } | null;
   // ---- tuning override: swap in a candidate weight set without changing the module default ----
   weightsOverride?: FactorWeightsByAsset | null;
 }): {
@@ -568,6 +575,7 @@ export function scoreSetup(args: {
     displacement, rejection, confluence, freshness,
     equalHL, turtleSoup, htfPOI, silverBullet, powerOf3, mitigationBlock,
     ceTap, liquidityVoid, momentumDivergence, volumeSpike, midnightOpen,
+    asianRange, dailyOpenSide, atrRoom, ltfMomentum, rangePosition, swingRoom,
     weightsOverride,
   } = args;
   const table = weightsOverride ?? FACTOR_WEIGHTS;
@@ -726,6 +734,32 @@ export function scoreSetup(args: {
   if (midnightOpen) {
     push("midnight", "Price on correct side of Midnight Open",
       midnightOpen.aligned, midnightOpen.detail);
+  }
+
+  // ---- Expert-tier factors (takes the desk past 30 experts) ----
+  if (asianRange) {
+    push("asian_range", "Asian range expansion aligned",
+      asianRange.aligned, asianRange.detail);
+  }
+  if (dailyOpenSide) {
+    push("daily_open", "Correct side of daily open",
+      dailyOpenSide.aligned, dailyOpenSide.detail);
+  }
+  if (atrRoom) {
+    push("atr_room", "Enough ATR room to first target",
+      atrRoom.ok, atrRoom.detail);
+  }
+  if (ltfMomentum) {
+    push("ltf_momentum", "LTF momentum agrees with direction",
+      ltfMomentum.aligned, ltfMomentum.detail);
+  }
+  if (rangePosition) {
+    push("range_pos", "Entry not stuck mid-range",
+      rangePosition.ok, rangePosition.detail);
+  }
+  if (swingRoom) {
+    push("swing_room", "Clear path to target (no blocking swing)",
+      swingRoom.clear, swingRoom.detail);
   }
 
 
@@ -1842,5 +1876,117 @@ export function computeSessionOpens(htf: Candle[], d = new Date()): { dailyOpen:
   return {
     dailyOpen: dailyCandle?.o ?? null,
     weeklyOpen: weeklyCandle?.o ?? null,
+  };
+}
+
+// ============================================================
+// EXPERT-TIER DETECTORS (expands the desk past 30 experts)
+// ============================================================
+
+// ---------- Expert 26: Asian range expansion ----------
+// The Asian session (00:00–06:00 UTC) builds the range that London/NY expand
+// out of. A trade in the direction of the break away from that range is
+// aligned with the daily expansion leg.
+export function detectAsianRange(
+  ltf: Candle[],
+  lastPrice: number,
+  dir: "BUY" | "SELL" | "WAIT",
+): { aligned: boolean; detail: string; high: number | null; low: number | null } {
+  if (dir === "WAIT" || !ltf.length) return { aligned: false, detail: "No direction", high: null, low: null };
+  const now = new Date(ltf[ltf.length - 1].t);
+  const dayStart = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  const asian = ltf.filter((c) => c.t >= dayStart && c.t < dayStart + 6 * 3600_000);
+  if (asian.length < 3) return { aligned: false, detail: "Asian range not formed yet", high: null, low: null };
+  const high = Math.max(...asian.map((c) => c.h));
+  const low = Math.min(...asian.map((c) => c.l));
+  const aligned = dir === "BUY" ? lastPrice > high : lastPrice < low;
+  const detail = aligned
+    ? `Price expanding ${dir === "BUY" ? "above" : "below"} Asian range (${low.toFixed(2)}–${high.toFixed(2)})`
+    : `Price still inside/against Asian range (${low.toFixed(2)}–${high.toFixed(2)})`;
+  return { aligned, detail, high, low };
+}
+
+// ---------- Expert 27: Daily open side ----------
+export function detectDailyOpenSide(
+  dailyOpen: number | null,
+  lastPrice: number,
+  dir: "BUY" | "SELL" | "WAIT",
+): { aligned: boolean; detail: string } {
+  if (dir === "WAIT" || dailyOpen == null) return { aligned: false, detail: "Daily open unavailable" };
+  const aligned = dir === "BUY" ? lastPrice > dailyOpen : lastPrice < dailyOpen;
+  return {
+    aligned,
+    detail: `${lastPrice > dailyOpen ? "Above" : "Below"} daily open ${dailyOpen.toFixed(2)} — trade is ${dir}`,
+  };
+}
+
+// ---------- Expert 28: ATR room to first target ----------
+export function detectAtrRoom(
+  candles: Candle[],
+  entry: number,
+  tp1: number,
+): { ok: boolean; detail: string } {
+  const atr = computeATR(candles);
+  if (!atr) return { ok: false, detail: "ATR unavailable" };
+  const dist = Math.abs(tp1 - entry);
+  const mult = dist / atr;
+  return {
+    ok: mult >= 1,
+    detail: `TP1 is ${mult.toFixed(2)}× ATR (${atr.toFixed(2)}) away`,
+  };
+}
+
+// ---------- Expert 29: LTF momentum agreement ----------
+// Two of the last three closes pushing in trade direction = live momentum,
+// not a stalling tape.
+export function detectLtfMomentum(
+  ltf: Candle[],
+  dir: "BUY" | "SELL" | "WAIT",
+): { aligned: boolean; detail: string } {
+  if (dir === "WAIT" || ltf.length < 4) return { aligned: false, detail: "Not enough candles" };
+  const last3 = ltf.slice(-3);
+  const up = last3.filter((c) => c.c > c.o).length;
+  const down = last3.length - up;
+  const aligned = dir === "BUY" ? up >= 2 : down >= 2;
+  return { aligned, detail: `Last 3 LTF closes: ${up} bullish / ${down} bearish` };
+}
+
+// ---------- Expert 30: Range position (avoid mid-range entries) ----------
+export function detectRangePosition(
+  ltf: Candle[],
+  entry: number,
+  lookback = 40,
+): { ok: boolean; detail: string } {
+  const slice = ltf.slice(-lookback);
+  if (slice.length < 10) return { ok: false, detail: "Not enough candles" };
+  const hi = Math.max(...slice.map((c) => c.h));
+  const lo = Math.min(...slice.map((c) => c.l));
+  const span = Math.max(hi - lo, 1e-9);
+  const pos = (entry - lo) / span; // 0 = range low, 1 = range high
+  const ok = pos <= 0.4 || pos >= 0.6;
+  return { ok, detail: `Entry sits at ${(pos * 100).toFixed(0)}% of the recent range` };
+}
+
+// ---------- Expert 31: Swing room / clear path to target ----------
+// A protected swing sitting between entry and TP1 is a wall; institutions
+// rarely deliver straight through it on the first leg.
+export function detectSwingRoom(
+  swings: Swing[],
+  entry: number,
+  tp1: number,
+  dir: "BUY" | "SELL" | "WAIT",
+): { clear: boolean; detail: string } {
+  if (dir === "WAIT" || !swings.length) return { clear: false, detail: "No swings available" };
+  const recent = swings.slice(-14);
+  const blockers = recent.filter((s) =>
+    dir === "BUY"
+      ? s.kind === "high" && s.price > entry && s.price < tp1
+      : s.kind === "low" && s.price < entry && s.price > tp1,
+  );
+  return {
+    clear: blockers.length === 0,
+    detail: blockers.length
+      ? `${blockers.length} opposing swing(s) between entry and TP1 (nearest ${blockers[0].price.toFixed(2)})`
+      : "No blocking swing between entry and TP1",
   };
 }
