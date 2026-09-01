@@ -345,7 +345,7 @@ function KillzonesPage() {
                       <button
                         key={profile.key}
                         onClick={() => {
-                          navigate({ to: "/signals-live", search: { symbol: profile.key } as never });
+                          navigate({ to: "/signals-live", });
                         }}
                         className={`group text-left rounded-[22px] border p-4 ring-1 ring-white/60 transition-all duration-300 hover:-translate-y-1 ${
                           locked

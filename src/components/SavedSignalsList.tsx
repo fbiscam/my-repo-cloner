@@ -150,7 +150,7 @@ export function SavedSignalsList() {
                 {session ? `${session} · ` : ""}
                 Saved {new Date(r.created_at).toLocaleDateString()}
               </span>
-              {snap && <Link to="/signals-live" search={{ symbol: pair, savedId: r.id }} className="text-zinc-600 hover:text-zinc-900">Re-open →</Link>}
+              {snap && <Link to="/signals-live" className="text-zinc-600 hover:text-zinc-900">Re-open →</Link>}
             </footer>
           </article>
         );

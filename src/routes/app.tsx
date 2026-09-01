@@ -276,14 +276,14 @@ function Home() {
       if (openChartIntent) {
         speech.stopSpeaking();
         speech.pauseListening();
-        navigate({ to: "/signals-live", search: { symbol }, replace: true });
+        navigate({ to: "/signals-live", replace: true });
         return;
       }
 
       // Analyze / signal / setup / trade-idea intent → open the full Live Signals
       speech.stopSpeaking();
       speech.pauseListening();
-      navigate({ to: "/signals-live", search: { symbol }, replace: true });
+      navigate({ to: "/signals-live", replace: true });
       return;
     }
 
