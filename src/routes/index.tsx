@@ -990,158 +990,93 @@ function HomePage() {
           </div>
 
           {/* CORRELATED MARKETS — live prices that move XAU/USD */}
-          <div className="mt-12 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
-            {/* Premium header */}
-            <div className="border-b border-zinc-100 bg-gradient-to-r from-zinc-50/80 to-white px-5 py-4 sm:px-6 sm:py-5">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <h3 className={`text-[11px] font-bold ${MONO} uppercase tracking-widest text-zinc-900`}>
-                    Markets that move XAU/USD
-                  </h3>
-                  <p className="mt-1 text-xs text-zinc-500">
-                    Live macro drivers correlated with XAU/USD hourly returns
-                  </p>
-                </div>
-                <span className={`inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-[10px] ${MONO} uppercase tracking-widest text-zinc-500 shadow-sm`}>
-                  <span className={`relative flex h-2 w-2`}>
-                    <span className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-75 ${board ? "bg-emerald-500" : "bg-zinc-300"}`} />
-                    <span className={`relative inline-flex h-2 w-2 rounded-full ${board ? "bg-emerald-500" : "bg-zinc-300"}`} />
-                  </span>
-                  {board ? "live · 24h range" : "connecting feed"}
-                </span>
-              </div>
+          <div className="mt-12 overflow-hidden rounded-2xl border border-zinc-100 bg-white">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-100 px-5 py-3.5">
+              <h3 className={`text-[10px] font-bold ${MONO} uppercase tracking-widest text-zinc-900`}>
+                Markets that move XAU/USD
+              </h3>
+              <span className={`flex items-center gap-2 text-[9px] ${MONO} uppercase tracking-widest text-zinc-400`}>
+                <span className={`h-1.5 w-1.5 rounded-full ${board ? "bg-emerald-500 animate-pulse" : "bg-zinc-300"}`} />
+                {board ? "live · 24h range" : "connecting feed"}
+              </span>
             </div>
 
-            {/* Cards grid */}
-            <div className="p-4 sm:p-6">
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {(board?.markets ?? CORR_PLACEHOLDER).map((m, idx) => {
-                  const live = !!board;
-                  const up = m.changePct >= 0;
-                  const price = live
-                    ? m.price.toLocaleString("en-US", {
-                        minimumFractionDigits: Math.min(m.decimals, 3),
-                        maximumFractionDigits: Math.min(m.decimals, 3),
-                      })
-                    : "—";
-                  const change = live ? `${up ? "+" : ""}${m.changePct.toFixed(2)}%` : "—";
-                  const low = live ? m.low.toLocaleString("en-US") : "—";
-                  const high = live ? m.high.toLocaleString("en-US") : "—";
-                  const correlation = live ? (m.correlation > 0 ? "+" : "") + m.correlation.toFixed(2) : "—";
-
-                  return (
-                    <div
-                      key={m.symbol}
-                      className="group relative overflow-hidden rounded-xl border border-zinc-100 bg-white p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-zinc-300 hover:shadow-md"
-                      style={{ animationDelay: `${idx * 40}ms` }}
-                    >
-                      {/* accent top border */}
-                      <span className={`absolute left-0 right-0 top-0 h-1 ${live ? (up ? "bg-emerald-500" : "bg-red-500") : "bg-zinc-200"}`} />
-
-                      {/* header */}
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="min-w-0">
-                          <div className="truncate text-sm font-bold tracking-tight text-zinc-900">{m.display}</div>
-                          <div className="truncate text-[11px] leading-tight text-zinc-500">{m.note}</div>
-                        </div>
-                        <span
-                          className={`shrink-0 inline-flex items-center gap-1 rounded-full px-2 py-1 text-[9px] font-bold ${MONO} uppercase tracking-wider ${
-                            !live
-                              ? "bg-zinc-50 text-zinc-400"
-                              : m.impact === "bullish"
-                                ? "bg-emerald-50 text-emerald-700"
-                                : m.impact === "bearish"
-                                  ? "bg-red-50 text-red-600"
-                                  : "bg-zinc-100 text-zinc-600"
-                          }`}
-                        >
-                          {live ? m.impact : "—"}
-                        </span>
-                      </div>
-
-                      {/* price & change */}
-                      <div className="mt-4 flex items-end justify-between">
-                        <div>
-                          <div className={`text-2xl font-bold tracking-tight text-zinc-900 ${MONO}`}>{price}</div>
-                        </div>
-                        <div
-                          className={`flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-bold ${MONO} ${
-                            !live
-                              ? "bg-zinc-50 text-zinc-400"
-                              : up
-                                ? "bg-emerald-50 text-emerald-600"
-                                : "bg-red-50 text-red-500"
-                          }`}
-                        >
-                          {!live ? (
-                            "—"
-                          ) : up ? (
-                            <>
-                              <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                                <polyline points="23 6 13.5 15.5 8 10 1 17" />
-                              </svg>
-                              {change}
-                            </>
-                          ) : (
-                            <>
-                              <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                                <polyline points="23 18 13.5 8.5 8 14 1 7" />
-                              </svg>
-                              {change}
-                            </>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* sparkline */}
-                      <div className="mt-4 h-10">
-                        {live && m.series && m.series.length >= 3 ? (
-                          <Sparkline series={m.series} up={up} />
-                        ) : (
-                          <div className="flex h-full w-full items-end justify-between gap-1 rounded-md bg-zinc-50 px-2 pb-2 pt-3">
-                            {Array.from({ length: 12 }).map((_, i) => (
-                              <div
-                                key={i}
-                                className="w-full rounded-sm bg-zinc-200"
-                                style={{ height: `${20 + Math.random() * 60}%`, opacity: 0.3 + (i / 24) }}
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[720px] border-collapse text-sm">
+                <thead>
+                  <tr className={`text-left text-[9px] ${MONO} uppercase tracking-widest text-zinc-400`}>
+                    <th className="px-5 py-2.5 font-medium">Market</th>
+                    <th className="px-3 py-2.5 text-right font-medium">Price</th>
+                    <th className="px-3 py-2.5 text-right font-medium">24h</th>
+                    <th className="px-3 py-2.5 font-medium">Low / High</th>
+                    <th className="px-3 py-2.5 font-medium">Trend</th>
+                    <th className="px-5 py-2.5 text-right font-medium">Gold impact</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(board?.markets ?? CORR_PLACEHOLDER).map((m) => {
+                    const live = !!board;
+                    const up = m.changePct >= 0;
+                    return (
+                      <tr key={m.symbol} className="border-t border-zinc-100 align-middle">
+                        <td className="px-5 py-3.5">
+                          <div className="text-[13px] font-semibold tracking-tight text-zinc-900">{m.display}</div>
+                          <div className="mt-0.5 text-[11px] leading-tight text-zinc-500">{m.note}</div>
+                        </td>
+                        <td className={`px-3 py-3.5 text-right text-[13px] font-semibold ${MONO} text-zinc-900`}>
+                          {live
+                            ? m.price.toLocaleString("en-US", {
+                                minimumFractionDigits: Math.min(m.decimals, 3),
+                                maximumFractionDigits: Math.min(m.decimals, 3),
+                              })
+                            : "—"}
+                        </td>
+                        <td className={`px-3 py-3.5 text-right text-[13px] font-semibold ${MONO} ${live ? (up ? "text-emerald-600" : "text-red-500") : "text-zinc-300"}`}>
+                          {live ? `${up ? "+" : ""}${m.changePct.toFixed(2)}%` : "—"}
+                        </td>
+                        <td className="px-3 py-3.5">
+                          <div className="w-[132px]">
+                            <div className="relative h-1 w-full rounded-full bg-zinc-100">
+                              <span
+                                className={`absolute top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full border-2 border-white ${up ? "bg-emerald-500" : "bg-red-500"}`}
+                                style={{ left: `calc(${live ? Math.min(96, Math.max(2, m.rangePos)) : 50}% - 5px)` }}
                               />
-                            ))}
+                            </div>
+                            <div className={`mt-1.5 flex justify-between text-[9px] ${MONO} text-zinc-400`}>
+                              <span>{live ? m.low.toLocaleString("en-US") : "—"}</span>
+                              <span>{live ? m.high.toLocaleString("en-US") : "—"}</span>
+                            </div>
                           </div>
-                        )}
-                      </div>
-
-                      {/* 24h range bar */}
-                      <div className="mt-4">
-                        <div className="flex items-center justify-between text-[10px] text-zinc-400 mb-1.5">
-                          <span className={`${MONO}`}>24h range</span>
-                          <span className={`${MONO}`}>corr {correlation}</span>
-                        </div>
-                        <div className="relative h-2 w-full overflow-hidden rounded-full bg-zinc-100">
-                          <div
-                            className={`absolute inset-y-0 left-0 rounded-full transition-all duration-700 ${live ? (up ? "bg-emerald-500" : "bg-red-500") : "bg-zinc-300"}`}
-                            style={{ width: `${live ? Math.min(100, Math.max(2, m.rangePos)) : 30}%` }}
-                          />
+                        </td>
+                        <td className="px-3 py-3.5">
+                          <Sparkline series={m.series} up={up} />
+                        </td>
+                        <td className="px-5 py-3.5 text-right">
                           <span
-                            className={`absolute top-1/2 h-3 w-3 -translate-y-1/2 rounded-full border-2 border-white shadow-sm ${live ? (up ? "bg-emerald-600" : "bg-red-600") : "bg-zinc-400"}`}
-                            style={{ left: `calc(${live ? Math.min(100, Math.max(2, m.rangePos)) : 30}% - 6px)` }}
-                          />
-                        </div>
-                        <div className={`mt-1.5 flex justify-between text-[10px] ${MONO} text-zinc-400`}>
-                          <span>{low}</span>
-                          <span>{high}</span>
-                        </div>
-                      </div>
-
-                      {/* subtle shimmer on hover */}
-                      <div className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-0 transition-all duration-700 group-hover:translate-x-full group-hover:opacity-100" />
-                    </div>
-                  );
-                })}
-              </div>
+                            className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[9px] font-bold ${MONO} uppercase tracking-widest ${
+                              !live
+                                ? "bg-zinc-50 text-zinc-400"
+                                : m.impact === "bullish"
+                                  ? "bg-emerald-50 text-emerald-700"
+                                  : m.impact === "bearish"
+                                    ? "bg-red-50 text-red-600"
+                                    : "bg-zinc-100 text-zinc-500"
+                            }`}
+                          >
+                            {live ? m.impact : "—"}
+                          </span>
+                          <div className={`mt-1 text-[9px] ${MONO} text-zinc-400`}>
+                            corr {live ? (m.correlation > 0 ? "+" : "") + m.correlation.toFixed(2) : "—"}
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
 
-            {/* footer */}
-            <div className={`border-t border-zinc-100 bg-zinc-50/50 px-5 py-3.5 text-[10px] ${MONO} uppercase tracking-widest text-zinc-400 sm:px-6`}>
+            <div className={`border-t border-zinc-100 px-5 py-3 text-[9px] ${MONO} uppercase tracking-widest text-zinc-400`}>
               Correlation vs XAU/USD hourly returns · context feeds only — Jenvu trades XAU/USD exclusively
             </div>
           </div>
