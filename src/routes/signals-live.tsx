@@ -107,7 +107,7 @@ function SignalsLivePage() {
 }
 
 const SIGNALS_START_AT = new Date("2026-07-23T00:00:00Z").getTime();
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 9;
 
 function ClientGate({ children, fallback }: { children: React.ReactNode; fallback: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
