@@ -72,7 +72,7 @@ const columns = [
     links: [
       { to: "/insights", label: "Market Insights" },
       { to: "/killzones", label: "Killzone Times" },
-      { to: "/scam-check", label: "Scam Check" },
+      { to: "/insights", label: "Insights" },
       { to: "/ai-engine", label: "AI Engine" },
       { to: "/llm", label: "Language Model" },
       { to: "/development", label: "Development" },
