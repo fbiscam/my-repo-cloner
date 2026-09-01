@@ -2,11 +2,12 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
 import { Suspense, useMemo, useState, useEffect } from "react";
 
+import { useAuthUser } from "@/hooks/useAuthUser";
 import SiteFooter from "@/components/SiteFooter";
 import HeaderAuthButtons from "@/components/HeaderAuthButtons";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { TrendingUp, TrendingDown, Trophy, Flame, Clock, Filter, RefreshCw, Sparkles, CheckCircle2, XCircle, Circle, Bookmark } from "lucide-react";
+import { TrendingUp, TrendingDown, Trophy, Flame, Clock, Filter, RefreshCw, Sparkles, CheckCircle2, XCircle, Circle, Bookmark, Lock } from "lucide-react";
 
 type Signal = {
   id: string;
@@ -399,6 +400,8 @@ function StatCard({ icon, label, value, hint, accent }: { icon: React.ReactNode;
 }
 
 function SignalCard({ s }: { s: Signal }) {
+  const { user } = useAuthUser();
+  const isSignedIn = !!user;
   const isBuy = s.direction === "BUY";
   const isWin = s.outcome === "win";
   const isLoss = s.outcome === "loss";
@@ -452,12 +455,25 @@ function SignalCard({ s }: { s: Signal }) {
           ["SL", s.sl, "text-rose-600"],
           ["TP", s.tp, "text-emerald-600"],
           ["RR", s.rr ? `${Number(s.rr).toFixed(1)}` : "—", "text-zinc-800"],
-        ] as const).map(([k, v, c]) => (
-          <div key={k} className="min-w-0 rounded-md bg-zinc-50 px-1 py-1.5 ring-1 ring-inset ring-zinc-200/70">
-            <dt className="font-mono text-[9px] uppercase tracking-wider text-zinc-500">{k}</dt>
-            <dd className={`mt-0.5 font-mono text-[11px] truncate ${c}`}>{v ?? "—"}</dd>
-          </div>
-        ))}
+        ] as const).map(([k, v, c]) => {
+          const isSensitive = k === "Entry" || k === "SL" || k === "TP";
+          const hidden = isSensitive && !isSignedIn;
+          return (
+            <div key={k} className="relative min-w-0 rounded-md bg-zinc-50 px-1 py-1.5 ring-1 ring-inset ring-zinc-200/70">
+              <dt className="font-mono text-[9px] uppercase tracking-wider text-zinc-500">{k}</dt>
+              <dd className={`mt-0.5 font-mono text-[11px] truncate ${hidden ? "blur-[4px] select-none" : c}`}>
+                {hidden ? (v ?? "—") : (v ?? "—")}
+              </dd>
+              {hidden && (
+                <div className="absolute inset-0 flex items-center justify-center rounded-md bg-zinc-100/60 backdrop-blur-[1px]">
+                  <Link to="/auth" className="inline-flex items-center gap-1 rounded-md bg-zinc-900 px-1.5 py-0.5 text-[9px] font-semibold text-white hover:bg-zinc-800">
+                    <Lock className="h-2.5 w-2.5" /> Sign in
+                  </Link>
+                </div>
+              )}
+            </div>
+          );
+        })}
       </dl>
 
       <footer className="mt-3 flex flex-wrap items-center justify-between gap-2 text-[11px]">
