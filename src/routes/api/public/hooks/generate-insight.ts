@@ -96,19 +96,36 @@ export const Route = createFileRoute("/api/public/hooks/generate-insight")({
         const topic = topics[0];
 
         // Article prompt — Europe-focused SEO to grow EU organic traffic
-        const sys = `You are a senior institutional trading analyst writing for Jenvu — an AI gold trading terminal. Write a comprehensive, factually accurate, SEO-optimized markdown article targeted at European retail and prop-firm traders (UK, Germany, France, Italy, Spain, Netherlands, Poland, Switzerland). Naturally weave in high-intent European search terms (London killzone, Frankfurt open, XAU/EUR, XAU/GBP, London session gold, prop firm challenge, MT5 gold signals, ICT concepts, smart money concepts) without keyword stuffing. Style: precise, professional, no fluff, no hype, no emojis. Use ICT/SMC concepts correctly. Include H2/H3 headings, bullet lists where useful, and a final ## FAQ section with 3 Q&A pairs answering long-tail European queries. 900-1300 words. Use British English spelling.`;
+        // Optional language directive stored on the topic angle, e.g. "LANG:de | goldpreis outlook"
+        const langMatch = /LANG:([a-z]{2})/i.exec(topic.angle || "");
+        const langCode = (langMatch?.[1] || "en").toLowerCase();
+        const langNames: Record<string, string> = {
+          en: "British English",
+          de: "German (Germany)",
+          fr: "French (France)",
+          es: "Spanish (Spain)",
+          it: "Italian (Italy)",
+          nl: "Dutch (Netherlands)",
+          pl: "Polish (Poland)",
+        };
+        const langName = langNames[langCode] || "British English";
+
+        const sys = `You are a senior institutional trading analyst writing for Jenvu — an AI gold trading terminal. Write a comprehensive, factually accurate, SEO-optimized markdown article targeted at European retail and prop-firm traders (UK, Germany, France, Italy, Spain, Netherlands, Poland, Switzerland). Write the ENTIRE article, title, slug and excerpt in ${langName}. Target the primary keyword exactly as given plus its natural long-tail and question variants, and weave in high-intent European search terms (London killzone, Frankfurt open, XAU/EUR, XAU/GBP, London session gold, prop firm challenge, MT5 gold signals, ICT concepts, smart money concepts) without keyword stuffing. Cover gold, crypto and macro/news angles accurately when the topic calls for them, and reference European market hours, regulation (FCA, BaFin, ESMA/MiCA) and EUR/GBP pricing where relevant. Style: precise, professional, no fluff, no hype, no emojis, no invented statistics, prices, testimonials or guarantees — describe drivers and method instead of quoting live numbers. Use ICT/SMC concepts correctly. Include H2/H3 headings, bullet lists or a comparison table where they answer better than prose, and a final FAQ section with 3 Q&A pairs answering long-tail European queries. 900-1300 words.`;
 
         const userPrompt = `Write a complete article on: "${topic.keyword}"
 Angle: ${topic.angle || "comprehensive guide"}
 Category: ${topic.category}
+Language: ${langName}
+Primary keyword must appear in the title, the first 100 words, and at least one H2.
 
 Return STRICT JSON only, no prose, with this exact shape:
 {
   "title": "<60-char SEO title with the primary keyword, optimized for Google Europe SERPs>",
-  "slug": "<url-safe-slug>",
+  "slug": "<url-safe-slug, always lowercase ascii>",
   "excerpt": "<150-160 char meta description with primary keyword and a European trading hook>",
   "content": "<full markdown article 900-1300 words with ## H2 sections, lists, and a final ## FAQ section. Use internal links to /signal, /app, /insights, /download where natural>"
 }`;
+
 
         const bmindKey = process.env.BLUESMIND_API_KEY || process.env.BLUESMINDS_API_KEY;
         if (!bmindKey) {
