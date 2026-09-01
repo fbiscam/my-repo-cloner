@@ -413,7 +413,8 @@ function HomePage() {
       <main>
       {/* HERO */}
       <section className="relative mx-auto max-w-6xl px-5 pt-10 pb-20 sm:px-6 sm:pt-16 sm:pb-28">
-        
+        <HeroBanners />
+
         <div className="relative z-10 grid gap-8 sm:gap-10 lg:grid-cols-12 lg:items-end">
 
           <div className="text-left lg:col-span-7 lg:text-left">
