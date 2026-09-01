@@ -636,14 +636,11 @@ function HomePage() {
                     <line key={y} x1="0" y1={y} x2="600" y2={y} stroke="#f4f4f5" strokeWidth="1" />
                   ))}
                   {/* forecast confidence band */}
-                  <path d="M360 118 L440 92 L520 70 L600 44 L600 152 L520 132 L440 128 L360 130 Z" fill="url(#xauBand)" />
+                  <path d={proj.bandPath} fill="url(#xauBand)" />
                   {/* historical area + line */}
+                  <path d={proj.actualArea} fill="url(#xauFill)" />
                   <path
-                    d="M0 172 L60 158 L120 176 L180 138 L240 150 L300 124 L360 124 L360 240 L0 240 Z"
-                    fill="url(#xauFill)"
-                  />
-                  <path
-                    d="M0 172 L60 158 L120 176 L180 138 L240 150 L300 124 L360 124"
+                    d={proj.actualPath}
                     fill="none"
                     stroke="#18181b"
                     strokeWidth="2"
@@ -652,16 +649,16 @@ function HomePage() {
                   />
                   {/* forecast line */}
                   <path
-                    d="M360 124 L440 110 L520 100 L600 78"
+                    d={proj.forecastPath}
                     fill="none"
-                    stroke="#10b981"
+                    stroke={proj.biasLabel === "Bearish" ? "#ef4444" : "#10b981"}
                     strokeWidth="2"
                     strokeDasharray="5 5"
                     strokeLinecap="round"
                   />
                   <line x1="360" y1="0" x2="360" y2="240" stroke="#e4e4e7" strokeWidth="1" strokeDasharray="3 4" />
-                  <circle cx="360" cy="124" r="4" fill="#18181b" />
-                  <circle cx="600" cy="78" r="4" fill="#10b981" />
+                  <circle cx="360" cy={proj.nowY} r="4" fill="#18181b" />
+                  <circle cx="600" cy={proj.endY} r="4" fill={proj.biasLabel === "Bearish" ? "#ef4444" : "#10b981"} />
                 </svg>
                 <span className={`absolute left-[59%] top-0 text-[9px] ${MONO} uppercase text-zinc-400`}>now</span>
               </div>
