@@ -7,7 +7,8 @@ import SiteFooter from "@/components/SiteFooter";
 import HeaderAuthButtons from "@/components/HeaderAuthButtons";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { TrendingUp, TrendingDown, Trophy, Flame, Clock, Filter, RefreshCw, Sparkles, CheckCircle2, XCircle, Circle, Bookmark, Lock } from "lucide-react";
+import { TrendingUp, TrendingDown, Trophy, Flame, Clock, Filter, RefreshCw, Sparkles, CheckCircle2, XCircle, Circle, Bookmark } from "lucide-react";
+import eyeIcon from "@/assets/eye-icon.png.asset.json";
 
 type Signal = {
   id: string;
@@ -449,32 +450,39 @@ function SignalCard({ s }: { s: Signal }) {
       </header>
 
 
-      <dl className="mt-3 grid grid-cols-4 gap-1.5 text-center">
-        {([
-          ["Entry", s.entry, "text-zinc-800"],
-          ["SL", s.sl, "text-rose-600"],
-          ["TP", s.tp, "text-emerald-600"],
-          ["RR", s.rr ? `${Number(s.rr).toFixed(1)}` : "—", "text-zinc-800"],
-        ] as const).map(([k, v, c]) => {
-          const isSensitive = k === "Entry" || k === "SL" || k === "TP";
-          const hidden = isSensitive && !isSignedIn;
-          return (
+      <div className="relative mt-3">
+        <dl className={`grid grid-cols-4 gap-1.5 text-center ${!isSignedIn ? "blur-[4px] select-none" : ""}`}>
+          {([
+            ["Entry", s.entry, "text-zinc-800"],
+            ["SL", s.sl, "text-rose-600"],
+            ["TP", s.tp, "text-emerald-600"],
+            ["RR", s.rr ? `${Number(s.rr).toFixed(1)}` : "—", "text-zinc-800"],
+          ] as const).map(([k, v, c]) => (
             <div key={k} className="relative min-w-0 rounded-md bg-zinc-50 px-1 py-1.5 ring-1 ring-inset ring-zinc-200/70">
               <dt className="font-mono text-[9px] uppercase tracking-wider text-zinc-500">{k}</dt>
-              <dd className={`mt-0.5 font-mono text-[11px] truncate ${hidden ? "blur-[4px] select-none" : c}`}>
-                {hidden ? (v ?? "—") : (v ?? "—")}
-              </dd>
-              {hidden && (
-                <div className="absolute inset-0 flex items-center justify-center rounded-md bg-zinc-100/60 backdrop-blur-[1px]">
-                  <Link to="/auth" className="inline-flex items-center gap-1 rounded-md bg-zinc-900 px-1.5 py-0.5 text-[9px] font-semibold text-white hover:bg-zinc-800">
-                    <Lock className="h-2.5 w-2.5" /> Sign in
-                  </Link>
-                </div>
-              )}
+              <dd className={`mt-0.5 font-mono text-[11px] truncate ${c}`}>{v ?? "—"}</dd>
             </div>
-          );
-        })}
-      </dl>
+          ))}
+        </dl>
+        {!isSignedIn && (
+          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 rounded-lg bg-white/90 opacity-100 backdrop-blur-[4px] transition-opacity duration-300">
+            <img
+              src={eyeIcon.url}
+              alt="Sign in to view"
+              className="h-8 w-8 animate-[pulse_1.6s_cubic-bezier(0.4,0,0.6,1)_infinite] drop-shadow-sm"
+            />
+            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-zinc-900">
+              Sign In For full view
+            </p>
+            <Link
+              to="/auth"
+              className="rounded-full bg-zinc-900 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-white transition-transform duration-200 hover:scale-105"
+            >
+              Sign In
+            </Link>
+          </div>
+        )}
+      </div>
 
       <footer className="mt-3 flex flex-wrap items-center justify-between gap-2 text-[11px]">
         <div className="flex flex-wrap items-center gap-1.5 text-zinc-500">
