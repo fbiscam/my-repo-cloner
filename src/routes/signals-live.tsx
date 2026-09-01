@@ -4,7 +4,9 @@ import { Suspense, useMemo, useState, useEffect } from "react";
 
 import SiteFooter from "@/components/SiteFooter";
 import HeaderAuthButtons from "@/components/HeaderAuthButtons";
-import { TrendingUp, TrendingDown, Trophy, Flame, Clock, Filter, RefreshCw, Sparkles, CheckCircle2, XCircle, Circle } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { TrendingUp, TrendingDown, Trophy, Flame, Clock, Filter, RefreshCw, Sparkles, CheckCircle2, XCircle, Circle, Bookmark } from "lucide-react";
 
 type Signal = {
   id: string;
