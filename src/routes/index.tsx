@@ -492,123 +492,147 @@ function HomePage() {
 
           {/* body */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-px bg-zinc-100">
-            {/* LEFT — ICT feed */}
-            <div className="lg:col-span-3 bg-white p-5 sm:p-6 flex flex-col gap-5 sm:gap-6">
-              <h2 className={`text-[10px] font-bold ${MONO} text-zinc-900 tracking-widest uppercase`}>
-                ICT Execution Feed
-              </h2>
-              <div className="space-y-3">
-                {SIGNALS.map((s) => (
-                  <div
-                    key={s.pair + s.t}
-                    className={`p-3 rounded-lg border ${
-                      s.tone === "green"
-                        ? "border-emerald-100/70 bg-emerald-50/30"
-                        : "border-zinc-100 bg-white/40"
-                    } space-y-2`}
-                  >
-                    <div className="flex items-center justify-between gap-3">
-                      <span className="text-xs font-semibold">{s.pair}</span>
-                      <span className={`text-[10px] ${MONO} text-zinc-900`}>{s.t}</span>
-                    </div>
-                    <div className="flex flex-wrap items-center gap-2">
-                      <TagPill tag={s.tag} tone={s.tone} />
-                      <span className={`text-xs ${s.tone === "green" ? "text-zinc-900" : "text-zinc-900"}`}>
-                        {s.note}
-                      </span>
-                    </div>
+            {/* LEFT — prediction chart */}
+            <div className="lg:col-span-8 bg-white p-5 sm:p-6 flex flex-col min-h-[330px] sm:min-h-[440px]">
+              <div className="flex flex-wrap items-end justify-between gap-4">
+                <div>
+                  <h2 className={`text-[10px] font-bold ${MONO} text-zinc-900 tracking-widest uppercase`}>
+                    XAU/USD · Price Projection
+                  </h2>
+                  <div className="mt-2 flex items-end gap-3">
+                    <span className="text-2xl font-semibold tracking-tight sm:text-3xl">2,412.60</span>
+                    <span className="pb-1 text-xs font-medium text-emerald-600">+0.84%</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-1.5">
+                    <span className="h-px w-5 bg-zinc-900" />
+                    <span className={`text-[10px] ${MONO} uppercase text-zinc-500`}>Actual</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="h-px w-5 bg-emerald-500 [background-image:repeating-linear-gradient(90deg,currentColor_0,currentColor_3px,transparent_3px,transparent_6px)] text-emerald-500" />
+                    <span className={`text-[10px] ${MONO} uppercase text-zinc-500`}>Forecast</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative mt-6 flex-1">
+                <svg viewBox="0 0 600 240" preserveAspectRatio="none" className="h-full min-h-[190px] w-full">
+                  <defs>
+                    <linearGradient id="xauFill" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#18181b" stopOpacity="0.14" />
+                      <stop offset="100%" stopColor="#18181b" stopOpacity="0" />
+                    </linearGradient>
+                    <linearGradient id="xauBand" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#10b981" stopOpacity="0.18" />
+                      <stop offset="100%" stopColor="#10b981" stopOpacity="0.02" />
+                    </linearGradient>
+                  </defs>
+                  {[40, 90, 140, 190].map((y) => (
+                    <line key={y} x1="0" y1={y} x2="600" y2={y} stroke="#f4f4f5" strokeWidth="1" />
+                  ))}
+                  {/* forecast confidence band */}
+                  <path d="M360 118 L440 92 L520 70 L600 44 L600 152 L520 132 L440 128 L360 130 Z" fill="url(#xauBand)" />
+                  {/* historical area + line */}
+                  <path
+                    d="M0 172 L60 158 L120 176 L180 138 L240 150 L300 124 L360 124 L360 240 L0 240 Z"
+                    fill="url(#xauFill)"
+                  />
+                  <path
+                    d="M0 172 L60 158 L120 176 L180 138 L240 150 L300 124 L360 124"
+                    fill="none"
+                    stroke="#18181b"
+                    strokeWidth="2"
+                    strokeLinejoin="round"
+                    strokeLinecap="round"
+                  />
+                  {/* forecast line */}
+                  <path
+                    d="M360 124 L440 110 L520 100 L600 78"
+                    fill="none"
+                    stroke="#10b981"
+                    strokeWidth="2"
+                    strokeDasharray="5 5"
+                    strokeLinecap="round"
+                  />
+                  <line x1="360" y1="0" x2="360" y2="240" stroke="#e4e4e7" strokeWidth="1" strokeDasharray="3 4" />
+                  <circle cx="360" cy="124" r="4" fill="#18181b" />
+                  <circle cx="600" cy="78" r="4" fill="#10b981" />
+                </svg>
+                <span className={`absolute left-[59%] top-0 text-[9px] ${MONO} uppercase text-zinc-400`}>now</span>
+              </div>
+
+              <div className="mt-4 grid grid-cols-4 gap-px overflow-hidden rounded-lg border border-zinc-100 bg-zinc-100">
+                {[
+                  ["H1", "2,418"],
+                  ["H4", "2,431"],
+                  ["1D", "2,447"],
+                  ["1W", "2,468"],
+                ].map(([k, v]) => (
+                  <div key={k} className="bg-white px-3 py-2">
+                    <div className={`text-[9px] ${MONO} uppercase tracking-widest text-zinc-400`}>{k}</div>
+                    <div className={`mt-1 text-xs font-semibold ${MONO}`}>{v}</div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* CENTER — Orb */}
-            <div className="lg:col-span-6 bg-white flex flex-col items-center justify-center p-6 sm:p-10 lg:p-12 relative overflow-hidden min-h-[330px] sm:min-h-[440px]">
-              <div
-                className="absolute inset-0 opacity-[0.04] pointer-events-none"
-                style={{
-                  backgroundImage: "radial-gradient(#000 0.6px, transparent 0.6px)",
-                  backgroundSize: "24px 24px",
-                }}
-              />
-              <div className="relative z-10 flex flex-col items-center">
-                <div className="relative h-44 w-44 sm:h-56 sm:w-56">
-                  <div className="absolute inset-0 rounded-full border border-zinc-100 animate-[spin_18s_linear_infinite]" />
-                  <div className="absolute inset-5 rounded-full border border-zinc-200/60 animate-[spin_24s_linear_infinite_reverse]" />
-                  <div className="absolute inset-9">
-                    <CloudOrb status="speaking" pulse={1} />
-                  </div>
-                </div>
-                <div className="mt-8 text-center sm:mt-10">
-                  <p className={`text-xs font-medium tracking-[0.25em] ${MONO} text-zinc-900 uppercase mb-3`}>
-                    Listening for commands
-                  </p>
-                  <div className="flex items-end justify-center gap-1 h-6">
-                    {[2, 4, 5, 3, 4, 2, 2].map((h, i) => (
-                      <div
-                        key={i}
-                        className={`w-1 rounded-full ${i < 5 ? "bg-zinc-900" : "bg-zinc-200"}`}
-                        style={{
-                          height: `${h * 4}px`,
-                          animation: i < 5 ? `bounce 1s infinite ${i * 0.12}s` : undefined,
-                        }}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* RIGHT — intelligence */}
-            <div className="lg:col-span-3 bg-white p-5 sm:p-6 lg:border-l border-zinc-100">
+            {/* RIGHT — model read-out */}
+            <div className="lg:col-span-4 bg-white p-5 sm:p-6 lg:border-l border-zinc-100">
               <h2 className={`text-[10px] font-bold ${MONO} text-zinc-900 tracking-widest uppercase mb-4`}>
-                Intelligence Dashboard
+                Model Read-Out
               </h2>
               <div className="space-y-6">
                 <div className="space-y-2">
-                  <div className="flex justify-between items-end">
-                    <span className={`text-[10px] ${MONO} text-zinc-900 uppercase`}>DXY Index</span>
-                    <span className="text-xs font-semibold">104.22</span>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-zinc-900">Directional Bias</span>
+                    <span className="text-xs font-medium text-emerald-600">Bullish</span>
                   </div>
-                  <div className="h-16 w-full bg-white rounded border border-zinc-100 flex items-end p-2 gap-0.5">
-                    {[50, 66, 75, 33, 50, 66, 50, 80, 40].map((h, i) => (
+                  <div className="flex h-1 w-full overflow-hidden rounded-full bg-zinc-100">
+                    <div className="w-[72%] bg-emerald-500" />
+                    <div className="w-[28%] bg-zinc-200" />
+                  </div>
+                  <div className={`flex justify-between text-[10px] ${MONO} text-zinc-400`}>
+                    <span>72% long</span>
+                    <span>28% short</span>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-end justify-between">
+                    <span className={`text-[10px] ${MONO} uppercase text-zinc-500`}>Model Confidence</span>
+                    <span className="text-xs font-semibold">86%</span>
+                  </div>
+                  <div className="flex h-16 items-end gap-0.5 rounded border border-zinc-100 p-2">
+                    {[52, 61, 58, 70, 66, 78, 74, 86, 82].map((h, i) => (
                       <div
                         key={i}
-                        className={`flex-1 rounded-t-sm ${
-                          h > 70 ? "bg-zinc-900" : h > 50 ? "bg-zinc-400" : "bg-zinc-200"
-                        }`}
+                        className={`flex-1 rounded-t-sm ${h > 75 ? "bg-emerald-500" : h > 60 ? "bg-zinc-400" : "bg-zinc-200"}`}
                         style={{ height: `${h}%` }}
                       />
                     ))}
                   </div>
                 </div>
 
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs text-zinc-900">Institutional Sentiment</span>
-                    <span className="text-xs font-medium text-emerald-600">Bullish</span>
-                  </div>
-                  <div className="w-full h-1 bg-zinc-100 rounded-full overflow-hidden flex">
-                    <div className="w-3/4 bg-emerald-500" />
-                    <div className="w-1/4 bg-zinc-200" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-2 mt-3">
-                    <div className="p-2 border border-zinc-100 rounded-lg">
-                      <p className={`text-[10px] ${MONO} text-zinc-900`}>PDH</p>
-                      <p className={`text-xs ${MONO} font-medium`}>1.0922</p>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    ["Target", "2,447"],
+                    ["Invalidation", "2,388"],
+                    ["Key Level", "2,402"],
+                    ["Est. R:R", "1 : 3.4"],
+                  ].map(([k, v]) => (
+                    <div key={k} className="rounded-lg border border-zinc-100 p-2">
+                      <p className={`text-[10px] ${MONO} text-zinc-500`}>{k}</p>
+                      <p className={`text-xs ${MONO} font-medium`}>{v}</p>
                     </div>
-                    <div className="p-2 border border-zinc-100 rounded-lg">
-                      <p className={`text-[10px] ${MONO} text-zinc-900`}>PDL</p>
-                      <p className={`text-xs ${MONO} font-medium`}>1.0810</p>
-                    </div>
-                  </div>
+                  ))}
                 </div>
 
                 <Link
-                  to="/app"
+                  to="/signals-live"
                   className={`w-full inline-flex items-center justify-center mt-2 py-3 bg-zinc-900 text-white text-[11px] font-semibold tracking-[0.18em] rounded-lg hover:bg-zinc-800 transition-colors uppercase`}
                 >
-                  Execute Voice Trade
+                  View Live Signals
                 </Link>
               </div>
             </div>
