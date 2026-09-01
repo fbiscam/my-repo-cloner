@@ -7,7 +7,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Toaster as SonnerToaster } from "sonner";
 import { LiveChatWidget } from "@/components/LiveChatWidget";
 import { PwaTabBar } from "@/components/PwaTabBar";
@@ -47,6 +47,7 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
+  const recoveryStarted = useRef(false);
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
     // Also log to our error_log table.
@@ -65,7 +66,30 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
         });
       } catch { /* ignore */ }
     })();
+
+    // Deploys can briefly leave an already-open tab pointing at an old JS
+    // chunk. Recover that case automatically once instead of stranding the
+    // user on the error boundary. The URL-scoped marker prevents reload loops.
+    const message = `${error.name} ${error.message} ${error.stack ?? ""}`;
+    const isStaleBundle =
+      /Failed to fetch dynamically imported module|Importing a module script failed|Loading chunk [^ ]+ failed|ChunkLoadError|module is not defined|is not defined/i.test(message);
+    if (isStaleBundle && !recoveryStarted.current && typeof window !== "undefined") {
+      recoveryStarted.current = true;
+      const recoveryKey = `jenvu:recovered:${window.location.pathname}`;
+      if (window.sessionStorage.getItem(recoveryKey) !== "1") {
+        window.sessionStorage.setItem(recoveryKey, "1");
+        window.location.reload();
+        return;
+      }
+    }
   }, [error]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const recoveryKey = `jenvu:recovered:${window.location.pathname}`;
+    const timer = window.setTimeout(() => window.sessionStorage.removeItem(recoveryKey), 10_000);
+    return () => window.clearTimeout(timer);
+  }, []);
 
 
   return (
@@ -80,8 +104,8 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
             onClick={() => {
-              router.invalidate();
               reset();
+              void router.invalidate();
             }}
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
