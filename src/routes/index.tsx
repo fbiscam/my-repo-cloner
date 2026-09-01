@@ -872,23 +872,109 @@ function HomePage() {
 
           </div>
 
-          <div className="mt-12 grid gap-px bg-zinc-100 border border-zinc-100 rounded-2xl overflow-hidden md:grid-cols-4">
-            {[
-              { k: "01", t: "Speak", d: "Push-to-talk and ask in plain English anything.", dm: "Push-to-talk in plain English." },
-              { k: "02", t: "Reason", d: "JENVU pulls structure, ICT/SMC, DXY and news.", dm: "Structure, ICT/SMC, DXY, news." },
-              { k: "03", t: "Mark Up", d: "Charts auto-annotate FVG, OB, BOS and sweeps.", dm: "Auto-marks FVG, OB, BOS, sweeps." },
-              { k: "04", t: "Narrate", d: "Hear an A, A+, B, C plans: entry, SL, TP, R:R.", dm: "A/A+/B/C plans: entry, SL, TP." },
-            ].map((s) => (
-              <div key={s.k} className="bg-white p-6 text-left sm:p-7">
-                <div className={`flex items-center justify-between ${MONO} text-[10px] tracking-widest uppercase text-zinc-900`}>
-                  <span>{s.k}</span>
-                  <span className="h-px w-10 bg-zinc-900" />
-                </div>
-                <h3 className="mt-5 text-base font-semibold tracking-tight sm:text-lg">{s.t}</h3>
-                <p className="mt-2 text-sm text-zinc-900 leading-relaxed sm:line-clamp-2 sm:min-h-[2.75rem]"><span className="sm:hidden whitespace-nowrap block overflow-hidden text-ellipsis text-[13px]">{s.dm}</span><span className="hidden sm:inline">{s.d}</span></p>
+          <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-zinc-100 bg-zinc-100 lg:grid-cols-12">
+            {/* Session volatility profile */}
+            <div className="bg-white p-5 sm:p-6 lg:col-span-8">
+              <div className="flex items-center justify-between">
+                <h3 className={`text-[10px] font-bold ${MONO} uppercase tracking-widest text-zinc-900`}>
+                  XAU/USD Session Volatility Profile
+                </h3>
+                <span className={`text-[9px] ${MONO} uppercase tracking-widest text-zinc-400`}>avg pips / hour</span>
               </div>
-            ))}
+
+              <div className="relative mt-5 w-full">
+                <svg viewBox="0 0 600 220" className="h-[200px] w-full sm:h-[240px]" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="volBar" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#18181b" stopOpacity="0.9" />
+                      <stop offset="100%" stopColor="#18181b" stopOpacity="0.35" />
+                    </linearGradient>
+                    <linearGradient id="volBarHot" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#10b981" stopOpacity="0.95" />
+                      <stop offset="100%" stopColor="#10b981" stopOpacity="0.3" />
+                    </linearGradient>
+                  </defs>
+                  {[0, 1, 2, 3].map((i) => (
+                    <line key={i} x1="0" y1={20 + i * 50} x2="600" y2={20 + i * 50} stroke="#f4f4f5" strokeWidth="1" />
+                  ))}
+                  {[
+                    { h: "00", v: 18 }, { h: "02", v: 24 }, { h: "04", v: 31 },
+                    { h: "06", v: 44 }, { h: "08", v: 72 }, { h: "10", v: 96 },
+                    { h: "12", v: 81 }, { h: "14", v: 118 }, { h: "16", v: 104 },
+                    { h: "18", v: 63 }, { h: "20", v: 37 }, { h: "22", v: 22 },
+                  ].map((d, i) => {
+                    const max = 130;
+                    const h = (d.v / max) * 160;
+                    const bw = 30;
+                    const x = 14 + i * 48;
+                    const hot = d.v >= 90;
+                    return (
+                      <g key={d.h}>
+                        <rect
+                          x={x}
+                          y={180 - h}
+                          width={bw}
+                          height={h}
+                          rx="4"
+                          fill={hot ? "url(#volBarHot)" : "url(#volBar)"}
+                        />
+                        <text x={x + bw / 2} y="200" textAnchor="middle" fontSize="10" fill="#a1a1aa">{d.h}</text>
+                      </g>
+                    );
+                  })}
+                  <line x1="0" y1="180" x2="600" y2="180" stroke="#e4e4e7" strokeWidth="1" />
+                </svg>
+              </div>
+
+              <div className="mt-4 grid grid-cols-3 gap-px overflow-hidden rounded-lg border border-zinc-100 bg-zinc-100">
+                {[
+                  ["Asia", "00–07 UTC"],
+                  ["London", "07–12 UTC"],
+                  ["New York", "12–17 UTC"],
+                ].map(([k, v]) => (
+                  <div key={k} className="bg-white px-3 py-2">
+                    <div className={`text-[9px] ${MONO} uppercase tracking-widest text-zinc-400`}>{k}</div>
+                    <div className={`mt-1 text-xs font-semibold ${MONO}`}>{v}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Killzone read-out */}
+            <div className="bg-white p-5 sm:p-6 lg:col-span-4 lg:border-l border-zinc-100">
+              <h3 className={`mb-4 text-[10px] font-bold ${MONO} uppercase tracking-widest text-zinc-900`}>
+                Killzone Read-Out
+              </h3>
+              <div className="space-y-5">
+                {[
+                  { k: "London Open", v: 78 },
+                  { k: "NY Open", v: 91 },
+                  { k: "Asian Range", v: 34 },
+                  { k: "London Close", v: 52 },
+                ].map((r) => (
+                  <div key={r.k} className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-zinc-900">{r.k}</span>
+                      <span className={`text-xs font-semibold ${MONO} ${r.v >= 75 ? "text-emerald-600" : "text-zinc-500"}`}>
+                        {r.v}%
+                      </span>
+                    </div>
+                    <div className="flex h-1 w-full overflow-hidden rounded-full bg-zinc-100">
+                      <div
+                        className={`h-full rounded-full ${r.v >= 75 ? "bg-emerald-500" : "bg-zinc-900"}`}
+                        style={{ width: `${r.v}%` }}
+                      />
+                    </div>
+                  </div>
+                ))}
+                <div className="border-t border-zinc-100 pt-4">
+                  <div className={`text-[9px] ${MONO} uppercase tracking-widest text-zinc-400`}>Highest expansion window</div>
+                  <div className="mt-1 text-sm font-semibold tracking-tight">14:00 – 15:00 UTC</div>
+                </div>
+              </div>
+            </div>
           </div>
+
         </div>
       </section>
 
