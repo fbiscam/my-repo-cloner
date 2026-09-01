@@ -413,7 +413,12 @@ function buildProjectionView(p: XauProjection | null) {
       longPct: 50,
       confidence: 0,
       confidenceSeries: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      tf: [["H1", "—"], ["H4", "—"], ["1D", "—"], ["1W", "—"]] as [string, string][],
+      tf: [
+        { k: "H1", v: "—", pct: "—", up: true },
+        { k: "H4", v: "—", pct: "—", up: true },
+        { k: "1D", v: "—", pct: "—", up: true },
+        { k: "1W", v: "—", pct: "—", up: true },
+      ] as { k: string; v: string; pct: string; up: boolean }[],
       readout: [["Target", "—"], ["Invalidation", "—"], ["Key Level", "—"], ["Est. R:R", "—"]] as [string, string][],
       actualPath: "",
       actualArea: "",
