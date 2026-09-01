@@ -664,12 +664,7 @@ function HomePage() {
               </div>
 
               <div className="mt-4 grid grid-cols-4 gap-px overflow-hidden rounded-lg border border-zinc-100 bg-zinc-100">
-                {[
-                  ["H1", "2,418"],
-                  ["H4", "2,431"],
-                  ["1D", "2,447"],
-                  ["1W", "2,468"],
-                ].map(([k, v]) => (
+                {proj.tf.map(([k, v]) => (
                   <div key={k} className="bg-white px-3 py-2">
                     <div className={`text-[9px] ${MONO} uppercase tracking-widest text-zinc-400`}>{k}</div>
                     <div className={`mt-1 text-xs font-semibold ${MONO}`}>{v}</div>
