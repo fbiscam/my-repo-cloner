@@ -14,6 +14,7 @@ import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { useUpgradeLock } from "@/hooks/useUpgradeLock";
 import { getMarketSnapshotsBatch } from "@/lib/gold-analysis.functions";
 import { getXauProjection, type XauProjection } from "@/lib/home-projection.functions";
+import eyeIcon from "@/assets/eye-icon.png.asset.json";
 
 /* ---------- hero background banners (desktop / tablet only) ---------- */
 function HeroBanners() {
@@ -664,7 +665,11 @@ function HomePage() {
 
               {/* locked overlay — reveals on hover / touch */}
               <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-white/55 opacity-0 backdrop-blur-[1px] transition-opacity duration-300 group-hover:opacity-100 group-focus-within:opacity-100 group-active:opacity-100">
-                <span className="text-3xl animate-[pulse_1.6s_cubic-bezier(0.4,0,0.6,1)_infinite] drop-shadow-sm">👁️</span>
+                <img
+                  src={eyeIcon.url}
+                  alt="Sign in to view"
+                  className="h-8 w-8 animate-[pulse_1.6s_cubic-bezier(0.4,0,0.6,1)_infinite] drop-shadow-sm"
+                />
                 <p className={`text-[11px] font-semibold ${MONO} uppercase tracking-[0.2em] text-zinc-900`}>
                   Sign In For full view
                 </p>
