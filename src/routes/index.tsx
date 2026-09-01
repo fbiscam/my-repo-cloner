@@ -109,7 +109,15 @@ export const Route = createFileRoute("/")({
 
   // Keep SSR independent from third-party market feeds. Live prices hydrate
   // after first paint, so a slow provider can never prevent the page loading.
-  loader: () => ({ tickerRows: INITIAL_TICKER }),
+  // The XAU projection is primed server-side (5-min cache) so the very first
+  // paint shows the real live price instead of a stale placeholder.
+  loader: async () => ({
+    tickerRows: INITIAL_TICKER,
+    projection: await getXauProjection().catch(() => null),
+  }),
+  errorComponent: ({ error }) => (
+    <div role="alert" className="p-8 text-sm text-zinc-600">{(error as Error)?.message ?? "Something went wrong."}</div>
+  ),
   component: HomePage,
 });
 
@@ -259,8 +267,8 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 }
 
 /* ---------- page ---------- */
-function useXauProjection(): XauProjection | null {
-  const [data, setData] = React.useState<XauProjection | null>(null);
+function useXauProjection(initial: XauProjection | null): XauProjection | null {
+  const [data, setData] = React.useState<XauProjection | null>(initial);
   const fetchProjection = useServerFn(getXauProjection);
 
   React.useEffect(() => {
@@ -269,10 +277,10 @@ function useXauProjection(): XauProjection | null {
       try {
         const res = await fetchProjection();
         if (alive && res) setData(res as XauProjection);
-      } catch { /* keep static defaults */ }
+      } catch { /* keep last known values */ }
     };
     run();
-    const id = setInterval(run, 5 * 60_000);
+    const id = setInterval(run, 60_000);
     return () => { alive = false; clearInterval(id); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -281,28 +289,29 @@ function useXauProjection(): XauProjection | null {
 }
 
 /* Turns the engine/AI projection into display strings + SVG chart geometry.
-   Falls back to the original static read-out until live data arrives. */
+   While live data is missing we render a neutral loading read-out — never
+   stale prices, which used to flash an old ~2,4xx quote on first paint. */
 function buildProjectionView(p: XauProjection | null) {
   const num = (n: number) => n.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 2 });
   if (!p) {
     return {
       live: false,
-      price: "2,412.60",
-      changePct: "+0.84%",
+      price: "—",
+      changePct: "—",
       up: true,
-      biasLabel: "Bullish",
-      longPct: 72,
-      confidence: 86,
-      confidenceSeries: [52, 61, 58, 70, 66, 78, 74, 86, 82],
-      tf: [["H1", "2,418"], ["H4", "2,431"], ["1D", "2,447"], ["1W", "2,468"]] as [string, string][],
-      readout: [["Target", "2,447"], ["Invalidation", "2,388"], ["Key Level", "2,402"], ["Est. R:R", "1 : 3.4"]] as [string, string][],
-      actualPath: "M0 172 L60 158 L120 176 L180 138 L240 150 L300 124 L360 124",
-      actualArea: "M0 172 L60 158 L120 176 L180 138 L240 150 L300 124 L360 124 L360 240 L0 240 Z",
-      forecastPath: "M360 124 L440 110 L520 100 L600 78",
-      bandPath: "M360 118 L440 92 L520 70 L600 44 L600 152 L520 132 L440 128 L360 130 Z",
-      nowY: 124,
-      endY: 78,
-      note: "Engine warming up — connecting to live XAU/USD feed.",
+      biasLabel: "—",
+      longPct: 50,
+      confidence: 0,
+      confidenceSeries: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      tf: [["H1", "—"], ["H4", "—"], ["1D", "—"], ["1W", "—"]] as [string, string][],
+      readout: [["Target", "—"], ["Invalidation", "—"], ["Key Level", "—"], ["Est. R:R", "—"]] as [string, string][],
+      actualPath: "",
+      actualArea: "",
+      forecastPath: "",
+      bandPath: "",
+      nowY: 130,
+      endY: 130,
+      note: "Connecting to live XAU/USD feed…",
       model: "",
     };
   }
@@ -362,7 +371,8 @@ function buildProjectionView(p: XauProjection | null) {
 
 function HomePage() {
   const ticker = useLiveTicker();
-  const projection = useXauProjection();
+  const initialProjection = (Route.useLoaderData() as { projection?: XauProjection | null } | undefined)?.projection ?? null;
+  const projection = useXauProjection(initialProjection);
   const proj = React.useMemo(() => buildProjectionView(projection), [projection]);
   const currentPlan = useCurrentPlan();
   const upgradeLock = useUpgradeLock();
