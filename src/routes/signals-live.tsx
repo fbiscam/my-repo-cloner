@@ -502,13 +502,20 @@ function SignalActions({ s }: { s: Signal }) {
       const { error } = await supabase.from("trade_journal").insert({
         user_id: userId,
         pair: s.pair || "XAUUSD",
-        direction: s.direction,
+        direction: s.direction.toUpperCase() === "BUY" ? "long" : "short",
         entry: s.entry,
         stop_loss: s.sl,
         take_profit: s.tp,
-        outcome: "open",
+        outcome: s.outcome === "win" || s.outcome === "loss" ? s.outcome : "open",
+        pnl:
+          s.outcome === "win" && s.entry != null && s.tp != null
+            ? (s.direction.toUpperCase() === "BUY" ? s.tp - s.entry : s.entry - s.tp)
+            : s.outcome === "loss" && s.entry != null && s.sl != null
+              ? (s.direction.toUpperCase() === "BUY" ? s.sl - s.entry : s.entry - s.sl)
+              : null,
         source: "system",
         opened_at: s.fired_at ?? new Date().toISOString(),
+        closed_at: s.outcome === "win" || s.outcome === "loss" ? (s.resolved_at ?? new Date().toISOString()) : null,
         notes: `Taken from Live Signals · ${s.grade ?? ""} ${s.confidence ?? "—"}% ${s.session ?? ""}`.trim(),
       });
       if (error) throw error;
