@@ -586,8 +586,8 @@ function HomePage() {
           {/* body */}
           <div className="relative">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-px bg-zinc-100 select-none">
-              {/* LEFT — prediction chart (locked for guests) */}
-              <div className="relative lg:col-span-8 bg-white p-5 sm:p-6 flex flex-col min-h-[330px] sm:min-h-[440px] blur-[10px] select-none">
+              {/* LEFT — prediction chart */}
+              <div className="relative lg:col-span-8 bg-white p-5 sm:p-6 flex flex-col min-h-[330px] sm:min-h-[440px] select-none">
                 <div className="flex flex-1 flex-col">
                   <div className="flex flex-wrap items-end justify-between gap-4">
                     <div>
