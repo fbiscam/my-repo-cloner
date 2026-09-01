@@ -99,7 +99,6 @@ import { Route as ApiPublicHooksNewsAlertsRouteImport } from './routes/api/publi
 import { Route as ApiPublicHooksMonthlyRetuneRouteImport } from './routes/api/public/hooks/monthly-retune'
 import { Route as ApiPublicHooksGenerateInsightRouteImport } from './routes/api/public/hooks/generate-insight'
 import { Route as ApiPublicHooksGenerateBriefRouteImport } from './routes/api/public/hooks/generate-brief'
-import { Route as ApiPublicHooksEnvProbeRouteImport } from './routes/api/public/hooks/env-probe'
 import { Route as ApiPublicHooksBackfillInsightImagesRouteImport } from './routes/api/public/hooks/backfill-insight-images'
 import { Route as ApiPublicHooksAutoScanRouteImport } from './routes/api/public/hooks/auto-scan'
 import { Route as ApiPublicBriefAudioIdRouteImport } from './routes/api/public/brief-audio.$id'
@@ -591,11 +590,6 @@ const ApiPublicHooksGenerateBriefRoute =
     path: '/api/public/hooks/generate-brief',
     getParentRoute: () => rootRouteImport,
   } as any)
-const ApiPublicHooksEnvProbeRoute = ApiPublicHooksEnvProbeRouteImport.update({
-  id: '/api/public/hooks/env-probe',
-  path: '/api/public/hooks/env-probe',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ApiPublicHooksBackfillInsightImagesRoute =
   ApiPublicHooksBackfillInsightImagesRouteImport.update({
     id: '/api/public/hooks/backfill-insight-images',
@@ -768,7 +762,6 @@ export interface FileRoutesByFullPath {
   '/api/public/brief-audio/$id': typeof ApiPublicBriefAudioIdRoute
   '/api/public/hooks/auto-scan': typeof ApiPublicHooksAutoScanRoute
   '/api/public/hooks/backfill-insight-images': typeof ApiPublicHooksBackfillInsightImagesRoute
-  '/api/public/hooks/env-probe': typeof ApiPublicHooksEnvProbeRoute
   '/api/public/hooks/generate-brief': typeof ApiPublicHooksGenerateBriefRoute
   '/api/public/hooks/generate-insight': typeof ApiPublicHooksGenerateInsightRoute
   '/api/public/hooks/monthly-retune': typeof ApiPublicHooksMonthlyRetuneRoute
@@ -869,7 +862,6 @@ export interface FileRoutesByTo {
   '/api/public/brief-audio/$id': typeof ApiPublicBriefAudioIdRoute
   '/api/public/hooks/auto-scan': typeof ApiPublicHooksAutoScanRoute
   '/api/public/hooks/backfill-insight-images': typeof ApiPublicHooksBackfillInsightImagesRoute
-  '/api/public/hooks/env-probe': typeof ApiPublicHooksEnvProbeRoute
   '/api/public/hooks/generate-brief': typeof ApiPublicHooksGenerateBriefRoute
   '/api/public/hooks/generate-insight': typeof ApiPublicHooksGenerateInsightRoute
   '/api/public/hooks/monthly-retune': typeof ApiPublicHooksMonthlyRetuneRoute
@@ -977,7 +969,6 @@ export interface FileRoutesById {
   '/api/public/brief-audio/$id': typeof ApiPublicBriefAudioIdRoute
   '/api/public/hooks/auto-scan': typeof ApiPublicHooksAutoScanRoute
   '/api/public/hooks/backfill-insight-images': typeof ApiPublicHooksBackfillInsightImagesRoute
-  '/api/public/hooks/env-probe': typeof ApiPublicHooksEnvProbeRoute
   '/api/public/hooks/generate-brief': typeof ApiPublicHooksGenerateBriefRoute
   '/api/public/hooks/generate-insight': typeof ApiPublicHooksGenerateInsightRoute
   '/api/public/hooks/monthly-retune': typeof ApiPublicHooksMonthlyRetuneRoute
@@ -1085,7 +1076,6 @@ export interface FileRouteTypes {
     | '/api/public/brief-audio/$id'
     | '/api/public/hooks/auto-scan'
     | '/api/public/hooks/backfill-insight-images'
-    | '/api/public/hooks/env-probe'
     | '/api/public/hooks/generate-brief'
     | '/api/public/hooks/generate-insight'
     | '/api/public/hooks/monthly-retune'
@@ -1186,7 +1176,6 @@ export interface FileRouteTypes {
     | '/api/public/brief-audio/$id'
     | '/api/public/hooks/auto-scan'
     | '/api/public/hooks/backfill-insight-images'
-    | '/api/public/hooks/env-probe'
     | '/api/public/hooks/generate-brief'
     | '/api/public/hooks/generate-insight'
     | '/api/public/hooks/monthly-retune'
@@ -1293,7 +1282,6 @@ export interface FileRouteTypes {
     | '/api/public/brief-audio/$id'
     | '/api/public/hooks/auto-scan'
     | '/api/public/hooks/backfill-insight-images'
-    | '/api/public/hooks/env-probe'
     | '/api/public/hooks/generate-brief'
     | '/api/public/hooks/generate-insight'
     | '/api/public/hooks/monthly-retune'
@@ -1357,7 +1345,6 @@ export interface RootRouteChildren {
   ApiPublicBriefAudioIdRoute: typeof ApiPublicBriefAudioIdRoute
   ApiPublicHooksAutoScanRoute: typeof ApiPublicHooksAutoScanRoute
   ApiPublicHooksBackfillInsightImagesRoute: typeof ApiPublicHooksBackfillInsightImagesRoute
-  ApiPublicHooksEnvProbeRoute: typeof ApiPublicHooksEnvProbeRoute
   ApiPublicHooksGenerateBriefRoute: typeof ApiPublicHooksGenerateBriefRoute
   ApiPublicHooksGenerateInsightRoute: typeof ApiPublicHooksGenerateInsightRoute
   ApiPublicHooksMonthlyRetuneRoute: typeof ApiPublicHooksMonthlyRetuneRoute
@@ -2007,13 +1994,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicHooksGenerateBriefRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/hooks/env-probe': {
-      id: '/api/public/hooks/env-probe'
-      path: '/api/public/hooks/env-probe'
-      fullPath: '/api/public/hooks/env-probe'
-      preLoaderRoute: typeof ApiPublicHooksEnvProbeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/public/hooks/backfill-insight-images': {
       id: '/api/public/hooks/backfill-insight-images'
       path: '/api/public/hooks/backfill-insight-images'
@@ -2320,7 +2300,6 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicHooksAutoScanRoute: ApiPublicHooksAutoScanRoute,
   ApiPublicHooksBackfillInsightImagesRoute:
     ApiPublicHooksBackfillInsightImagesRoute,
-  ApiPublicHooksEnvProbeRoute: ApiPublicHooksEnvProbeRoute,
   ApiPublicHooksGenerateBriefRoute: ApiPublicHooksGenerateBriefRoute,
   ApiPublicHooksGenerateInsightRoute: ApiPublicHooksGenerateInsightRoute,
   ApiPublicHooksMonthlyRetuneRoute: ApiPublicHooksMonthlyRetuneRoute,
