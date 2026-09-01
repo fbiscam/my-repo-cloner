@@ -32,7 +32,7 @@ function HeroBanners() {
           </defs>
           <rect width="100%" height="100%" fill="url(#grid)" />
           {/* Trend line */}
-          <path d="M 0 75% Q 25% 60%, 50% 55% T 100% 35%" fill="none" stroke="currentColor" strokeWidth="2" className="text-zinc-400" />
+          <path d="M 0 300 Q 105 240, 210 220 T 420 140" fill="none" stroke="currentColor" strokeWidth="2" className="text-zinc-400" />
           {/* Candlesticks */}
           <g>
             {/* Bullish */}

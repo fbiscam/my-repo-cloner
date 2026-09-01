@@ -37,18 +37,19 @@ export function TradingViewChart({
   symbol,
   timeframe = "15m",
   theme = "light",
-  studies = ["STD;Smart%1Money%1Concepts", "STD;EMA", "STD;RSI", "STD;Volume"],
+  studies = ["STD;EMA", "STD;RSI", "STD;Volume"],
 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!containerRef.current) return;
-    containerRef.current.innerHTML = "";
+    const container = containerRef.current;
+    if (!container) return;
+    container.innerHTML = "";
     const widget = document.createElement("div");
     widget.className = "tradingview-widget-container__widget";
     widget.style.height = "100%";
     widget.style.width = "100%";
-    containerRef.current.appendChild(widget);
+    container.appendChild(widget);
 
     const script = document.createElement("script");
     script.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
@@ -76,7 +77,12 @@ export function TradingViewChart({
       studies,
       support_host: "https://www.tradingview.com",
     });
-    containerRef.current.appendChild(script);
+    container.appendChild(script);
+
+    return () => {
+      script.remove();
+      container.replaceChildren();
+    };
   }, [symbol, timeframe, theme, studies.join("|")]);
 
   return (
