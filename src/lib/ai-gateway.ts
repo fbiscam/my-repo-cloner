@@ -444,11 +444,12 @@ export function setCachedPlan<T>(key: string, value: T, ttlMs: number = PLAN_CAC
 // `deepseek-v4-pro` 500s, the nemotron/llama ids are 410 Gone, and the NVIDIA
 // deepseek endpoint never responds. Dead ids are removed from every chain so a
 // scan no longer burns 30–60s per dead hop before falling back.
+// Re-probed Sep 1 2026: `bmind/gpt-4o` (1.7s) and `bmind/gpt-5.2-chat` (3.1s)
+// answer; `bmind/gpt-5.6-sol` still hangs until timeout, so it is removed from
+// every chain — it only burned 45s+ per hop and pushed the senior review past
+// its deadline, which flipped good setups to WAIT via the hard review gate.
 const WORKING_BMIND = [
-  // Bluesmind GPT-4o is the primary review brain (customer-supplied key), with
-  // the stronger GPT-5.6 route right behind it for maximum scrutiny.
   "bmind/gpt-4o",
-  "bmind/gpt-5.6-sol",
   "bmind/gpt-5.2-chat",
   // Workspace-safe fallbacks. These use LOVABLE_API_KEY, so a stale or
   // unavailable Bluesminds route cannot silently remove AI review in another
@@ -457,12 +458,10 @@ const WORKING_BMIND = [
   "google/gemini-3.7-flash",
 ] as const;
 // Narration must return before the deterministic plan is presented. GPT-4o is
-// the consistently low-latency route on Bluesminds, while GPT-5.6 Sol remains
-// first for the mandatory senior review where maximum scrutiny matters.
+// the consistently low-latency route on Bluesminds.
 const FAST_NARRATION_BMIND = [
   "bmind/gpt-4o",
   "google/gemini-3.7-flash",
-  "bmind/gpt-5.6-sol",
   "bmind/gpt-5.2-chat",
 ] as const;
 
