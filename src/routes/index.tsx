@@ -790,8 +790,10 @@ function HomePage() {
                     {proj.tf.map((t) => (
                       <div key={t.k} className="bg-white px-3 py-2">
                         <div className={`text-[9px] ${MONO} uppercase tracking-widest text-zinc-400`}>{t.k}</div>
-                        <div className={`mt-1 text-xs font-semibold ${MONO}`}>{t.v}</div>
-                        <div className={`text-[9px] ${MONO} ${t.pct === "—" ? "text-zinc-400" : t.up ? "text-emerald-600" : "text-red-600"}`}>{t.pct}</div>
+                        <div className="mt-1 flex items-center justify-between gap-2">
+                          <div className={`text-xs font-semibold ${MONO}`}>{t.v}</div>
+                          <div className={`text-[9px] ${MONO} ${t.pct === "—" ? "text-zinc-400" : t.up ? "text-emerald-600" : "text-red-600"}`}>{t.pct}</div>
+                        </div>
                       </div>
                     ))}
                   </div>
