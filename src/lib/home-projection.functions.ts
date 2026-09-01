@@ -130,7 +130,7 @@ async function seniorReview(base: XauProjection, c1h: Candle[], c4h: Candle[]): 
     },
     h1: {
       trend: a1.trend,
-      lastStructure: a1.lastStructure?.type ?? null,
+      lastStructure: a1.lastStructure ? `${a1.lastStructure.kind} ${a1.lastStructure.dir}` : null,
       swingHigh: round2(a1.swingHigh),
       swingLow: round2(a1.swingLow),
       fvgs: a1.fvgs.slice(-3).map((f) => ({ lo: round2(f.priceLow), hi: round2(f.priceHigh), side: (f as any).side })),
