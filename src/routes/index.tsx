@@ -665,11 +665,11 @@ function HomePage() {
                 </div>
 
                 {/* locked overlay — only hides the chart */}
-                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-white/95 opacity-100 backdrop-blur-[8px] transition-opacity duration-300">
+                <div className="absolute inset-0 z-10 flex flex-col items-center justify-start gap-3 bg-white/95 pt-10 sm:pt-14 backdrop-blur-[8px]">
                   <img
                     src={eyeIcon.url}
                     alt="Sign in to view"
-                    className="h-8 w-8 animate-[pulse_1.6s_cubic-bezier(0.4,0,0.6,1)_infinite] drop-shadow-sm"
+                    className="h-16 w-16 sm:h-20 sm:w-20 object-contain animate-[pulse_1.6s_cubic-bezier(0.4,0,0.6,1)_infinite]"
                   />
                   <p className={`text-[11px] font-semibold ${MONO} uppercase tracking-[0.2em] text-zinc-900`}>
                     Sign In For full view
@@ -681,6 +681,7 @@ function HomePage() {
                     Sign In
                   </Link>
                 </div>
+
               </div>
 
               {/* RIGHT — model read-out (always visible) */}
